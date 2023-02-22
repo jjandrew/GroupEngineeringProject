@@ -15,11 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic.base import TemplateView
+from django.contrib.auth import logout
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', include('loginApp.urls')),
+    # Takes the user to the location page if they are logged in
     path('location/', include("location.urls")),
-
-
+    # Takes the user to the 'homepage' if they are not logged in
+    path('',TemplateView.as_view(template_name='loginApp/home.html'), name='homepage'),
+    # Path for logging out the user
+    path('logout/', views.userLogout, name='logout'),
 ]
