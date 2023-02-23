@@ -1,44 +1,36 @@
 {% extends 'loginApp/base.html' %}
-
 {% block content %}
+<html>
 
+<head>
+  <link rel="stylesheet" href="/../../static/css/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+  <title>Sign in</title>
+</head>
 
-<style>
-  html body{
-    background-color: gray;
-  }
-</style>
-
-      <h1 class="font-weight-bold text-center text-white">Login</h1>
-
-<br/><br/>
-
-  <centre>
-
-    <form action=""  method=POST>
+<body>
+  <div class="main">
+    <p class="sign" align="center">Sign in</p>
+    <form class="form1" action=""  method=POST>
         {% csrf_token %}
+      <input class="un " type="text" align="center" name="username" placeholder="Username" aria-describedby="emailHelp">
+      <input class="pass" type="password" align="center" name="password" placeholder="Password">
 
-        
+      <input type="submit" value="submit" class="submit" align="center">
 
 
-            <div class="mb-3">
-              <label for="exampleInputEmail1" class="text-center form-label text-white">Username</label>
-              
-              <input type="text" class="form-control" name="username" aria-describedby="emailHelp">
+      <p class="forgot" onclick="myFunction()" align="center"><a href="#">Forgot Password?</p>
+      <script>
+        function myFunction() {
+        alert("Unlucky Mate!");
+            }
+        </script>
+                
+    </div>
+     
+</body>
 
-              
-            <div class="mb-3">
-              <label for="exampleInputPassword1" class="form-label text-white text-center">Password</label>
-              <input type="password" class="form-control" name="password">
-            </div>
-            
-         
-         
-            <div class="col text-center">
-                <input type="submit" value="submit" class="btn btn-secondary text-center">
-            </div>
-
-    </form>
-  </centre>
-    <br/><br/>
-    {% endblock%}
+</html>
+{% endblock%}
