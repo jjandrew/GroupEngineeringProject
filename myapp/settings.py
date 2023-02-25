@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'location',
     'loginApp',
     'submission',
+    'signUp',
 ]
 
 MIDDLEWARE = [
