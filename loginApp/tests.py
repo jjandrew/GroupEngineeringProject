@@ -9,7 +9,7 @@ class UserModelTestCase(TestCase):
     def test_user_model_can_be_created(self):
         """Try create a user with standard inputs"""
         try:
-            user = User(username="Test", points=0)
+            user = User(username="Test", points=1)
             user.save()
             pass
         except:
@@ -18,12 +18,14 @@ class UserModelTestCase(TestCase):
     def test_usename_cant_be_more_than_50_chars(self):
         """Try create a user with 51 chars"""
         try:
-            # Create a 151 length username
+            # Create a 51 length username
             str = ""
             for i in range(0, 51):
                 str = str + "c"
             user = User(username=str, points=0)
             user.save()
+            raise RuntimeError
+        except RuntimeError:
             self.fail("User model created with username longer than 50")
         except:
             pass
@@ -46,6 +48,8 @@ class UserModelTestCase(TestCase):
         try:
             user = User(username="Test user", points=-1)
             user.save()
+            raise RuntimeError
+        except RuntimeError:
             self.fail("User created with negative points")
         except:
             pass
@@ -57,6 +61,8 @@ class UserModelTestCase(TestCase):
             user.save()
             user1 = User(username="testuser", points=0)
             user1.save()
+            raise RuntimeError
+        except RuntimeError:
             self.fail("Created two users with the same username")
         except:
             pass
