@@ -1,8 +1,6 @@
 from django.test import TestCase
 from submission.models import ImageSubmission
 import tempfile
-from os import listdir
-from os.path import isfile, join
 
 
 class ImageSubmissionTestCase(TestCase):
