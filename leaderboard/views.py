@@ -3,7 +3,7 @@ from loginApp.models import User
 
 
 def leaderboard(request):
-    leaderboard_data = User.objects.order_by('-points')
+    leaderboard = User.objects.order_by('-points')
     return render(request, 'leaderboard/leaderboard.html', {'leaderboard': leaderboard})
 
 
