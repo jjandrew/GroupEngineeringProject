@@ -41,8 +41,6 @@ urlpatterns = [
 
     # Path for submission
     path('submission/', include('submission.urls')),
-    # Path for test image upload
-    path('upload/', include('submission.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
