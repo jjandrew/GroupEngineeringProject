@@ -7,6 +7,7 @@ def leaderboard(request):
     return render(request, 'leaderboard/leaderboard.html', {'leaderboard': leaderboard})
 
 
+
 def add_to_leaderboard(request):
     if request.method == 'POST':
         player_name = request.POST.get('player_name')
