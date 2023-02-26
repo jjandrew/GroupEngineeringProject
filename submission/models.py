@@ -95,7 +95,7 @@ class ImageSubmission(models.Model):
     room = models.CharField(max_length=10)  # should the length of this be 10?
     lights = models.CharField(choices=lights_choices, max_length=4)
     windows = models.CharField(choices=windows_choices, max_length=5)
-    litter = models.BooleanField(name="Removed Litter?")
-    plug_sockets = models.BooleanField(name="Turned off Plug Sockets?")
+    litter = models.BooleanField(name="no_litter")
+    plug_sockets = models.BooleanField(name="sockets_off")
     # Uploads image to the media/images folder when in dev mode
     image = models.ImageField(upload_to='images')
