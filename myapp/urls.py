@@ -15,12 +15,38 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic.base import TemplateView
+from django.contrib.auth import logout
+from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # Adds a project level url for the sign up page
+    path('accounts/', include("signUp.urls")),
+
+    # Adds a path to all the views provided by the auth app
+    path('accounts/', include("django.contrib.auth.urls")),
+
+    # Adds a project level url for the logins
     path('login/', include('loginApp.urls')),
+
+    # Takes the user to the location page if they are logged in
     path('location/', include("location.urls")),
     path('leaderboard/', include('leaderboard.urls')),
 
+    # Takes the user to the 'homepage' if they are not logged in
+    path('', TemplateView.as_view(
+        template_name='home.html'), name='homepage'),
 
+    # Path for logging out the user
+    path('logout/', views.userLogout, name='logout'),
+
+    # Path for submission
+    path('submission/', include('submission.urls')),
 ]
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
