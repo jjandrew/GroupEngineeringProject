@@ -136,3 +136,9 @@ LOGOUT_REDIRECT_URL = "homepage"
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# If time permits an email service like MailGun or SendGrid would be
+# used to send reset emails, instead of having them stored locally.
+
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
