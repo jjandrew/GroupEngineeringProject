@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('submission', '0003_rename_turner off plug sockets?_imagesubmission_turned off plug sockets?'),
+        ('submission', '0003_rename_turner_off_plug_sockets?_imagesubmission_turned_off_plug_sockets?'),
     ]
 
     operations = [
