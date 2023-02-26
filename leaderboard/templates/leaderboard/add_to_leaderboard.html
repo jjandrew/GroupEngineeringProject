@@ -1,0 +1,9 @@
+<h1>Add to Leaderboard</h1>
+<form method="post">
+    {% csrf_token %}
+    <label for="player_name">Player Name:</label>
+    <input type="text" id="player_name" name="player_name"><br><br>
+    <label for="score">Score:</label>
+    <input type="text" id="score" name="score"><br><br>
+    <input type="submit" value="Add to Leaderboard">
+</form>
