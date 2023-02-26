@@ -35,6 +35,7 @@ urlpatterns = [
 
     # Takes the user to the location page if they are logged in
     path('location/', include("location.urls")),
+    path('leaderboard/', include('leaderboard.urls')),
 
     # Takes the user to the 'homepage' if they are not logged in
     path('', TemplateView.as_view(
