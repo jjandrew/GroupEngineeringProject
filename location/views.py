@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponse
 from env import api_key
 import requests
 import json
-
+from urllib.request import urlopen
 
 api_url = 'https://ipgeolocation.abstractapi.com/v1/?api_key=' + api_key
 
