@@ -69,6 +69,11 @@
         padding-top: 15px;
     }
 
+.signUp{
+        text-shadow: 0 0 3px rgba(117, 117, 117, 0.12);
+        color: #8C55AA;
+        padding-top: 3px;
+    }
  a{
         text-shadow: 0 0 3px rgba(117, 117, 117, 0.12);
         color: #E1BEE7;
