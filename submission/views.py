@@ -10,7 +10,6 @@ def submission_view(request):
         form = ImageForm(request.POST, request.FILES)
         # Checks the submission has all valid fields
         if form.is_valid():
-            print(form.data)
             form.save()
             # Get the current instance object to display in the template
             img_obj = form.instance
