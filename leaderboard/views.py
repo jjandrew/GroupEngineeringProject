@@ -3,7 +3,7 @@ from .models import Leaderboard
 
 def leaderboard(request):
     leaderboard_data = Leaderboard.objects.order_by('-score')
-    return render(request, 'leaderboard/leaderboard.html', {'leaderboard_data': leaderboard_data})
+    return render(request, 'leaderboard/leaderboard.html', {'leaderboard': leaderboard_data})
 
 def add_to_leaderboard(request):
     if request.method == 'POST':
