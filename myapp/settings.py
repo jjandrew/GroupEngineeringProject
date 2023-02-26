@@ -39,8 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'location',
     'loginApp',
-    'submission',
-    'signUp',
+    "leaderboard"
 ]
 
 MIDDLEWARE = [
