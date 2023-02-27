@@ -19,7 +19,7 @@ def login_user(request):
             return redirect('login')
 
     else:
-        return render(request, 'loginApp/login.html', {})
+        return render(request, 'registration/login.html', {})
 
 def userLogout(request):
     """ Uses the built in logout view to logout a user"""

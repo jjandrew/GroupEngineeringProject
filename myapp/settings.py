@@ -31,16 +31,16 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'location',
+    'loginApp',
+    'leaderboard',
+    'submission',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'location',
-    'loginApp',
-    'leaderboard',
-    'submission',
 ]
 
 MIDDLEWARE = [
