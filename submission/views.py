@@ -15,7 +15,9 @@ def addPoints(username, points):
         user.save()
     except User.DoesNotExist:
         # Create a new user
-        user = User(username=username, points=points)
+        # TODO must change emails
+        user = User(username=username, points=points, email='test@test.com',
+                    first_name="testf", last_name="testl")
         user.save()
 
 
