@@ -7,4 +7,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     # Path for the login URL
     path('', views.login_user, name="login"),
+
+
 ]

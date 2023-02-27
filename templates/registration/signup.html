@@ -8,13 +8,13 @@
 <body>
     <div class="main">
         <p class="sign" align="center">Sign up</p>
-            <form class="form1" action=""  method=POST actione=".">
+            <form class="form1" method="POST" id="signup-form">
                 {% csrf_token %}
-                <input class="un " type="text" align="center" name="username" placeholder="Username" aria-describedby="emailHelp">
-
-<input class="pass" type="password" align="center" name="password1" placeholder="Password">
-<input class="pass" type="password" align="center" name="password2" placeholder="Confirm password">
-<input type="submit" value="Sign Up" class="submit" align="center">
+                {{form.username}}
+                {{form.email}}
+                {{form.password1}}
+                {{form.password2}}
+                <input type="submit" value="Sign Up" class="submit" align="center">
                 <p class="signUp" align="center">Already have an account? <a href="{% url 'login' %}">Log in!</a></p>
             </form>
     </div>
