@@ -1,12 +1,21 @@
 {% extends "base.html"%}
-
-{% block title %} Sign Up {% endblock %}
-
 {% block content %}
-    <h2>Sign Up</h2>
-    <form method=POST>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit"> Sign Up</button>
-    </form>
+<head>
+  <link rel="stylesheet" href="/../../static/css/signup.css">
+  <title>Sign up</title>
+</head>
+
+<body>
+    <div class="main">
+        <p class="sign" align="center">Sign up</p>
+            <form class="form1" action=""  method=POST>
+                {% csrf_token %}
+                <input class="un " type="text" align="center" name="username" placeholder="Username" aria-describedby="emailHelp">
+                <input class="pass" type="password" align="center" name="password" placeholder="Password">
+                <input class="pass" type="password" align="center" name="password" placeholder="Confirm password">
+                <input type="submit" value="Sign Up" class="submit" align="center">
+                <p class="signUp" align="center">Already have an account? <a href="{% url 'login' %}">Log in!</a></p>
+            </form>
+    </div>
+</body>
 {% endblock %}

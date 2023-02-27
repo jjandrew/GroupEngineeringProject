@@ -18,8 +18,8 @@
             {% for entry in leaderboard %}
             <tr>
                 <td>{{ forloop.counter }}</td>
-                <td>{{ entry.player_name }}</td>
-                <td>{{ entry.score }}</td>
+                <td>{{ entry.username }}</td>
+                <td>{{ entry.points }}</td>
             </tr>
             {% empty %}
             <tr>

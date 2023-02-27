@@ -1,6 +1,22 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .forms import ImageForm
+from loginApp.models import User
+
+
+def addPoints(username, points):
+    # Check if user already has a score entered
+    if points <= 0:
+        raise RuntimeError("Can't add negative points")
+    try:
+        # Add the points to a user's points
+        user = User.objects.get(username=username)
+        user.points += points
+        user.save()
+    except User.DoesNotExist:
+        # Create a new user
+        user = User(username=username, points=points)
+        user.save()
 
 
 def submission_view(request):
@@ -10,10 +26,15 @@ def submission_view(request):
         form = ImageForm(request.POST, request.FILES)
         # Checks the submission has all valid fields
         if form.is_valid():
-            print(form.data)
             form.save()
             # Get the current instance object to display in the template
             img_obj = form.instance
+
+            # Get the username of the logged in object
+            username = request.user.username
+            # For time being give each user one point per room done and no authentication:
+            addPoints(username, 1)
+
             return render(request, 'submission/index.html', {'form': form, 'img_obj': img_obj})
     else:
         # If not already submitted will create a new image form
