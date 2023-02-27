@@ -3,7 +3,7 @@ from django.core.validators import MinValueValidator
 
 
 class User(models.Model):
-    username = models.CharField(max_length=50)
+    username = models.CharField(max_length=50, unique=True)
     points = models.PositiveIntegerField()
 
     def __str__(self):

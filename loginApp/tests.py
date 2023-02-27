@@ -40,7 +40,7 @@ class UserModelTestCase(TestCase):
             pass
 
     def test_points_doesnt_have_to_be_unique(self):
-        """Test username must be unique"""
+        """Test multiple users can be created with same points"""
         try:
             user = User(username="testuser", points=0)
             user.save()

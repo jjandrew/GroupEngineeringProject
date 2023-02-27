@@ -73,6 +73,6 @@ class ImageSubmissionTestCase(TestCase):
             addPoints("test", -1)
             raise RuntimeError
         except RuntimeError:
-            self.fail("Added negative points to user")
-        except RuntimeError:
             pass
+        except:
+            self.fail("Added negative points to user")
