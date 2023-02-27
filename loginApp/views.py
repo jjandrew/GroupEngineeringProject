@@ -1,6 +1,8 @@
 from django.shortcuts import redirect,render
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
+from .forms import LoginForm
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 def login_user(request):
@@ -20,6 +22,8 @@ def login_user(request):
 
     else:
         return render(request, 'registration/login.html', {})
+
+
 
 def userLogout(request):
     """ Uses the built in logout view to logout a user"""
