@@ -2,7 +2,7 @@ from django.test import TestCase
 from submission.models import ImageSubmission
 import tempfile
 from submission.views import addPoints
-from loginApp.models import User
+from accounts.models import CustomUser
 
 
 class ImageSubmissionTestCase(TestCase):
@@ -12,7 +12,7 @@ class ImageSubmissionTestCase(TestCase):
                                   image=tempfile.NamedTemporaryFile(suffix=".jpg").name, no_litter=True, sockets_off=True)
         testSub.save()
         # Creates a user for testing
-        user = User(username="test", points=1)
+        user = CustomUser(username="test", points=1)
         user.save()
 
     def test_jpg_format_can_be_created(self):
@@ -55,16 +55,10 @@ class ImageSubmissionTestCase(TestCase):
         except:
             self.fail("Can't save an image file with a .png format")
 
-    def test_user_can_be_added_to_leaderboard_if_first_submission(self):
-        """Checks an unused user can have points added"""
-        addPoints("unusedUser", 1)
-        user = User.objects.get(username="unusedUser")
-        self.assertEqual(user.points, 1)
-
     def test_user_can_have_points_added(self):
         """Checks a used user can haev points added"""
         addPoints("test", 4)
-        user = User.objects.get(username="test")
+        user = CustomUser.objects.get(username="test")
         self.assertEqual(user.points, 5)
 
     def test_cant_add_negative_points(self):

@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from .forms import ImageForm
 from loginApp.models import User
+from accounts.models import CustomUser
 
 
 def addPoints(username, points):
@@ -10,7 +11,7 @@ def addPoints(username, points):
         raise RuntimeError("Can't add negative points")
     try:
         # Add the points to a user's points
-        user = User.objects.get(username=username)
+        user = CustomUser.objects.get(username=username)
         user.points += points
         user.save()
     except User.DoesNotExist:
