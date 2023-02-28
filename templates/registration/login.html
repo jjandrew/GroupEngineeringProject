@@ -9,27 +9,21 @@
 
 <body>
   <div class="main">
-    <p class="sign" align="center">Sign in</p>
-
-    <form class="form1" action=""  method=POST>
-        {% csrf_token %}
-        {% for message in messages %}
-
-    <div class="alert alert-success">
-        <a class="close" href="#" data-dismiss="alert">×</a>
-           {{ message }}
+      <p class="sign" align="center">Sign in</p>
+            <form class="form1" action=""  method=POST>
+            {% csrf_token %}
+            {% for message in messages %}
+                    <script>
+                    alert("username or password incorrect");
+                    </script>
+            {% endfor %}
+            <input class="un " type="text" align="center" name="username" placeholder="Username" aria-describedby="emailHelp">
+            <input class="pass" type="password" align="center" name="password" placeholder="Password">
+            <input type="submit" value="submit" class="submit" align="center">
+            <p class="forgot"  align="center"><a href="http://127.0.0.1:8000/accounts/password_reset/">Forgot Password?</a></p>
+            <p class="signUp"  align="center">Dont have an account? <a href="{% url 'signup' %}">Sign Up!</a></p>
+            </form>
     </div>
-
-{% endfor %}
-        <input class="un " type="text" align="center" name="username" placeholder="Username" aria-describedby="emailHelp">
-        <input class="pass" type="password" align="center" name="password" placeholder="Password">
-        <input type="submit" value="submit" class="submit" align="center">
-        <p class="forgot"  align="center"><a href="http://127.0.0.1:8000/accounts/password_reset/">Forgot Password?</a></p>
-        <p class="signUp"  align="center">Dont have an account? <a href="{% url 'signup' %}">Sign Up!</a></p>
-    </form>
-    </div>
-     
 </body>
-
 </html>
 {% endblock%}
