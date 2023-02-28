@@ -8,6 +8,6 @@ def userLogout(request):
     logout(request)
     return redirect('/')
 
+
 def index(request):
-    print("Hello")
     return HttpResponse("Hello, world. You're at the home page.")

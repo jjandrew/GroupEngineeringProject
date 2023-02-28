@@ -1,18 +1,20 @@
-from django.shortcuts import redirect,render
+from django.shortcuts import redirect, render
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from .forms import LoginForm
 from django.http import HttpResponseRedirect
 
 # Create your views here.
+
+
 def login_user(request):
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(request,username=username, password=password)
-
+        user = authenticate(request, username=username, password=password)
+        # More user verification required??
         if user is not None:
-            login(request,user)
+            login(request, user)
             return redirect('/')
 
         else:
@@ -21,7 +23,6 @@ def login_user(request):
 
     else:
         return render(request, 'registration/login.html', {})
-
 
 
 def userLogout(request):
