@@ -1,4 +1,5 @@
 from django.shortcuts import render, HttpResponse
+from django.contrib.auth.decorators import login_required
 from env import api_key
 import requests
 import json
@@ -8,7 +9,7 @@ api_url = 'https://ipgeolocation.abstractapi.com/v1/?api_key=' + api_key
 
 testing = True
 
-
+@login_required
 def home(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
@@ -35,6 +36,7 @@ def home(request):
 
 # This is not the user's location but rather the location of the place sending the info
 # Due to running on local machine
+@login_required
 def get_location_data(ip, test):
     # uncomment for current location
     response = requests.get(api_url)  # + "&ip_address=" + ip_address)

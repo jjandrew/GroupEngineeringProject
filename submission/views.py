@@ -1,9 +1,10 @@
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from .forms import ImageForm
 from loginApp.models import User
 
-
+@login_required
 def addPoints(username, points):
     # Check if user already has a score entered
     if points <= 0:
@@ -20,7 +21,7 @@ def addPoints(username, points):
                     first_name="testf", last_name="testl")
         user.save()
 
-
+@login_required
 def submission_view(request):
     # Checks if request is after submitting form or before
     if request.method == 'POST':

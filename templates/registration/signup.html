@@ -11,7 +11,17 @@
             <form class="form1" method="POST" id="signup-form">
                 {% csrf_token %}
                 {{form.username}}
+
                 {{form.email}}
+                {% if form.email.errors %}
+                    {% for error in form.email.errors %}
+                        <script>
+                            var err = "{{error}}";
+                            alert( err );
+                        </script>
+                    {% endfor %}
+                {% endif %}
+
                 {{form.first_name}}
                 {{form.last_name}}
                 {{form.password1}}

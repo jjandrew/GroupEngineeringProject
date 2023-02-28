@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-
 class SignUpForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -53,6 +52,14 @@ class SignUpForm(UserCreationForm):
     first_name = forms.CharField(max_length=20, label=False)
     last_name = forms.CharField(max_length=20, label=False)
     email = forms.EmailField(max_length=100)
+
+    def clean_email(self):
+        """Validates the email the user enters into the sign up form to ensure it is
+        a valid @exeter.ac.uk email"""
+        cleanEmail = self.cleaned_data['email']
+        if "@exeter.ac.uk" not in cleanEmail:
+            raise forms.ValidationError("Must be an Exeter University email (...@exeter.ac.uk)")
+        return cleanEmail
 
     class Meta:
         model = User
