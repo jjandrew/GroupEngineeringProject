@@ -3,19 +3,19 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Subject: Password reset on 127.0.0.1:8000
 From: webmaster@localhost
-To: louislusso@hotmail.com
-Date: Mon, 27 Feb 2023 18:36:49 -0000
+To: bct207@exeter.ac.uk
+Date: Wed, 01 Mar 2023 12:41:19 -0000
 Message-ID: 
- <167752300917.93063.13029833002153777650@1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa>
+ <167767447936.15783.3485263003352218491@1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa>
 
 
 You're receiving this email because you requested a password reset for your user account at 127.0.0.1:8000.
 
 Please go to the following page and choose a new password:
 
-http://127.0.0.1:8000/accounts/reset/NA/bkamdd-015bf3f6721f9bc4f2a2774ec290c196/
+http://127.0.0.1:8000/accounts/reset/MQ/bkdv8v-6893c38c013f4f639f869b404092c435/
 
-Your username, in case you’ve forgotten: louislusso
+Your username, in case you’ve forgotten: BenTheron
 
 Thanks for using our site!
 

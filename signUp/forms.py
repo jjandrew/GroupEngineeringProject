@@ -80,9 +80,6 @@ class SignUpForm(UserCreationForm):
             return username
         raise forms.ValidationError(u'Username "%s" is already in use.' % username)
 
-
-
-
     class Meta:
         model = CustomUser
         fields = ('username', 'email', 'first_name', 'last_name', 'password1', 'password2',)

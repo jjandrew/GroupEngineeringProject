@@ -13,7 +13,7 @@ def signup(request):
             user.save()
             return redirect('login')
         else:
-            messages.info(request, 'invalid registration details')
+            messages.info(request, 'Invalid registration details')
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
