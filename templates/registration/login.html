@@ -14,13 +14,11 @@
     <form class="form1" action=""  method=POST>
         {% csrf_token %}
         {% for message in messages %}
-
-    <div class="alert alert-success">
-        <a class="close" href="#" data-dismiss="alert">×</a>
-           {{ message }}
-    </div>
-
-{% endfor %}
+            <script>
+                var err = "Username or Password Incorrect";
+                alert( err );
+            </script>
+        {% endfor %}
         <input class="un " type="text" align="center" name="username" placeholder="Username" aria-describedby="emailHelp">
         <input class="pass" type="password" align="center" name="password" placeholder="Password">
         <input type="submit" value="submit" class="submit" align="center">
