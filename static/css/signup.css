@@ -13,9 +13,6 @@ body{
   transition: height 0.5s;
 }
 
-
-
-
 .sign{
        padding-top: 40px;
        color: #8C55AA;
@@ -79,6 +76,3 @@ a{
        text-shadow: 0 0 3px rgba(117, 117, 117, 0.12);
        color: #E1BEE7;
    }
-
-
-

@@ -13,6 +13,7 @@
 
     <form class="form1" action=""  method=POST>
         {% csrf_token %}
+        <!-- If invalid data has been entered into the form a JS alert is displayed to the user -->
         {% if form.is_bound %}
             {% for message in messages %}
                 <script>

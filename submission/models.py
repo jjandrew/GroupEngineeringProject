@@ -90,12 +90,15 @@ windows_choices = (("CLOSE", "Closed"),
 
 
 class ImageSubmission(models.Model):
-    # A model containing all the fields for a successful submission of a room
+    """ A model containing all the required fields for the successfull
+    submission of a room.
+    """
     building = models.CharField(choices=building_choices, max_length=48)
-    room = models.CharField(max_length=10)  # should the length of this be 10?
+    room = models.CharField(max_length=100)
     lights = models.CharField(choices=lights_choices, max_length=4)
     windows = models.CharField(choices=windows_choices, max_length=5)
     litter = models.BooleanField(name="no_litter")
     plug_sockets = models.BooleanField(name="sockets_off")
+
     # Uploads image to the media/images folder when in dev mode
     image = models.ImageField(upload_to='images')
