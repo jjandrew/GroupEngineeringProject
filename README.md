@@ -20,11 +20,11 @@ Our process documents are managed in the trello platform. The link to our projec
 
 trello link: [https://trello.com/b/UxJpzu31/group4ecm2434]
 
-We have also taken regular snapshots of the kanban board in trello to archive our progress. These are held in the repository below. These have been recreated based on the progress of the board at the dates.
+We have also taken regular snapshots of the kanban board in trello to archive our progress. These are held in the repository below. Unfortunately we fogot to take these on the specified dates so these have been recreated to correspond with the board status at these dates
 
-[./process-documents/kanban-snapshot/](./process-documents/kanban-snapshot/)
+[./process-documents/kanban-snapshots/](./process-documents/kanban-snapshots/)
 
-Within process documents we have also included the meeting notes, agenda and minutes. These will be found in the repository below.
+Within process documents we have also included the meeting notes, agenda and minutes. These will be found in the repository below. These notes are recreations in pdf format from the notes which are listed under each of the meetings specified in trello.
 
 [./process-documents/meeting-notes/](./process-documents/meeting-notes/)
 
