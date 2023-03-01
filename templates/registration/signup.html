@@ -10,26 +10,16 @@
         <p class="sign" align="center">Sign up</p>
             <form class="form1" method="POST" id="signup-form">
                 {% csrf_token %}
+                {% for message in messages %}
+                <script>
+                var err = "There was an error Singing up. Make sure your using your uni email and passwords match.";
+                alert( err );
+                </script>
+                {% endfor %}
+
+
                 {{form.username}}
-                {% if form.username.errors %}
-                    <p align="center" style="color: red;">
-                    {% for error in form.username.errors %}
-                        {{error}}
-                    {% endfor %}
-                    </p>
-                {% endif %}
-
                 {{form.email}}
-                {% if form.email.errors %}
-                    {% for error in form.email.errors %}
-                    <p align="center" style="color: red;">
-                        {% for error in form.email.errors %}
-                            {{error}}
-                        {% endfor %}
-                        </p>
-                    {% endfor %}
-                {% endif %}
-
                 {{form.first_name}}
                 {{form.last_name}}
                 {{form.password1}}
