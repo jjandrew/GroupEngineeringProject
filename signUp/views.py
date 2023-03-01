@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate
 from .forms import SignUpForm
 from loginApp.models import User
 
+
 def signup(request):
 
     form = SignUpForm(request.POST)
@@ -18,10 +19,12 @@ def signup(request):
         last_name = form.cleaned_data.get('last_name')
         password = form.cleaned_data.get('password')
         new_user = User(username=username, email=email,
-                    first_name=first_name, last_name=last_name, points=0)
+                        first_name=first_name, last_name=last_name, points=0)
         new_user.save()
         user = form.save()
-        return login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-        
+
+        login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+        return redirect('login')
+
     else:
-        return render(request,'registration/signup.html',context)
+        return render(request, 'registration/signup.html', context)
