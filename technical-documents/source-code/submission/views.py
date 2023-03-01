@@ -4,7 +4,7 @@ from django.shortcuts import render
 from .forms import ImageForm
 from accounts.models import CustomUser
 
-@login_required
+
 def addPoints(username, points):
     """ Lets the user enter points, and validates the points they enter into
     the form; to execute this function, the user must be logged in.
@@ -19,7 +19,7 @@ def addPoints(username, points):
     user.save()
 
 
-
+@login_required
 def submission_view(request):
     """ Displays the form (GET request) and takes the data from the form,
     validates it and awards the user points.
