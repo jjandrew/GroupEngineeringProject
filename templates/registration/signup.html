@@ -11,14 +11,22 @@
             <form class="form1" method="POST" id="signup-form">
                 {% csrf_token %}
                 {{form.username}}
+                {% if form.username.errors %}
+                    <p align="center" style="color: red;">
+                    {% for error in form.username.errors %}
+                        {{error}}
+                    {% endfor %}
+                    </p>
+                {% endif %}
 
                 {{form.email}}
                 {% if form.email.errors %}
                     {% for error in form.email.errors %}
-                        <script>
-                            var err = "{{error}}";
-                            alert( err );
-                        </script>
+                    <p align="center" style="color: red;">
+                        {% for error in form.email.errors %}
+                            {{error}}
+                        {% endfor %}
+                        </p>
                     {% endfor %}
                 {% endif %}
 
