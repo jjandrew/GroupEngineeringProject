@@ -2,25 +2,18 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from .forms import ImageForm
-from loginApp.models import User
 from accounts.models import CustomUser
 
-@login_required
+
 def addPoints(username, points):
     # Check if user already has a score entered
     if points <= 0:
         raise RuntimeError("Can't add negative points")
-    try:
-        # Add the points to a user's points
-        user = CustomUser.objects.get(username=username)
-        user.points += points
-        user.save()
-    except User.DoesNotExist:
-        # Create a new user
-        # TODO must change emails
-        user = User(username=username, points=points, email='test@test.com',
-                    first_name="testf", last_name="testl")
-        user.save()
+    # Add the points to a user's points
+    user = CustomUser.objects.get(username=username)
+    user.points += points
+    user.save()
+
 
 @login_required
 def submission_view(request):
