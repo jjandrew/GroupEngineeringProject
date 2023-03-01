@@ -1,6 +1,7 @@
 from django import forms
 from accounts.models import CustomUser
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 
 class SignUpForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
@@ -59,6 +60,7 @@ class SignUpForm(UserCreationForm):
         cleanEmail = self.cleaned_data['email']
         if "@exeter.ac.uk" not in cleanEmail:
             raise forms.ValidationError("Must be an Exeter University email (...@exeter.ac.uk)")
+
         return cleanEmail
 
     class Meta:
