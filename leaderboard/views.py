@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect
-from loginApp.models import User
 from django.contrib.auth.decorators import login_required
 from accounts.models import CustomUser
 
