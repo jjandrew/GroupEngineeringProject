@@ -13,16 +13,17 @@ def login_user(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
-        
+        print(user)
         # If the user exists and is valid, they are logged in and redirected
         # to the homepage
         if user is not None:
             login(request, user)
+            print("here")
             return redirect('/')
         else:
             # Otherwise, an error is thrown and they're returned to the login
             messages.error(request, ("There was an error logging in"))
-            return redirect('home')
+            return redirect('login')
 
     else:
         # In the case the form being requested as a GET request,
