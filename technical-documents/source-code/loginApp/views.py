@@ -22,7 +22,7 @@ def login_user(request):
         else:
             # Otherwise, an error is thrown and they're returned to the login
             messages.error(request, ("There was an error logging in"))
-            return redirect('login')
+            return redirect('home')
 
     else:
         # In the case the form being requested as a GET request,

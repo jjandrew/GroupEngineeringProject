@@ -19,7 +19,7 @@ def addPoints(username, points):
     user.save()
 
 
-@login_required
+
 def submission_view(request):
     """ Displays the form (GET request) and takes the data from the form,
     validates it and awards the user points.
@@ -41,10 +41,10 @@ def submission_view(request):
             # TODO: Add validation.
             addPoints(username, 1)
 
-            return render(request, 'submission/index.html', 
-                          {'form': form, 'img_obj': img_obj})
+            return render(request, 'UI/submission.html', 
+                          {'form': form})
     else:
         # If not already submitted will create a new image form
         form = ImageForm()
     # Will return the formatted index.html file with the form entered
-    return render(request, 'submission/index.html', {'form': form})
+    return render(request, 'UI/submission.html', {'form': form})

@@ -8,5 +8,5 @@ def leaderboard(request):
     leaderboard. Note, to access this, the user must be logged in.
     """
     leaderboard = CustomUser.objects.filter(points__gt=0).order_by('-points')
-    return render(request, 'leaderboard/leaderboard.html',
+    return render(request, 'UI/leaderboard.html',
                   {'leaderboard': leaderboard})
