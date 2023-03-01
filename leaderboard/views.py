@@ -5,5 +5,5 @@ from accounts.models import CustomUser
 
 @login_required
 def leaderboard(request):
-    leaderboard = CustomUser.objects.order_by('-points')
+    leaderboard = CustomUser.objects.filter(points__gt=0).order_by('-points')
     return render(request, 'leaderboard/leaderboard.html', {'leaderboard': leaderboard})
