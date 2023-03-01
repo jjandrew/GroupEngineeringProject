@@ -19,7 +19,7 @@ class SignUpForm(UserCreationForm):
             'type': 'email',
             'align': "center",
             'name': 'email',
-            'placeholder': 'Email',
+            'placeholder': 'Email@Exeter.ac.uk',
         })
         self.fields['first_name'].widget.attrs.update({
             'class': 'un',
@@ -62,6 +62,26 @@ class SignUpForm(UserCreationForm):
             raise forms.ValidationError("Must be an Exeter University email (...@exeter.ac.uk)")
 
         return cleanEmail
+
+    def clean_password2(self):
+        password1 = self.cleaned_data['password1']
+        password2 = self.cleaned_data['password1']
+        if password1 and password2:
+            if password1 != password2:
+                raise forms.ValidationError("Passwords do not match")
+        return password2
+
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        try:
+            user = CustomUser.objects.exclude(pk=self.instance.pk).get(username=username)
+        except CustomUser.DoesNotExist:
+            return username
+        raise forms.ValidationError(u'Username "%s" is already in use.' % username)
+
+
+
 
     class Meta:
         model = CustomUser

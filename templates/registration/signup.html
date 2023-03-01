@@ -3,19 +3,31 @@
 <head>
   <link rel="stylesheet" href="/../../static/css/signup.css">
   <title>Sign up</title>
+
+
+
 </head>
 
 <body>
     <div class="main">
         <p class="sign" align="center">Sign up</p>
-            <form class="form1" method="POST" id="signup-form">
+            <form class="form1" method="POST" id="signup-form"  onsubmit="return validateForm()">
                 {% csrf_token %}
-                {% for message in messages %}
-                <script>
-                var err = "There was an error Singing up. Make sure your using your uni email and passwords match.";
-                alert( err );
-                </script>
-                {% endfor %}
+
+                {% if form.errors %}
+    <div class="alert alert-danger">
+        <ul>
+        {% for field, error_list in form.errors.items %}
+            {% for error in error_list %}
+                <li>{{ field.label }}: {{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+        </ul>
+    </div>
+    <script>
+        document.querySelector('.main').classList.add('errors');
+    </script>
+{% endif %}
 
                 {{form.username}}
                 {{form.email}}
@@ -28,4 +40,5 @@
             </form>
     </div>
 </body>
+
 {% endblock %}
