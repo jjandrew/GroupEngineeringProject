@@ -11,8 +11,22 @@
 <body>
     <div class="main">
         <p class="sign" align="center">Sign up</p>
-            <form class="form1" method="POST" id="signup-form"  onsubmit="return validateForm()">
+            <form class="form1" method="POST" id="signup-form" >
                 {% csrf_token %}
+
+                {% if form.is_bound %}
+                    {% if form.errors %}
+                        <div class="alert alert-danger">
+                            <ul>
+                            {% for field, error_list in form.errors.items %}
+                                {% for error in error_list %}
+                                    <li>{{ field.label }}: {{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% endif %}
 
                 {{form.username}}
                 {{form.email}}
@@ -23,20 +37,6 @@
                 <input type="submit" value="Sign Up" class="submit" align="center">
                 <p class="signUp" align="center">Already have an account? <a href="{% url 'login' %}">Log in!</a></p>
             </form>
-            {% if form.errors %}
-            <div class="alert alert-danger">
-                <ul>
-                {% for field, error_list in form.errors.items %}
-                    {% for error in error_list %}
-                        <li>{{ field.label }}: {{ error }}</li>
-                    {% endfor %}
-                {% endfor %}
-                </ul>
-            </div>
-            <script>
-                document.querySelector('.main').classList.add('errors');
-            </script>
-            {% endif %}
     </div>
 </body>
 
