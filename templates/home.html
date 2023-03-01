@@ -5,8 +5,8 @@
 {% block content %}
 {% if user.is_authenticated %}
   Sup Brah {{ user.username }}!
-  <p>Go to the location page</p>
-  <a href="{% url 'location' %}"> location page</a>
+  <p>Go to the Leaderboard page</p>
+  <a href="{% url 'leaderboard' %}"> Leaderboard page</a>
   <p>Or</p>
   <a href="{% url 'submission' %}"> Submit room</a>
   <p>Or</p>

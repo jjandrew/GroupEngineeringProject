@@ -11,9 +11,6 @@ class ImageSubmissionTestCase(TestCase):
         testSub = ImageSubmission(building="testBuilding", room="testRoom", lights="OFF", windows="AUTO",
                                   image=tempfile.NamedTemporaryFile(suffix=".jpg").name, no_litter=True, sockets_off=True)
         testSub.save()
-        # Creates a user for testing
-        user = CustomUser(username="test", points=1)
-        user.save()
 
     def test_jpg_format_can_be_created(self):
         """Tests the jpg file extension is accepted in image submission"""
@@ -55,18 +52,29 @@ class ImageSubmissionTestCase(TestCase):
         except:
             self.fail("Can't save an image file with a .png format")
 
-    def test_user_can_have_points_added(self):
-        """Checks a used user can haev points added"""
-        addPoints("test", 4)
-        user = CustomUser.objects.get(username="test")
-        self.assertEqual(user.points, 5)
-
     def test_cant_add_negative_points(self):
         """Check a user can't have negative points added"""
-        try:
+        with self.assertRaises(RuntimeError):
             addPoints("test", -1)
-            raise RuntimeError
-        except RuntimeError:
-            pass
-        except:
-            self.fail("Added negative points to user")
+
+    def test_cant_add_zero_points(self):
+        """Check a user can't have zero points added"""
+        with self.assertRaises(RuntimeError):
+            addPoints("test", 0)
+
+    def test_user_points_added(self):
+        """Tests a user has n points added with function"""
+        user = CustomUser(
+            username="test", email="test@test.com", password="password")
+        user.save()
+        self.assertEqual(user.points, 0)
+
+        # Test user with no points can have 1 point added
+        addPoints("test", 1)
+        updated_user = CustomUser.objects.get(username="test")
+        self.assertEqual(updated_user.points, 1)
+
+        # Test user with 1 point can have multiple added
+        addPoints("test", 5)
+        updated_user = CustomUser.objects.get(username="test")
+        self.assertEqual(updated_user.points, 6)

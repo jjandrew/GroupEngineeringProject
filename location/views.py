@@ -9,6 +9,7 @@ api_url = 'https://ipgeolocation.abstractapi.com/v1/?api_key=' + api_key
 
 testing = True
 
+
 @login_required
 def home(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -21,7 +22,6 @@ def home(request):
     if (testing):
         return HttpResponse("Your IP address is : 0.0.0.0 You are visiting from latitude: 12.1234, longitude: -1.1234")
     else:
-        print("Here")
         location_json = get_location_data(ip)
         location_data = json.loads(location_json)
         print(location_data)
