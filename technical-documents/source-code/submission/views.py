@@ -48,3 +48,33 @@ def submission_view(request):
         form = ImageForm()
     # Will return the formatted index.html file with the form entered
     return render(request, 'UI/submission.html', {'form': form})
+
+@login_required
+def working_submission_view(request):
+    """ Displays the form (GET request) and takes the data from the form,
+    validates it and awards the user points.
+    """
+    # Checks if request is after submitting form or before
+    if request.method == 'POST':
+        # Recreates the form with the posted data
+        form = ImageForm(request.POST, request.FILES)
+
+        # Checks the submission has all valid fields
+        if form.is_valid():
+            form.save()
+            # Get the current instance object to display in the template
+            img_obj = form.instance
+
+            # Get the username of the logged in user
+            username = request.user.username
+            # TODO: Different numbers of points for different rooms.
+            # TODO: Add validation.
+            addPoints(username, 1)
+
+            return render(request, 'submission/index.html', 
+                          {'form': form})
+    else:
+        # If not already submitted will create a new image form
+        form = ImageForm()
+    # Will return the formatted index.html file with the form entered
+    return render(request, 'submission/index.html', {'form': form})
