@@ -5,7 +5,7 @@ body{
 .main {
   background-color: #FFFFFF;
   width: 400px;
-  height: 750px;
+  height: auto;
   min-height: 650px;
   margin: 7em auto;
   border-radius: 1.5em;
@@ -13,9 +13,7 @@ body{
   transition: height 0.5s;
 }
 
-.main.errors {
-  height: auto;
-}
+
 
 
 .sign{
