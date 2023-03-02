@@ -9,6 +9,7 @@ def login_user(request):
     authenticates the user, redirecting them onto the main page or keeping
     them at the login page.
     """
+
     if request.method == "POST":
         username = request.POST['username']
         password = request.POST['password']
@@ -22,7 +23,7 @@ def login_user(request):
             return redirect('/')
         else:
             # Otherwise, an error is thrown and they're returned to the login
-            messages.error(request, ("There was an error logging in"))
+            messages.error(request, ("Username or password is incorrect!"))
             return redirect('login')
 
     else:

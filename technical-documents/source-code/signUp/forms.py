@@ -68,7 +68,7 @@ class SignUpForm(UserCreationForm):
         cleanEmail = self.cleaned_data['email']
 
         if "@exeter.ac.uk" not in cleanEmail:
-            raise forms.ValidationError("Must be an Exeter University email (...@exeter.ac.uk)")
+            raise forms.ValidationError("Please use an @exeter.ac.uk email.")
 
         return cleanEmail
 
@@ -77,13 +77,13 @@ class SignUpForm(UserCreationForm):
         match, raising an error if they don't.
         """
         password1 = self.cleaned_data['password1']
-        password2 = self.cleaned_data['password1']
+        password2 = self.cleaned_data['password2']
 
         # Ensures both password boxes are filled
         if password1 and password2:
 
             if password1 != password2:
-                raise forms.ValidationError("Passwords do not match")
+                raise forms.ValidationError("Passwords do not match.")
 
         return password2
 

@@ -19,8 +19,8 @@ def signup(request):
             user.is_valid = False
             user.save()
             return redirect('login')
-        else:
-            messages.info(request, 'Invalid registration details')
+        #else:
+            #messages.info(request, 'Invalid registration details')
     else:
         # GET request case
         form = SignUpForm()
