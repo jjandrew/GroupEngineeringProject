@@ -44,8 +44,8 @@ Technical documents are broken down into front end and back end etc.
 
 Our product documents are primarily in the form of a product UI. Below is a link to our latest version.
 
-public link: [https://ibm/cloud/12i7dvgj/exeter-orienteering]
+[./product-documents/UI-screenshots](./product-documents/UI-screenshots)
 
 The UI and design documents for the client have also been archived under the link below:
 
-[./product-documents/UI/](./product-documents/UI/)
+[./product-documents/](./product-documents/)
