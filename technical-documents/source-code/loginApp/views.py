@@ -37,4 +37,4 @@ def userLogout(request):
     to the login page.
     """
     logout(request)
-    return redirect('/login')
+    return redirect('homepage')
