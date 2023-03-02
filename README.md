@@ -1,4 +1,4 @@
-# Welcome to the Green Master
+# Welcome to the Green Master Project
 
 ### Group 4
 
