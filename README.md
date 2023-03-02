@@ -46,6 +46,6 @@ Our product documents are primarily in the form of a product UI. Below is a link
 
 [./product-documents/UI-screenshots](./product-documents/UI-screenshots)
 
-The UI and design documents for the client have also been archived under the link below:
+The UI and design documents for the client have also been archived under the link below in the file UI-documentation:
 
-[./product-documents/UI-documentation](./product-documents/UI-documentation)
+[./product-documents/](./product-documents/)
