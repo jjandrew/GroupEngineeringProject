@@ -48,4 +48,4 @@ Our product documents are primarily in the form of a product UI. Below is a link
 
 The UI and design documents for the client have also been archived under the link below:
 
-[./product-documents/](./product-documents/)
+[./product-documents/UI-documentation](./product-documents/UI-documentation)
