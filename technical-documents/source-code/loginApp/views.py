@@ -23,7 +23,7 @@ def login_user(request):
             return redirect('/')
         else:
             # Otherwise, an error is thrown and they're returned to the login
-            messages.error(request, ("Username or password is incorrect."))
+            messages.error(request, ("Username or password is incorrect!"))
             return redirect('login')
 
     else:

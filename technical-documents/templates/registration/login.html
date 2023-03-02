@@ -15,7 +15,7 @@
         {% csrf_token %}
         {% if messages %}
             {% for message in messages %}
-                <div class="alert alert-danger" role="alert">
+                <div class="alert alert-danger" role="alert" align="center">
                     {{ message }}
                 </div>
             {% endfor %}
