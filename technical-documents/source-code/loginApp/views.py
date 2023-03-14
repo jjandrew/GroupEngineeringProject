@@ -4,6 +4,7 @@ from django.contrib import messages
 from .forms import LoginForm
 from django.http import HttpResponseRedirect
 
+
 def login_user(request):
     """ Displays the login form and takes the data entered into it and 
     authenticates the user, redirecting them onto the main page or keeping
@@ -14,12 +15,10 @@ def login_user(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
-        print(user)
         # If the user exists and is valid, they are logged in and redirected
         # to the homepage
         if user is not None:
             login(request, user)
-            print("here")
             return redirect('/')
         else:
             # Otherwise, an error is thrown and they're returned to the login
