@@ -3,9 +3,11 @@ from accounts.models import CustomUser
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 
+
 class CustomUserModel(TestCase):
     """ Declares each of the tests for the accounts section of the website.
     """
+
     def setUp(self):
         """ Creates a model user for use in testing. """
         user = CustomUser(username="testUser",
@@ -23,7 +25,7 @@ class CustomUserModel(TestCase):
         user = CustomUser.objects.get(username="testUser")
         self.assertFalse(user.is_superuser)
 
-    def test_user_cant_be_created_without_usernae(self):
+    def test_user_cant_be_created_without_username(self):
         """ Tests user must have username. """
         User = get_user_model()
         # Tests user must have username
