@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import leaderboard, workingLeaderboard
+from .views import leaderboard
 
 """ Defines and names the url that displays the leaderboard.  """
 urlpatterns = [
-    path('', workingLeaderboard, name='leaderboard'),
-    path('UI', leaderboard, name='workingLweaderboard'),
+    # Defines and names the url that displays the leaderboard.
+    path('', leaderboard, name='leaderboard'),
 ]
