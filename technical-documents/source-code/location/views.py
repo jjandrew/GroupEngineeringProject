@@ -9,6 +9,7 @@ testing = True
 
 @login_required
 def home(request):
+    """Returns the home page for the location app"""
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
@@ -30,6 +31,7 @@ def home(request):
 
 
 def getLocationData():
+    """Returns the location data using a location API"""
     json = {
         "country": "UK",
         "region": "Devon",
