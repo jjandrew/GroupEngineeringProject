@@ -4,5 +4,5 @@ from .views import leaderboard, workingLeaderboard
 urlpatterns = [
     # Defines and names the url that displays the leaderboard.
     path('', workingLeaderboard, name='leaderboard'),
-    path('UI', leaderboard, name='workingLweaderboard'),
+    path('UI', leaderboard, name='workingLeaderboard'),
 ]
