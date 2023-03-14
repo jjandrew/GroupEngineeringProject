@@ -8,12 +8,13 @@ from accounts.models import CustomUser
 class ImageSubmissionTestCase(TestCase):
     """ Declares each of the tests for the submission section of the website.
     """
+
     def setUp(self):
         """ Creates a model submission for use in testing. """
         testSub = ImageSubmission(building="testBuilding", room="testRoom",
                                   lights="OFF", windows="AUTO",
                                   image=tempfile.NamedTemporaryFile(
-                                                suffix=".jpg").name,
+                                      suffix=".jpg").name,
                                   no_litter=True, sockets_off=True
                                   )
         testSub.save()
@@ -24,7 +25,7 @@ class ImageSubmissionTestCase(TestCase):
             testSub = ImageSubmission(building="testBuilding", room="testRoom",
                                       lights="AUTOMATIC", windows="CLOSE",
                                       image=tempfile.NamedTemporaryFile(
-                                                    suffix=".jpg").name,
+                                          suffix=".jpg").name,
                                       no_litter=True, sockets_off=True
                                       )
             testSub.save()
@@ -39,7 +40,7 @@ class ImageSubmissionTestCase(TestCase):
             testSub = ImageSubmission(building="testBuilding", room="testRoom",
                                       lights="AUTOMATIC", windows="CLOSE",
                                       image=tempfile.NamedTemporaryFile(
-                                                    suffix=".jpeg").name,
+                                          suffix=".jpeg").name,
                                       no_litter=True, sockets_off=True
                                       )
             testSub.save()
@@ -54,7 +55,7 @@ class ImageSubmissionTestCase(TestCase):
             testSub = ImageSubmission(building="testBuilding", room="testRoom",
                                       lights="AUTOMATIC", windows="CLOSE",
                                       image=tempfile.NamedTemporaryFile(
-                                                    suffix=".gif").name,
+                                          suffix=".gif").name,
                                       no_litter=True, sockets_off=True
                                       )
             testSub.save()
@@ -63,13 +64,13 @@ class ImageSubmissionTestCase(TestCase):
         except:
             self.fail("Can't save an image file with a .gif format")
 
-    def test_jpg_format_can_be_created(self):
+    def test_png_format_can_be_created(self):
         """ Tests the png file extension is accepted in image submission. """
         try:
             testSub = ImageSubmission(building="testBuilding", room="testRoom",
                                       lights="AUTOMATIC", windows="CLOSE",
                                       image=tempfile.NamedTemporaryFile(
-                                                    suffix=".png").name,
+                                          suffix=".png").name,
                                       no_litter=True, sockets_off=True
                                       )
             testSub.save()
