@@ -102,3 +102,17 @@ class ImageSubmission(models.Model):
 
     # Uploads image to the media/images folder when in dev mode
     image = models.ImageField(upload_to='images')
+
+
+class RoomModel(models.Model):
+    """A model for a room in order to calculate environmental statistics"""
+    building = models.CharField(choices=building_choices, max_length=48)
+    name = models.CharField(max_length=100)
+    number_of_lights = models.IntegerField()
+    number_lights_on = models.IntegerField()
+    number_of_windows = models.IntegerField()
+    number_windows_open = models.IntegerField()
+    number_plugs = models.IntegerField()
+    number_plugs_on = models.IntegerField()
+    litter_items = models.IntegerField()
+    number_submissions = models.IntegerField()
