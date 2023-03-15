@@ -90,6 +90,8 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
+AUTH_USER_MODEL="accounts.CustomUser"
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
@@ -137,6 +139,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # If time permits an email service like MailGun or SendGrid would be
 # used to send reset emails, instead of having them stored locally.
 
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_FROM = "thegreenmasterproject@gmail.com"
+EMAIL_HOST_USER = "thegreenmasterproject@gmail.com"
+EMAIL_HOST_PASSWORD = "qbtpbupbcpdeqczd"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 AUTH_USER_MODEL = 'accounts.CustomUser'

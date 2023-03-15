@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import signup
-
+from . import views
 urlpatterns = [
     # Declares the pattern for the sign up page
-    path('signup/', signup, name="signup"),
+    path('signup/', views.signup, name="signup"),
+    path('activate/<uidb64>/<token>', views.activate, name='activate')
 ]
