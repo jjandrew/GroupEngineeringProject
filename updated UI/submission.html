@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Green Master :: Submit</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;500;800&display=swap" rel="stylesheet">
+    
+</head>
+
+<body>
+
+    <div class="logo2">
+        <img src="img\Slice 1.png"> 
+    </div>
+        
+
+    <div class="s-mainWrapper">
+
+        <div class="menu-wrap">
+                    
+                <input type="checkbox" class="toggler">
+                    
+                <div class="hamburger">
+                    <div>
+                    </div>
+                </div>
+                    
+                <div class="menu">
+                    <div>
+                        <div>
+                            <ul>
+                                <li><a href="{% url 'about' %}">about</a></li>
+                                <li><a href="{% url 'submission' %}">dashboard</a></li>
+                                <li><a href="{% url 'leaderboard' %}">leaderboard</a></li>
+                                <li><a href="{% url 'submission' %}">submission</a></li>
+                                <li><a href="{% url 'maps' %}">maps</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+
+        <div class="submissionBx-h">
+            <div class="submissionTxt-h">
+                Submission
+            </div>
+            <div class="submissionSubTxt-h">
+                Submit your report 
+            </div>
+        </div>
+
+        <div class="submissionBx">
+
+            <div class="fileDrop">
+
+                <span class="fileDropPrompt">
+                    Click here to upload your photo
+                </span>
+                <input type="file" name="subFile" class="fileInput">
+
+            </div>
+
+        </div>
+
+        <div class="selectionBx-lights">
+            
+            <div class="selectionTxt">lights</div>
+            <br>
+            <button class="selectionbtn" type="button">on</button>
+            <button class="selectionbtn" type="button">off</button>
+            <button class="selectionbtn" type="button">auto</button>
+
+        </div>
+
+        <div class="selectionBx-windows ">
+            
+            <div class="selectionTxt">windows</div>
+            <br>
+            <button class="selectionbtn" type="button">on</button>
+            <button class="selectionbtn" type="button">off</button>
+            <button class="selectionbtn" type="button">auto</button>
+
+        </div>
+
+        <div class="selectionBx-lights2">
+            <div class="selectionTxt">How many lights ?</div>
+        </div>
+
+        <div class="selectionBx-building">
+            <div class="selectionTxt">building name ?</div>
+        </div>
+        
+        <div class="submitBx">
+            <button class="submitbtn" type="button">submit</button>
+        </div>
+
+    </div>
+
+    <div class="logo3">
+        <img src="img\gfx1.png"> 
+    </div>
+     
+
+    <script src="main.js"></script>
+
+</body>
+
+</html>
