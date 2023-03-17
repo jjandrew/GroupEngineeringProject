@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Green Master :: Maps</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;500;800&display=swap" rel="stylesheet">
+    
+</head>
+
+<body>
+
+    <div class="logo2">
+        <img src="img\Slice 1.png"> 
+    </div>
+        
+
+    <div class="m-mainWrapper">
+
+        <div class="menu-wrap">
+                    
+                <input type="checkbox" class="toggler">
+                    
+                <div class="hamburger">
+                    <div>
+                    </div>
+                </div>
+                    
+                <div class="menu">
+                    <div>
+                        <div>
+                            <ul>
+                                <li><a href="{% url 'about' %}">about</a></li>
+                                <li><a href="{% url 'submission' %}">dashboard</a></li>
+                                <li><a href="{% url 'leaderboard' %}">leaderboard</a></li>
+                                <li><a href="{% url 'submission' %}">submission</a></li>
+                                <li><a href="{% url 'maps' %}">maps</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+        
+        <div class="mapsBx-h">
+            <div class="mapsTxt-h">
+                Your Map
+            </div>
+            <div class="mapsSubTxt-h">
+                Wow we love how sustainable Exeter is looking, don't you
+            </div>
+        </div>
+
+        <div class="mapBx">
+            <div class="mapborder">
+
+                <img class="mapimg" src="img\map.png"> 
+
+            </div>
+        </div>
+
+        <div class="logo4">
+            <img src="img\gfx3.png"> 
+        </div>
+
+
+    <script src="main.js"></script>
+
+</body>
+
+</html>

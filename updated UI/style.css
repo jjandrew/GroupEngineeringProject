@@ -1,0 +1,814 @@
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+	height: auto;
+    width: auto;
+
+    background-color: rgb(234, 234, 234);
+}
+
+img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+
+/*---------------------------------------------------------*/
+/*-           S   WRAPPERS FOR GRID TEMPLATE              -*/
+/*---------------------------------------------------------*/
+/*- The letter before the hyphen denotes the page the     -*/
+/*- wrapper is referencing                                -*/
+/*---------------------------------------------------------*/
+
+.i-mainWrapper {
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-auto-rows: minmax(1vh, auto);
+    align-items: stretch;
+    background-color: #00dea5;
+    
+
+}
+
+.i-mainWrapper > div {
+
+    padding: 1em;
+
+}
+
+.s-mainWrapper {
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-auto-rows: minmax(5vh, auto);
+    align-items: stretch;
+
+}
+
+.s-mainWrapper > div {
+    
+    padding: 1em;
+
+}
+
+.d-mainWrapper {
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-auto-rows: minmax(5vh, auto);
+    align-items: stretch;
+
+}
+
+.d-mainWrapper > div {
+    
+    padding: 1em;
+
+}
+
+.m-mainWrapper {
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-auto-rows: minmax(5vh, auto);
+    align-items: stretch;
+
+}
+/*---------------------------------------------------------*/
+/*-           E   WRAPPERS FOR GRID TEMPLATE              */
+/*---------------------------------------------------------*/
+
+/*---------------------------------------------------------*/
+/*-           S        Common Elements                    -*/
+/*---------------------------------------------------------*/
+/*- Classes common elements in each page                  -*/
+/*---------------------------------------------------------*/
+
+/*---------------------------------------------------------*/
+/*-           S        Hamburger Menu                     -*/
+/*---------------------------------------------------------*/
+/*- Classes for the hamburger menu in the top corner      -*/
+/*---------------------------------------------------------*/
+
+.menu-wrap {
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.menu-wrap .toggler {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    cursor: pointer;
+    width: 3vw;
+    height: 6vh;
+    opacity: 0;
+}
+
+.menu-wrap .hamburger {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 50px;
+    height: 50px;
+    padding: 5px;
+    background-color: #003b3c3f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-wrap .hamburger > div {
+    position: relative;
+    width: 80%;
+    height: 3px;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s ease;
+
+}
+
+.menu-wrap .hamburger > div:before,
+.menu-wrap .hamburger > div:after{
+
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: -10px;
+    width: 100%;
+    height: 3px;
+    background-color: white;
+
+}
+
+.menu-wrap .hamburger > div:after{
+    top:10px;
+
+}
+
+.menu-wrap .toggler:checked + .hamburger > div {
+    transform: rotate(135deg);
+}
+
+.menu-wrap .toggler:checked + .hamburger > div::before,
+.menu-wrap .toggler:checked + .hamburger > div::after {
+    top: 0;
+    transform: rotate(90deg);
+}
+
+.menu-wrap .toggler:checked:hover + .hamburger > div{
+    transform: rotate(225deg);
+}
+
+.menu-wrap .menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    visibility: hidden;
+    justify-content: center;
+}
+
+.menu > div{
+    background-color: #0047364f ;
+    border-radius: 50%;
+    width: 800px;
+    height: 800px;
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    transform: scale(0);
+    transition: all 0.4s ease;
+}
+
+.menu > div > div {
+    text-align: center;
+    max-width: 90vw;
+    max-height: 100vh;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.menu > div > div > ul > li {
+    list-style: none;
+    color: white;
+    font-size: 2rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800; 
+    padding: 2rem;
+}
+
+.menu-wrap .menu > div > div > ul > li > a{
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.4 ease;
+}
+
+.menu-wrap .toggler:checked ~ .menu {
+    visibility: visible;
+}
+
+.menu-wrap .toggler:checked ~ .menu > div{
+    transform: scale(1);
+    transition-duration: all 0.4s ease ;
+}
+
+.menu-wrap .toggler:checked ~ .menu > div > div{
+    opacity: 1;
+    transition: 0.4s ease;
+}
+
+/*---------------------------------------------------------*/
+/*-           E        Hamburger Menu                     -*/
+/*---------------------------------------------------------*/
+
+/*---------------------------------------------------------*/
+/*-           S        Promotion Logo                     -*/
+/*---------------------------------------------------------*/
+
+.logo2 {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 35%;
+    height: auto;
+
+}
+
+.logo3 {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 35%;
+    height: auto;
+
+}
+
+.logo4 {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+
+}
+
+
+/*---------------------------------------------------------*/
+/*-           E        Promotion Logo                     -*/
+/*---------------------------------------------------------*/
+
+/*---------------------------------------------------------*/
+/*-           E        Common Elements                    -*/
+/*---------------------------------------------------------*/
+
+
+/*---------------------------------------------------------*/
+/*-                     Page Contents                     -*/
+/*---------------------------------------------------------*/
+/*- Suffix Bx denotes that it is a container for the      -*/
+/*- content                                               -*/
+/*-                                                       -*/
+/*- The letter before the hyphen denotes the page the     -*/
+/*- class is referencing                                  -*/
+/*---------------------------------------------------------*/
+
+/*---------------------------------------------------------*/
+/*-                  Welcome/ Login Page                  -*/
+/*---------------------------------------------------------*/
+
+.welcomeBx{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-auto-rows: minmax(1vh, auto);
+    align-items: stretch;
+    grid-column: 1/5;
+    grid-row: 20/50;
+    justify-content: center;
+}
+
+.welcomeBx2{
+    grid-column: 1/5;
+    grid-row: 2/4;
+    justify-content: center;
+}
+
+.welcomeTxt {
+    
+    color: rgb(255, 255, 255);
+    font-size: 3.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800; 
+    text-align: center;
+    line-height: 35px;
+    
+}
+
+wa{
+    font-size: 2rem;  
+}
+
+.welcomeSubTxt {
+
+    color: rgb(255, 255, 255);
+    font-size: 1.25rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 200; 
+    text-align: center;
+    margin-top: 3vh;
+
+}
+
+/*---------------------------------------------------------*/
+/*-                     Sign Up Page                      -*/
+/*---------------------------------------------------------*/
+
+/*---------------------------------------------------------*/
+/*-                       Dashboard                       -*/
+/*---------------------------------------------------------*/
+
+.gfxhead {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    z-index: -2;
+}
+
+.dashboardBx-h{
+
+    grid-column: 3/8;
+    grid-row: 3/5;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.dashboardTxt-h {
+    
+    color: rgb(252, 252, 252);
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800; 
+    text-align: center;
+
+}
+
+.usericonBx {
+   
+    grid-column: 3/8;
+    grid-row: 4/9;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.userdataBx{
+
+    grid-column: 3/8;
+    grid-row: 8/10;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.userdataname {
+    
+    color: rgb(40, 40, 40);
+    font-size: 1.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800; 
+    text-align: center;
+    margin-top: 5vh;
+
+}
+
+.userdatapts {
+    
+    color: rgb(40, 40, 40);
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800; 
+    text-align: center;
+
+}
+
+z{
+    font-weight: 200;
+}
+
+
+.userbuttonBx1 {
+    
+    grid-column: 2/4;
+    grid-row: 10/12;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.userbuttonBx2 {
+    
+    grid-column: 4/7;
+    grid-row: 10/12;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.userbuttonBx3 {
+    
+    grid-column: 7/9;
+    grid-row: 10/12;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.userbtn {
+    width: 50px;
+    height: 50px;
+    background-color: #00dea5; 
+    border: none;
+    border-radius: 50%;
+    color: rgb(255, 255, 255);
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800; 
+    text-align: center; 
+    padding: 12px 12px;
+    text-decoration: none;
+    justify-content: center;
+}
+
+.btnimg {
+    width: 100%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.userbtnTxt {
+    color: rgb(40, 40, 40);
+    font-size: 0.75rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800; 
+    text-align: center; 
+    margin-top: 1vh;
+}
+
+.notificationBx {
+
+    grid-column: 2/9;
+    grid-row: 12/13;
+    justify-content: center;
+    text-align: left;
+
+}
+
+.notificationTtl {
+
+    color: rgb(40, 40, 40);
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;  
+
+}
+
+.notifBx1 {
+
+    grid-column: 2/9;
+    grid-row: 13/16;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.notifBx2 {
+
+    grid-column: 2/9;
+    grid-row: 16/19;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.promoBx1 {
+
+    width: 100%;
+    height: 100%;
+    border-color: #00dea5;
+    border-radius: 100px;
+    border-width: 3px;
+    border-style: solid;
+    padding-top:10px;
+    padding-left: 20px;
+    color: rgb(40, 40, 40);
+}
+
+.promoBx2 {
+
+    width: 100%;
+    height: 100%;
+    background-color: #00dea5;
+    border-color: #00dea5;
+    border-radius: 100px;
+    border-width: 3px;
+    border-style: solid;
+    padding-top:10px;
+    padding-left: 20px;
+    color: white;
+}
+
+
+.promoTxt-Ttl {
+
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;  
+
+}
+
+.promoTxt-subTtl {
+
+    font-size: 0.5rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 200;  
+
+}
+
+.link {
+
+
+    font-size: 0.75rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800;  
+
+}
+
+
+/*---------------------------------------------------------*/
+/*-                       Dashboard                       -*/
+/*---------------------------------------------------------*/
+
+/*---------------------------------------------------------*/
+/*-                      Submission                       -*/
+/*---------------------------------------------------------*/
+
+.submissionBx-h{
+
+    grid-column: 2/6;
+    grid-row: 3/5;
+    justify-content: center;
+
+}
+
+.submissionTxt-h {
+    
+    color: rgb(40, 40, 40);
+    font-size: 2rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800; 
+    text-align: center;
+
+}
+
+
+.submissionSubTxt-h {
+
+    color: rgb(40, 40, 40);
+    font-size: 0.75rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 200; 
+    text-align: center;
+
+}
+
+.submissionBx {
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-auto-rows: minmax(1vh, auto);
+    align-items: stretch;
+    grid-column: 2/6;
+    grid-row: 5/10;
+    justify-content: center;
+
+}
+
+.fileDrop {
+
+    grid-column: 1/5;
+    grid-row: 1/9;
+    padding: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 200; 
+    border-width: 5px;
+    border-color: #00dea5;
+    border-style: dotted;
+    border-radius: 25px;
+
+}
+
+.fileDropDropped {
+
+    border-style: solid;
+}
+
+.fileInput {
+
+    display: none;
+
+}
+
+.fileThumb {
+
+    width: 100%;
+    height: 100%;
+    background-color: #00dea5;
+    border-radius: 25px;
+    background-size: cover;
+    overflow: hidden;
+    position: relative;
+
+}
+
+.fileThumb::after {
+    content: attr(data-label);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 2px;
+    color: white;
+    background-color: rgb(0, 0, 0 , 0.5);
+    font-size: 1rem;
+    text-align: center;
+}
+
+.selectionBx-lights {
+
+    grid-column: 2/6;
+    grid-row: 10/11;
+    justify-content: center;
+    text-align: center;
+}
+
+.selectionBx-windows {
+
+    grid-column: 2/6;
+    grid-row: 11/12;
+    justify-content: center;
+    text-align: center;
+}
+
+.selectionBx-lights2 {
+
+    grid-column: 2/6;
+    grid-row: 12/13;
+    justify-content: center;
+    text-align: center;
+}
+
+.selectionBx-building {
+
+    grid-column: 2/6;
+    grid-row: 13/14;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.submitBx {
+
+    grid-column: 3/5;
+    grid-row: 14/15;
+    justify-content: center;
+    text-align: center;
+
+}
+
+.selectionTxt {
+
+    color: rgb(40, 40, 40);
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800; 
+    text-align: center;  
+    
+}
+
+
+.selectionbtn {
+    background-color: #00dea5; 
+    border: none;
+    border-radius: 50px;
+    color: rgb(255, 255, 255);
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800; 
+    text-align: center; 
+    padding: 10px 10px;
+    text-decoration: none;
+}
+
+
+
+.submitbtn {
+    background-color: #00dea5; 
+    border: none;
+    border-radius: 50px;
+    color: rgb(255, 255, 255);
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800; 
+    text-align: center; 
+    padding: 10px 10px;
+    text-decoration: none;
+}
+
+/*---------------------------------------------------------*/
+/*-                        Maps                           -*/
+/*---------------------------------------------------------*/
+.mapsBx-h{
+
+    grid-column: 2/6;
+    grid-row: 3/5;
+    justify-content: center;
+
+}
+
+.mapsTxt-h {
+    
+    color: rgb(40, 40, 40);
+    font-size: 2rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800; 
+    text-align: center;
+
+}
+
+
+.mapsSubTxt-h {
+
+    color: rgb(40, 40, 40);
+    font-size: 0.75rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 200; 
+    text-align: center;
+
+}
+
+.mapBx {
+    grid-column: 1/7;
+    grid-row: 5/15;
+    justify-content: center;
+    padding: 30px;
+}
+
+.mapborder {
+    width: 100%;
+    height: 100%;
+    border-color: #8b8b8b;
+    border-radius: 50px;
+    border-width: 6px;
+    border-style: solid;
+    padding: 5px;
+}
+
+.mapimg {
+    border-radius: 35px;
+    width: 100%;
+    height: auto;
+}
+
+
+/*---------------------------------------------------------*/
+/*-                        Maps                           -*/
+/*---------------------------------------------------------*/
