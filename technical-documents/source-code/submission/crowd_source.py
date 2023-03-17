@@ -5,7 +5,6 @@ def get_statistics(room_name, building):
     """Gets statistics if a room already has statistics entered"""
     rooms = RoomModel.objects.filter(building=building, name=room_name)
     if (len(rooms) == 0):
-        print("No room")
         return None
     room = rooms[0]
     number_of_lights = room.number_of_lights
@@ -36,8 +35,6 @@ def statistics_valid(submission: ImageSubmission, repeat: bool):
             return "invalid"
         # Ask user to reckeck and then if still different change
         if repeat:
-            # Change stats for room
-            # Submissions - 1
             return "valid_repeat"
         # If not repeated ask user to recheck
         return "check"
@@ -48,13 +45,14 @@ def input_stats(submission: ImageSubmission, repeat: bool):
     stat_check = statistics_valid(submission=submission, repeat=repeat)
     # If they are valid adds the stats
     if stat_check == "valid":
-        room
+        room = None
         if RoomModel.objects.filter(building=submission.building, name=submission.room.lower()).exists():
             room = RoomModel.objects.get(
                 name=submission.room, building=submission.building)
         else:
             room = RoomModel(name=submission.room,
                              building=submission.building)
+            room.save()
         add_stats(submission, room)
         return "complete"
     # If not repeated ask user to recheck or will tell them they are invalid
