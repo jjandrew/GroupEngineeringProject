@@ -78,16 +78,6 @@ building_choices = (('ALEXANDER', 'Alexander'),
                     ('XFI', 'Xfi')
                     )
 
-# The choices for the lights options
-lights_choices = (("OFF", "Off"),
-                  ("AUTO", "Automatic"),
-                  )
-
-# The choices for the window options
-windows_choices = (("CLOSE", "Closed"),
-                   ("AUTO", "Automatic"),
-                   )
-
 
 class ImageSubmission(models.Model):
     """ A model containing all the required fields for the successfull
@@ -95,14 +85,13 @@ class ImageSubmission(models.Model):
     """
     building = models.CharField(choices=building_choices, max_length=48)
     room = models.CharField(max_length=100)
-    number_of_lights = models.PositiveIntegerField()
-    number_lights_on = models.PositiveIntegerField()
-    number_of_windows = models.PositiveIntegerField()
-    number_windows_open = models.PositiveIntegerField()
-    number_plugs = models.PositiveIntegerField()
-    number_plugs_on = models.PositiveIntegerField()
-    litter_items = models.PositiveIntegerField()
-    number_submissions = models.PositiveIntegerField()
+    number_of_lights = models.PositiveIntegerField(default=0)
+    number_lights_on = models.PositiveIntegerField(default=0)
+    number_of_windows = models.PositiveIntegerField(default=0)
+    number_windows_open = models.PositiveIntegerField(default=0)
+    number_plugs = models.PositiveIntegerField(default=0)
+    number_plugs_on = models.PositiveIntegerField(default=0)
+    litter_items = models.PositiveIntegerField(default=0)
 
     # Uploads image to the media/images folder when in dev mode
     image = models.ImageField(upload_to='images')
@@ -112,11 +101,11 @@ class RoomModel(models.Model):
     """A model for a room in order to calculate environmental statistics"""
     building = models.CharField(choices=building_choices, max_length=48)
     name = models.CharField(max_length=100)
-    number_of_lights = models.PositiveIntegerField()
-    number_lights_on = models.PositiveIntegerField()
-    number_of_windows = models.PositiveIntegerField()
-    number_windows_open = models.PositiveIntegerField()
-    number_plugs = models.PositiveIntegerField()
-    number_plugs_on = models.PositiveIntegerField()
-    litter_items = models.PositiveIntegerField()
-    number_submissions = models.PositiveIntegerField()
+    number_of_lights = models.PositiveIntegerField(default=0)
+    number_lights_on = models.PositiveIntegerField(default=0)
+    number_of_windows = models.PositiveIntegerField(default=0)
+    number_windows_open = models.PositiveIntegerField(default=0)
+    number_plugs = models.PositiveIntegerField(default=0)
+    number_plugs_on = models.PositiveIntegerField(default=0)
+    litter_items = models.PositiveIntegerField(default=0)
+    number_submissions = models.PositiveIntegerField(default=0)
