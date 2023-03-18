@@ -95,6 +95,8 @@ class ImageSubmission(models.Model):
 
     # Uploads image to the media/images folder when in dev mode
     image = models.ImageField(upload_to='images')
+    user = models.CharField(max_length=100)
+    date = models.DateField()
 
 
 class RoomModel(models.Model):
