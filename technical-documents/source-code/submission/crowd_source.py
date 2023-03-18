@@ -21,6 +21,9 @@ def get_statistics(room_name, building):
 
 def statistics_valid(submission: ImageSubmission, repeat: bool):
     """Checks if the stats entered in submission are the same a previous submissions"""
+    # Make sure the number on is never greater
+    if submission.number_lights_on > submission.number_of_lights or submission.number_windows_open > submission.number_of_windows or submission.number_plugs_on > submission.number_plugs:
+        return "invalid"
     # Get the statistcs from
     stats = get_statistics(submission.room.lower(), submission.building)
     # If there are no stats entered considered valid
