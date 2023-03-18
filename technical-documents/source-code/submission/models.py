@@ -78,6 +78,18 @@ building_choices = (('ALEXANDER', 'Alexander'),
                     ('XFI', 'Xfi')
                     )
 
+# The choices for the lights options
+lights_choices = (("OFF", "Off"),
+                  ("AUTO", "Automatic"),
+                  ("ON", "On"),
+                  )
+
+# The choices for the window options
+windows_choices = (("CLOSE", "Closed"),
+                   ("AUTO", "Automatic"),
+                   ("OPEN", "Open"),
+                   )
+
 
 class ImageSubmission(models.Model):
     """ A model containing all the required fields for the successfull
@@ -85,12 +97,9 @@ class ImageSubmission(models.Model):
     """
     building = models.CharField(choices=building_choices, max_length=48)
     room = models.CharField(max_length=100)
-    number_of_lights = models.PositiveIntegerField(default=0)
-    number_lights_on = models.PositiveIntegerField(default=0)
-    number_of_windows = models.PositiveIntegerField(default=0)
-    number_windows_open = models.PositiveIntegerField(default=0)
-    number_plugs = models.PositiveIntegerField(default=0)
-    number_plugs_on = models.PositiveIntegerField(default=0)
+    lights_status = models.CharField(choices=lights_choices, max_length=4)
+    windows_status = models.CharField(
+        choices=windows_choices, max_length=5)
     litter_items = models.PositiveIntegerField(default=0)
 
     # Uploads image to the media/images folder when in dev mode
@@ -103,11 +112,7 @@ class RoomModel(models.Model):
     """A model for a room in order to calculate environmental statistics"""
     building = models.CharField(choices=building_choices, max_length=48)
     name = models.CharField(max_length=100)
-    number_of_lights = models.PositiveIntegerField(default=0)
     number_lights_on = models.PositiveIntegerField(default=0)
-    number_of_windows = models.PositiveIntegerField(default=0)
     number_windows_open = models.PositiveIntegerField(default=0)
-    number_plugs = models.PositiveIntegerField(default=0)
-    number_plugs_on = models.PositiveIntegerField(default=0)
     litter_items = models.PositiveIntegerField(default=0)
     number_submissions = models.PositiveIntegerField(default=0)
