@@ -101,19 +101,19 @@ def working_submission_view(request):
             # Check if a room has been submitted in the last hour
             # Get the room
             room = None
+            skip = False
             if RoomModel.objects.filter(building=image_submission.building, name=image_submission.room.lower()).exists():
                 room = RoomModel.objects.get(
                     name=image_submission.room.lower(), building=image_submission.building)
             else:
-                room = RoomModel(name=image_submission.room.lower(),
-                                 building=image_submission.building)
+                skip = True
 
-            # Check if done an hour before
-            hour_ago = (datetime.now() - timedelta(hours=1))
-
-            if room.last_done.replace(tzinfo=None) > hour_ago:
-                return render(request, 'submission/index.html',
-                              {'form': form, 'message': "Error: room submitted too recently"})
+            if not skip:
+                # Check if done an hour before
+                hour_ago = (datetime.now() - timedelta(hours=1))
+                if room.last_done.replace(tzinfo=None) > hour_ago:
+                    return render(request, 'submission/index.html',
+                                  {'form': form, 'message': "Error: room submitted too recently"})
 
             image_submission.save()
 
