@@ -6,6 +6,7 @@ from accounts.models import CustomUser
 from submission.crowd_source import input_stats
 from submission.models import ImageSubmission
 from datetime import datetime, timedelta
+from submission.models import RoomModel
 
 
 is_repeat = False
@@ -28,13 +29,13 @@ def addPoints(username, points):
 
 
 def calc_user_streaks(user: CustomUser, today: datetime):
+    """Calculates if a user can add one more to their streak"""
     # Check if user submitted a room yesterday
     yesterday = today - timedelta(days=1)
     if user.last_submission.strftime('%Y-%m-%d') == yesterday.strftime('%Y-%m-%d'):
         user.streak += 1
     elif user.last_submission.strftime('%Y-%m-%d') < yesterday.strftime('%Y-%m-%d'):
         user.streak = 1
-    print(user.last_submission.type())
     user.last_submission = today.strftime('%Y-%m-%d')
 
     user.save()
@@ -54,7 +55,6 @@ def submission_view(request):
         if form.is_valid():
             form.save()
             # Get the current instance object to display in the template
-            img_obj = form.instance
 
             # Get the username of the logged in user
             username = request.user.username
@@ -97,6 +97,23 @@ def working_submission_view(request):
                                                windows_status=data["windows_status"],
                                                litter_items=data["litter_items"], image=data["image"],
                                                user=username, date=datetime.today().strftime('%Y-%m-%d'))
+
+            # Check if a room has been submitted in the last hour
+            # Get the room
+            room = None
+            if RoomModel.objects.filter(building=image_submission.building, name=image_submission.room.lower()).exists():
+                room = RoomModel.objects.get(
+                    name=image_submission.room.lower(), building=image_submission.building)
+            else:
+                room = RoomModel(name=image_submission.room.lower(),
+                                 building=image_submission.building)
+
+            # Check if done an hour before
+            hour_ago = (datetime.now() - timedelta(hours=1))
+
+            if room.last_done.replace(tzinfo=None) > hour_ago:
+                return render(request, 'submission/index.html',
+                              {'form': form, 'message': "Error: room submitted too recently"})
 
             image_submission.save()
 
