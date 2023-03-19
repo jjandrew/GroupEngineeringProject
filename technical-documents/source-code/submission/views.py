@@ -5,7 +5,7 @@ from .forms import ImageForm
 from accounts.models import CustomUser
 from submission.crowd_source import input_stats
 from submission.models import ImageSubmission
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 is_repeat = False
@@ -24,6 +24,18 @@ def addPoints(username, points):
     # Add the points to a user's points
     user = CustomUser.objects.get(username=username)
     user.points += points
+    user.save()
+
+
+def calc_user_streaks(user, today):
+    # Check if user submitted a room yesterday
+    yesterday = today - timedelta(days=1)
+    if user.last_submission == yesterday.strftime('%Y-%m-%d'):
+        user.streak += 1
+    elif user.last_submission < yesterday.strftime('%Y-%m-%d'):
+        user.streak = 1
+    user.last_submission = today.strftime('%Y-%m-%d')
+
     user.save()
 
 
@@ -85,11 +97,19 @@ def working_submission_view(request):
                                                litter_items=data["litter_items"], image=data["image"],
                                                user=username, date=datetime.today().strftime('%Y-%m-%d'))
 
+            image_submission.save()
+
+            # TODO VALIDATION HERE
+
+            # Calculate statistics for user
+            user = CustomUser.objects.get(username=username)
+
+            calc_user_streaks(user, datetime.today())
+
             # Checks if stats can be input and inputs if so
             input_stats(image_submission)
 
             # TODO this is where gamekeeper validation occurs
-            image_submission.save()
 
             message = "Success"
 

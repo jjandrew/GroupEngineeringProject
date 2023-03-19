@@ -10,3 +10,5 @@ class CustomUser(AbstractUser):
     is_user = models.BooleanField(default=True)
     points = models.IntegerField(default=0)
     email = models.EmailField(unique=True, null=False)
+    last_submission = models.DateField(default="2023-01-01")
+    streak = models.PositiveIntegerField(default=0)
