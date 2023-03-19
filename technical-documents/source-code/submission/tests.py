@@ -5,7 +5,6 @@ from submission.views import addPoints, calc_user_streaks
 from accounts.models import CustomUser
 from submission.crowd_source import input_stats
 from datetime import datetime, timedelta
-from freezegun import freeze_time
 
 
 class ImageSubmissionTestCase(TestCase):
