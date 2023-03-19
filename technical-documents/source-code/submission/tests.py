@@ -1,10 +1,10 @@
 from django.test import TestCase
 from submission.models import ImageSubmission, RoomModel
 import tempfile
-from submission.views import addPoints
+from submission.views import addPoints, calc_user_streaks
 from accounts.models import CustomUser
 from submission.crowd_source import input_stats
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class ImageSubmissionTestCase(TestCase):
@@ -196,3 +196,64 @@ class RoomSubmissionTestCase(TestCase):
                                        number_lights_on=5, number_windows_open=5,
                                        litter_items=5, number_submissions=5)
         self.existing_room.save()
+
+
+class test_user_streaks(TestCase):
+    """A testing case for user streaks"""
+    user: CustomUser
+
+    def setUp(self):
+        """Creates a custom user with default values"""
+        self.user = CustomUser(
+            username="test", email="test@test.com", password="password")
+        self.user.save()
+
+    def test_new_user_has_streak_of_0(self):
+        """Tests a user is created with default streak  value 0"""
+        user = CustomUser.objects.get(username="test")
+        self.assertEqual(user.streak, 0)
+
+    def test_when_submission_added_streak_is_1(self):
+        """Tests a user's streak increments to 1 when submission completed"""
+        user = CustomUser(
+            username="test1", email="test1@test.com", password="password")
+        user.save()
+        date = datetime(2024, 1, 1)
+        calc_user_streaks(user, date)
+        self.assertEqual(user.streak, 1)
+
+    def test_when_submission_added_twice_streak_stays_1(self):
+        """Tests streak only increments on change in day"""
+        user = CustomUser(
+            username="test2", email="test2@test.com", password="password")
+        user.save()
+        date = datetime(2024, 1, 1)
+        calc_user_streaks(user, date)
+        calc_user_streaks(user, date)
+        date += timedelta(days=1)
+        self.assertEqual(user.streak, 1)
+
+    def test_when_submission_added_for_tomorrow_streak_is_2(self):
+        """Tests the streak can increment when added for each day"""
+        user = CustomUser(
+            username="test3", email="test3@test.com", password="password")
+        user.save()
+        date = datetime(2024, 1, 1)
+        calc_user_streaks(user, date)
+        date += timedelta(days=1)
+        calc_user_streaks(user, date)
+        self.assertEqual(user.streak, 2)
+
+    def test_when_date_missed_streak_goes_to_1(self):
+        """Tests a streak is reset if a user missed a day of submissions"""
+        user = CustomUser(
+            username="test4", email="test4@test.com", password="password")
+        user.save()
+        date = datetime(2024, 1, 1)
+        calc_user_streaks(user, date)
+        date += timedelta(days=1)
+        calc_user_streaks(user, date)
+        self.assertEqual(user.streak, 2)
+        date += timedelta(days=2)
+        calc_user_streaks(user, date)
+        self.assertEqual(user.streak, 1)
