@@ -6,11 +6,28 @@ from accounts.models import CustomUser
 from submission.crowd_source import input_stats
 from submission.models import ImageSubmission
 from datetime import datetime, timedelta
+from leaderboard.models import BuildingModel
 
 
-is_repeat = False
-last_room = None
-last_building = None
+def calcPoints(buildingName):
+    """Gives a points for each day since a building has been checked"""
+    # Get the building model
+    # Definitely created as this is checked when stats are input
+    building = BuildingModel.objects.get(name=buildingName)
+    # Get todays date and difference between
+    today = datetime.today()
+    last_done = building.last_done.replace(tzinfo=None)
+    td = today - last_done
+    days_since = td.days
+    # If difference less than 1 due to default value then make points worth 1
+    if last_done.year == 2023 and last_done.month == 1:
+        days_since = 1
+    if days_since < 1:
+        days_since = 1
+    building.last_done = today
+    building.save()
+    return days_since
+
 
 
 def addPoints(username, points):
@@ -30,9 +47,9 @@ def addPoints(username, points):
 def calc_user_streaks(user, today):
     # Check if user submitted a room yesterday
     yesterday = today - timedelta(days=1)
-    if user.last_submission == yesterday.strftime('%Y-%m-%d'):
+    if user.last_submission.strftime('%Y-%m-%d') == yesterday.strftime('%Y-%m-%d'):
         user.streak += 1
-    elif user.last_submission < yesterday.strftime('%Y-%m-%d'):
+    elif user.last_submission.strftime('%Y-%m-%d') < yesterday.strftime('%Y-%m-%d'):
         user.streak = 1
     user.last_submission = today.strftime('%Y-%m-%d')
 
@@ -59,7 +76,8 @@ def submission_view(request):
             username = request.user.username
             # TODO: Different numbers of points for different rooms.
             # TODO: Add validation.
-            addPoints(username, 1)
+            points = calcPoints(image_submission.building)
+            addPoints(username, points)
 
             return render(request, 'UI/submission.html',
                           {'form': form})
