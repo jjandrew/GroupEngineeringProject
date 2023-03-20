@@ -1,5 +1,6 @@
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.shortcuts import render
 from .forms import ImageForm
 from accounts.models import CustomUser
@@ -62,6 +63,9 @@ def submission_view(request):
     """ Displays the form (GET request) and takes the data from the form,
     validates it and awards the user points.
     """
+    if validate_user_ip(request) is False:
+        messages.error(request, ("Must be on Exeter campus to submit images!"))
+
     # Checks if request is after submitting form or before
     if request.method == 'POST':
         # Recreates the form with the posted data
@@ -92,6 +96,9 @@ def working_submission_view(request):
     """ Displays the form (GET request) and takes the data from the form,
     validates it and awards the user points.
     """
+    if validate_user_ip(request) is False:
+        messages.error(request, ("Must be on Exeter campus to submit images!"))
+
     # Checks if request is after submitting form or before
     if request.method == 'POST':
         # Recreates the form with the posted data
@@ -160,3 +167,21 @@ def working_submission_view(request):
         form = ImageForm()
     # Will return the formatted index.html file with the form entered
     return render(request, 'submission/index.html', {'form': form})
+
+
+def validate_user_ip(request):
+    """
+    """
+    forwarded_ips = request.META.get('HTTP_X_FORWARDED_FOR')
+    # Get the users IP
+    if forwarded_ips is not None:
+        user_ip = forwarded_ips.split(',')[-1].strip()
+    else:
+        user_ip = request.META.get('REMOTE_ADDR')
+
+    # Validate that it is in the range of possible IPs on the university
+    # campus
+    if "10.173.80" in user_ip:
+        return True
+    else:
+        return False
