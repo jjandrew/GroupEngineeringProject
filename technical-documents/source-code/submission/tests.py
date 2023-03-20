@@ -1,11 +1,10 @@
 from django.test import TestCase
 from submission.models import ImageSubmission, RoomModel
 import tempfile
-from submission.views import addPoints, calcPoints
+from submission.views import addPoints, calc_user_streaks
 from accounts.models import CustomUser
 from submission.crowd_source import input_stats
 from datetime import datetime, timedelta
-from leaderboard.models import BuildingModel
 
 
 class ImageSubmissionTestCase(TestCase):
@@ -199,7 +198,7 @@ class RoomSubmissionTestCase(TestCase):
         self.existing_room.save()
 
 
-class UserStreaksTestCase(TestCase):
+class test_user_streaks(TestCase):
     """A testing case for user streaks"""
     user: CustomUser
 
@@ -214,28 +213,47 @@ class UserStreaksTestCase(TestCase):
         user = CustomUser.objects.get(username="test")
         self.assertEqual(user.streak, 0)
 
+    def test_when_submission_added_streak_is_1(self):
+        """Tests a user's streak increments to 1 when submission completed"""
+        user = CustomUser(
+            username="test1", email="test1@test.com", password="password")
+        user.save()
+        date = datetime(2024, 1, 1)
+        calc_user_streaks(user, date)
+        self.assertEqual(user.streak, 1)
 
-class CalcPointsTest(TestCase):
-    building = 'AMORY'
+    def test_when_submission_added_twice_streak_stays_1(self):
+        """Tests streak only increments on change in day"""
+        user = CustomUser(
+            username="test2", email="test2@test.com", password="password")
+        user.save()
+        date = datetime(2024, 1, 1)
+        calc_user_streaks(user, date)
+        calc_user_streaks(user, date)
+        date += timedelta(days=1)
+        self.assertEqual(user.streak, 1)
 
-    def test_one_point_added_if_new_room(self):
-        """Test one point for a new room"""
-        BuildingModel(name=self.building).save()
-        points = calcPoints(self.building)
-        self.assertEqual(points, 1)
+    def test_when_submission_added_for_tomorrow_streak_is_2(self):
+        """Tests the streak can increment when added for each day"""
+        user = CustomUser(
+            username="test3", email="test3@test.com", password="password")
+        user.save()
+        date = datetime(2024, 1, 1)
+        calc_user_streaks(user, date)
+        date += timedelta(days=1)
+        calc_user_streaks(user, date)
+        self.assertEqual(user.streak, 2)
 
-    def test_two_points_added_if_two_days_passed(self):
-        """Test 3 points added if three days have passed"""
-        # Create a new building model
-        BuildingModel(name=self.building).save()
-        points = calcPoints(self.building)
-        self.assertEqual(points, 1)
-
-        # Set the last_done date to 3 days ago for the building
-        building = BuildingModel.objects.get(name=self.building)
-        building.last_done = datetime.now() - timedelta(days=3)
-        building.save()
-
-        # Check three points given for the building
-        points = calcPoints(self.building)
-        self.assertEqual(points, 3)
+    def test_when_date_missed_streak_goes_to_1(self):
+        """Tests a streak is reset if a user missed a day of submissions"""
+        user = CustomUser(
+            username="test4", email="test4@test.com", password="password")
+        user.save()
+        date = datetime(2024, 1, 1)
+        calc_user_streaks(user, date)
+        date += timedelta(days=1)
+        calc_user_streaks(user, date)
+        self.assertEqual(user.streak, 2)
+        date += timedelta(days=2)
+        calc_user_streaks(user, date)
+        self.assertEqual(user.streak, 1)
