@@ -10,6 +10,11 @@ def userLogout(request):
     return redirect('/login')
 
 
+def privacyPolicy(request):
+    """ Displays the privacy policy page for the user """
+    return render(request, 'privacypolicy/privacypolicy.html', {})
+
+
 def index(request):
     """ Displays a welcome message if the user is at the home page. """
     return HttpResponse("Hello, world. You're at the home page.")

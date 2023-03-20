@@ -47,6 +47,9 @@ urlpatterns = [
 
     # Path for submission
     path('submission/', include('submission.urls')),
+
+    # Path for the privacy policy
+    path('privacypolicy/', views.privacyPolicy, name='privacypolicy')
 ]
 
 if settings.DEBUG:
