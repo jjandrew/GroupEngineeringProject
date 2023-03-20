@@ -3,6 +3,10 @@ from django.test.client import RequestFactory
 from django.urls import reverse
 from .views import leaderboard
 from accounts.models import CustomUser
+from submission.models import ImageSubmission
+from leaderboard.models import BuildingModel
+import tempfile
+from leaderboard.co2_calcs import get_co2
 
 
 class LeaderboardTestCase(TestCase):
@@ -107,3 +111,81 @@ class LeaderboardTestCase(TestCase):
         res = leaderboard(request)
         # Check page loaded correctly
         self.assertEqual(res.status_code, 200)
+
+
+class Co2CalculationsTestCase(TestCase):
+    all_sub: ImageSubmission  # A submission with open windows and lights on
+    windows_sub: ImageSubmission  # A submissiong with the windows open
+    lights_sub: ImageSubmission  # A submission with the lights on
+    no_sub: ImageSubmission  # An image submission with light off and windows closed
+
+    def setUp(self):
+        self.all_sub = ImageSubmission(building="AMORY", room="existingroom",
+                                       lights_status="ON",
+                                       windows_status="OPEN",
+                                       litter_items=0,
+                                       image=tempfile.NamedTemporaryFile(
+                                           suffix=".jpg").name
+                                       )
+        self.windows_sub = ImageSubmission(building="AMORY", room="existingroom",
+                                           lights_status="OFF",
+                                           windows_status="OPEN",
+                                           litter_items=0,
+                                           image=tempfile.NamedTemporaryFile(
+                                               suffix=".jpg").name
+                                           )
+
+        self.lights_sub = ImageSubmission(building="AMORY", room="existingroom",
+                                          lights_status="ON",
+                                          windows_status="CLOSE",
+                                          litter_items=0,
+                                          image=tempfile.NamedTemporaryFile(
+                                              suffix=".jpg").name
+                                          )
+
+        self.no_sub = ImageSubmission(building="AMORY", room="existingroom",
+                                      lights_status="OFF",
+                                      windows_status="CLOSE",
+                                      litter_items=0,
+                                      image=tempfile.NamedTemporaryFile(
+                                          suffix=".jpg").name
+                                      )
+
+    def test_can_calculate_for_existing_building_with_lights_on_and_windows_open(self):
+        """Tests stats can be computed for a room with the windows open and lights on"""
+        # Creates a test building
+        building = BuildingModel(name="AMORY")
+        building.save()
+
+        co2 = get_co2(self.all_sub, "AMORY")
+        self.assertAlmostEqual(co2, 0.1225406)
+
+    def test_can_calculate_for_existing_building_with_lights_on(self):
+        """Tests stats can be computed for a room with the lights on"""
+        # Creates a test building
+        building = BuildingModel(name="AMORY")
+        building.co2 = 0
+        building.save()
+
+        co2 = get_co2(self.lights_sub, "AMORY")
+        self.assertAlmostEqual(co2, 0.03287675)
+
+    def test_can_calculate_for_existing_building_with_windows_open(self):
+        """Tests stats can be computed for a room with the windows open"""
+        # Creates a test building
+        building = BuildingModel(name="AMORY")
+        building.co2 = 0
+        building.save()
+
+        co2 = get_co2(self.windows_sub, "AMORY")
+        self.assertAlmostEqual(co2, 0.08966387)
+
+    def test_can_calculate_for_existing_building_with_lights_off_and_windows_closed(self):
+        """Tests stats can be computed for a room with windows closed and lights off"""
+        # Creates a test building
+        building = BuildingModel(name="AMORY")
+        building.co2 = 0
+        building.save()
+
+        co2 = get_co2(self.no_sub, "AMORY")
+        self.assertAlmostEqual(co2, 0)

@@ -9,3 +9,4 @@ class BuildingModel(models.Model):
     stats_since = models.DateField(
         default=datetime.today().strftime('%Y-%m-%d'))
     co2 = models.PositiveIntegerField(default=0)
+    number_submissions = models.IntegerField(default=0)

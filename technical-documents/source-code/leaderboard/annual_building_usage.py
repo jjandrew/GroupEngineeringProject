@@ -1,8 +1,12 @@
-building_user = {
+building_usage = {
     'year': '2018/2019',
-    'lighting_loss': 30,
-    'window_loss': 30,
-    'co2': {
+    'lighting_loss': 0.11,
+    'window_loss': 0.30,
+    'percentage_non_renewable': 0.07,
+    'co2_per_kwh': 0.19338,
+    'total_kwh': 11999806,
+    'approx_total_rooms': 1489,
+    'kwh': {
         'ALEXANDER': 109572,
         'AMORY': 537805,
         'BUSINESSSCHOOLBUILDINGONE': 242293,
