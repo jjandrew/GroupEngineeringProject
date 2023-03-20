@@ -1,14 +1,16 @@
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 from django.shortcuts import render
 from .forms import ImageForm
 from accounts.models import CustomUser
 from submission.crowd_source import input_stats
 from submission.models import ImageSubmission
 from datetime import datetime, timedelta
-from submission.models import RoomModel
-from leaderboard.models import BuildingModel
+
+
+is_repeat = False
+last_room = None
+last_building = None
 
 
 def addPoints(username, points):
@@ -25,33 +27,12 @@ def addPoints(username, points):
     user.save()
 
 
-def calcPoints(buildingName):
-    """Gives a points for each day since a building has been checked"""
-    # Get the building model
-    # Definitely created as this is checked when stats are input
-    building = BuildingModel.objects.get(name=buildingName)
-    # Get todays date and difference between
-    today = datetime.today()
-    last_done = building.last_done.replace(tzinfo=None)
-    td = today - last_done
-    days_since = td.days
-    # If difference less than 1 due to default value then make points worth 1
-    if last_done.year == 2023 and last_done.month == 1:
-        days_since = 1
-    if days_since < 1:
-        days_since = 1
-    building.last_done = today
-    building.save()
-    return days_since
-
-
-def calc_user_streaks(user: CustomUser, today: datetime):
-    """Calculates if a user can add one more to their streak"""
+def calc_user_streaks(user, today):
     # Check if user submitted a room yesterday
     yesterday = today - timedelta(days=1)
-    if user.last_submission.strftime('%Y-%m-%d') == yesterday.strftime('%Y-%m-%d'):
+    if user.last_submission == yesterday.strftime('%Y-%m-%d'):
         user.streak += 1
-    elif user.last_submission.strftime('%Y-%m-%d') < yesterday.strftime('%Y-%m-%d'):
+    elif user.last_submission < yesterday.strftime('%Y-%m-%d'):
         user.streak = 1
     user.last_submission = today.strftime('%Y-%m-%d')
 
@@ -63,9 +44,6 @@ def submission_view(request):
     """ Displays the form (GET request) and takes the data from the form,
     validates it and awards the user points.
     """
-    if validate_user_ip(request) is False:
-        messages.error(request, ("Must be on Exeter campus to submit images!"))
-
     # Checks if request is after submitting form or before
     if request.method == 'POST':
         # Recreates the form with the posted data
@@ -75,6 +53,7 @@ def submission_view(request):
         if form.is_valid():
             form.save()
             # Get the current instance object to display in the template
+            img_obj = form.instance
 
             # Get the username of the logged in user
             username = request.user.username
@@ -96,9 +75,6 @@ def working_submission_view(request):
     """ Displays the form (GET request) and takes the data from the form,
     validates it and awards the user points.
     """
-    if validate_user_ip(request) is False:
-        messages.error(request, ("Must be on Exeter campus to submit images!"))
-
     # Checks if request is after submitting form or before
     if request.method == 'POST':
         # Recreates the form with the posted data
@@ -121,23 +97,6 @@ def working_submission_view(request):
                                                litter_items=data["litter_items"], image=data["image"],
                                                user=username, date=datetime.today().strftime('%Y-%m-%d'))
 
-            # Check if a room has been submitted in the last hour
-            # Get the room
-            room = None
-            skip = False
-            if RoomModel.objects.filter(building=image_submission.building, name=image_submission.room.lower()).exists():
-                room = RoomModel.objects.get(
-                    name=image_submission.room.lower(), building=image_submission.building)
-            else:
-                skip = True
-
-            if not skip:
-                # Check if done an hour before
-                hour_ago = (datetime.now() - timedelta(hours=1))
-                if room.last_done.replace(tzinfo=None) > hour_ago:
-                    return render(request, 'submission/index.html',
-                                  {'form': form, 'message': "Error: room submitted too recently"})
-
             image_submission.save()
 
             # TODO VALIDATION HERE
@@ -156,8 +115,7 @@ def working_submission_view(request):
 
             # TODO: Different numbers of points for different rooms.
             # TODO: Add validation.
-            points = calcPoints(image_submission.building)
-            addPoints(username, points)
+            addPoints(username, 1)
 
             # Maybe reset the form?
             return render(request, 'submission/index.html',
@@ -167,21 +125,3 @@ def working_submission_view(request):
         form = ImageForm()
     # Will return the formatted index.html file with the form entered
     return render(request, 'submission/index.html', {'form': form})
-
-
-def validate_user_ip(request):
-    """
-    """
-    forwarded_ips = request.META.get('HTTP_X_FORWARDED_FOR')
-    # Get the users IP
-    if forwarded_ips is not None:
-        user_ip = forwarded_ips.split(',')[-1].strip()
-    else:
-        user_ip = request.META.get('REMOTE_ADDR')
-
-    # Validate that it is in the range of possible IPs on the university
-    # campus
-    if "10.173.80" in user_ip:
-        return True
-    else:
-        return False

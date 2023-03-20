@@ -15,9 +15,13 @@ def login_user(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
+
+        if user is not None and user.groups.filter(name="Gamekeeper").exists():
+            login(request, user)
+            return redirect('/gkHomepage/')
         # If the user exists and is valid, they are logged in and redirected
         # to the homepage
-        if user is not None:
+        elif user is not None:
             login(request, user)
             return redirect('/')
         else:
