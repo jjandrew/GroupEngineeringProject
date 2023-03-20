@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     'loginApp',
     'leaderboard',
     'submission',
+    'gkHomepage',
+    'gkSignUp',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

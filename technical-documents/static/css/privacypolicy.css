@@ -1,0 +1,80 @@
+body{
+    background: linear-gradient(to right, #00dea5, #e1e9f0);
+   }
+
+.main{
+        background-color: #FFFFFF;
+        width: 800px;
+        height: auto;
+        min-height: 400px;
+        margin: 7em auto;
+        border-radius: 1.5em;
+        padding-left: 5%;
+        padding-right: 5%;
+        padding-bottom: 5%;
+        box-shadow: 0 11px 35px 2px rgba(0, 0, 0, 0.14);
+    }
+
+.sign{
+       padding-top: 40px;
+       color: #8C55AA;
+       font-weight: bold;
+       font-size: 23px;
+   }
+
+.un{
+       width: 76%;
+       color: rgb(38, 50, 56);
+       font-size: 14px;
+       background: rgba(136, 126, 126, 0.04);
+       padding: 10px 20px;
+       border-radius: 20px;
+       border: 2px solid rgba(0, 0, 0, 0.02);
+       margin-bottom: 25px;
+       margin-left: 46px;
+       text-align: center;
+   }
+
+form.form1{
+       padding-top: 40px;
+       padding-bottom: 40px;
+   }
+
+.pass{
+       width: 76%;
+       color: rgb(38, 50, 56);
+       font-size: 14px;
+       background: rgba(136, 126, 126, 0.04);
+       padding: 10px 20px;
+       border-radius: 20px;
+       border: 2px solid rgba(0, 0, 0, 0.02);
+       margin-bottom: 25px;
+       margin-left: 46px;
+       text-align: center;
+   }
+
+.submit{
+       cursor: pointer;
+       border-radius: 5em;
+       color: #fff;
+       background: linear-gradient(to bottom, #0cd8f7, #e1e9f0);
+       border: 2px solid rgba(0, 0, 0, 0.18)!important;
+       padding-left: 40px;
+       padding-right: 40px;
+       padding-bottom: 10px;
+       padding-top: 10px;
+       margin-left: 35%;
+       font-size: 13px;
+       box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+   }
+
+.forgot{
+       text-shadow: 0 0 3px rgba(117, 117, 117, 0.12);
+       color: #E1BEE7;
+       padding-top: 15px;
+   }
+
+a{
+       text-shadow: 0 0 3px rgba(117, 117, 117, 0.12);
+       color: #E1BEE7;
+   }

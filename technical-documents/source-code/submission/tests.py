@@ -1,10 +1,11 @@
 from django.test import TestCase
 from submission.models import ImageSubmission, RoomModel
 import tempfile
-from submission.views import addPoints, calc_user_streaks
+from submission.views import addPoints, calcPoints
 from accounts.models import CustomUser
 from submission.crowd_source import input_stats
 from datetime import datetime, timedelta
+from leaderboard.models import BuildingModel
 
 
 class ImageSubmissionTestCase(TestCase):
@@ -198,7 +199,7 @@ class RoomSubmissionTestCase(TestCase):
         self.existing_room.save()
 
 
-class test_user_streaks(TestCase):
+class UserStreaksTestCase(TestCase):
     """A testing case for user streaks"""
     user: CustomUser
 
@@ -212,3 +213,29 @@ class test_user_streaks(TestCase):
         """Tests a user is created with default streak  value 0"""
         user = CustomUser.objects.get(username="test")
         self.assertEqual(user.streak, 0)
+
+
+class CalcPointsTest(TestCase):
+    building = 'AMORY'
+
+    def test_one_point_added_if_new_room(self):
+        """Test one point for a new room"""
+        BuildingModel(name=self.building).save()
+        points = calcPoints(self.building)
+        self.assertEqual(points, 1)
+
+    def test_two_points_added_if_two_days_passed(self):
+        """Test 3 points added if three days have passed"""
+        # Create a new building model
+        BuildingModel(name=self.building).save()
+        points = calcPoints(self.building)
+        self.assertEqual(points, 1)
+
+        # Set the last_done date to 3 days ago for the building
+        building = BuildingModel.objects.get(name=self.building)
+        building.last_done = datetime.now() - timedelta(days=3)
+        building.save()
+
+        # Check three points given for the building
+        points = calcPoints(self.building)
+        self.assertEqual(points, 3)
