@@ -23,8 +23,11 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # Adds a project level url for the sign up page
+    # Adds a project level url for the signup page for normal users
     path('accounts/', include("signUp.urls")),
+
+    # Adds a project level url for the signup page for gamekeepers
+    path('accounts/', include("gkSignUp.urls")),
 
     # Adds a path to all the views provided by the auth app
     path('accounts/', include("django.contrib.auth.urls")),
@@ -37,6 +40,9 @@ urlpatterns = [
 
     # The leaderboard url
     path('leaderboard/', include('leaderboard.urls')),
+
+    # The gamekeepers page url
+    path('gkHomepage/', include('gkHomepage.urls')),
 
     # Takes the user to the 'homepage' if they are not logged in
     path('', TemplateView.as_view(

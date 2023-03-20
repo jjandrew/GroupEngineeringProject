@@ -57,7 +57,7 @@ def signup(request):
     """
     if request.method == "POST":
 
-        form = forms.SignUpForm(request.POST)
+        form = forms.gkSignUpForm(request.POST)
 
         # If the data entered into the form is valid save the details and
         # create a new user, otherwise throw the relevant error message
@@ -65,7 +65,7 @@ def signup(request):
             user = form.save(commit=False)
             user.is_user = False
             user.save()
-            user_group = Group.objects.get(name='user')
+            user_group = Group.objects.get(name='Gamekeeper')
             user_group.user_set.add(user)
             activateEmail(request, user, form.cleaned_data.get('email'))
             return redirect('leaderboard')
@@ -73,6 +73,6 @@ def signup(request):
             # messages.info(request, 'Invalid registration details')
     else:
         # GET request case
-        form = forms.SignUpForm()
+        form = forms.gkSignUpForm()
 
-    return render(request, 'registration/signup.html', {'form': form})
+    return render(request, 'gkHomepage/gkSignup.html', {'form': form})
