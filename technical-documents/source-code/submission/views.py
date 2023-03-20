@@ -48,13 +48,14 @@ def addPoints(username, points):
     user.save()
 
 
-def calc_user_streaks(user, today):
+def calc_user_streaks(user: CustomUser, today: datetime):
     # Check if user submitted a room yesterday
     yesterday = today - timedelta(days=1)
     if user.last_submission.strftime('%Y-%m-%d') == yesterday.strftime('%Y-%m-%d'):
         user.streak += 1
     elif user.last_submission.strftime('%Y-%m-%d') < yesterday.strftime('%Y-%m-%d'):
         user.streak = 1
+    print(user.last_submission.type())
     user.last_submission = today.strftime('%Y-%m-%d')
 
     user.save()
@@ -104,7 +105,7 @@ def working_submission_view(request):
         if form.is_valid():
             # Get the current instance object to display in the template
 
-            # Gets the data fro the form
+            # Gets the data from the form
             data = form.cleaned_data
 
             # Gets username of logged in user
