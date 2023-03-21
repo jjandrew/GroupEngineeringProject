@@ -11,9 +11,8 @@ def leaderboard(request):
     leaderboard. Note, to access this, the user must be logged in.
     """
     leaderboard = CustomUser.objects.filter(points__gt=0).order_by('-points')
-    
-    buildings = BuildingModel.objects.order_by('co2')
 
+    buildings = BuildingModel.objects.order_by('co2')
 
     try:
         first = leaderboard[0]
@@ -30,34 +29,32 @@ def leaderboard(request):
         building3.name = buildingNames[building3.name]
         remBuilding = buildings[3:]
 
-        
         for building in remBuilding:
             building.name = buildingNames[building.name]
-        
-        
-        return render(request, 'UI/leaderboard2.html', {'first': first, 'second': second, 'third': third, 'remaining': remaining, "building1" : building1, "building2" : building2, "building3": building3, "buildings" : remBuilding})
+
+        return render(request, 'UI/leaderboard2.html', {'first': first, 'second': second, 'third': third, 'remaining': remaining, "building1": building1, "building2": building2, "building3": building3, "buildings": remBuilding})
     except IndexError:
         try:
-            return render(request, 'UI/leaderboard.html', {'first': first, 'second': second, 'third': third, 'remaining': []})
+            return render(request, 'UI/leaderboard2.html', {'first': first, 'second': second, 'third': third, 'remaining': []})
         except UnboundLocalError:
             try:
                 third = {
                     'username': "Insufficient Users",
                     'points': 0
                 }
-                return render(request, 'UI/leaderboard.html', {'first': first, 'second': second, 'third': third, 'remaining': []})
+                return render(request, 'UI/leaderboard2.html', {'first': first, 'second': second, 'third': third, 'remaining': []})
             except UnboundLocalError:
                 try:
                     second = {
                         'username': "Insufficient Users",
                         'points': 0
                     }
-                    return render(request, 'UI/leaderboard.html', {'first': first, 'second': "Insufficient Players",
-                                                                   'third': "Insufficient Players", 'remaining': []})
+                    return render(request, 'UI/leaderboard2.html', {'first': first, 'second': "Insufficient Players",
+                                                                    'third': "Insufficient Players", 'remaining': []})
                 except UnboundLocalError:
                     first = {
                         'username': "Insufficient Users",
                         'points': 0
                     }
-                    return render(request, 'UI/leaderboard.html', {'first': "Insufficient Players", 'second': "Insufficient Players",
-                                                                   'third': "Insufficient Players", 'remaining': []})
+                    return render(request, 'UI/leaderboard2.html', {'first': "Insufficient Players", 'second': "Insufficient Players",
+                                                                    'third': "Insufficient Players", 'remaining': []})

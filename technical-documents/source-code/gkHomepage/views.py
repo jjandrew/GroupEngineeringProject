@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from submission.models import ImageSubmission
+from submission.models import ImageSubmission, building_choices
 from leaderboard.models import BuildingModel
 from accounts.models import CustomUser
 from django.core.mail import EmailMessage
@@ -9,6 +9,8 @@ import os
 import smtplib
 from email.message import EmailMessage
 from gkHomepage.crowd_source import input_stats
+from leaderboard.co2_calcs import get_co2
+import pytz
 
 
 def addPoints(username, points):
@@ -26,6 +28,7 @@ def addPoints(username, points):
 
 
 def get_top_submission():
+    """Gets the submission at the top of the ImageSubmission model"""
     top_submission = ImageSubmission.objects.order_by('-id').first()
     if top_submission:
         return top_submission
@@ -43,6 +46,19 @@ def calc_user_streaks(user: CustomUser, today: datetime):
     user.last_submission = today.strftime('%Y-%m-%d')
 
     user.save()
+
+
+def get_building_name(top_sub):
+    # Translate Constant building name to formatted string
+    building_name = None
+    for choice in building_choices:
+        if choice[0] == top_sub.building:
+            building_name = choice[1]
+            break
+    if building_name == None:
+        # TODO remove this
+        print("Collosal error")
+    return building_name
 
 
 def calcPoints(buildingName):
@@ -80,7 +96,7 @@ def index(request):
             print("----", "YOU'VE PRESSED ACCEPT")
             images = ImageSubmission.objects.exclude(
                 id=ImageSubmission.objects.first().id)
-            args = {'images': images}
+            args = {'images': images, 'name': 'Building'}
 
             top_sub = get_top_submission()
 
@@ -90,6 +106,10 @@ def index(request):
             username = top_sub.user
             user = CustomUser.objects.get(username=username)
 
+            building_name = get_building_name(top_sub)
+
+            args['name'] = building_name
+
             calc_user_streaks(user, datetime.today())
             print("----", top_sub.building)
             points = calcPoints(top_sub.building)
@@ -97,13 +117,19 @@ def index(request):
 
             # Checks if stats can be input and inputs if so
             input_stats(top_sub)
+
+            get_co2(top_sub, top_sub.building)
             ImageSubmission.objects.all().first().delete()
             return render(request, "gkHomepage/gkHomepage.html", args)
 
         if request.method == 'POST' and 'action_btn_delete' in request.POST:
             print("----", "YOUVE PRESSED DELETE")
             ImageSubmission.objects.all().first().delete()
-            args = {'images': images}
+
+            top_sub = get_top_submission()
+            name = get_building_name(top_sub)
+
+            args = {'images': images, 'name': name}
             return render(request, "gkHomepage/gkHomepage.html", args)
 
         if request.method == 'POST' and 'action_btn_report' in request.POST:
@@ -133,6 +159,12 @@ def index(request):
             print("----", 'Email sent.')
 
             images = ImageSubmission.objects.all
+
+            top_sub = get_top_submission()
+            name = get_building_name(top_sub)
+
+            args = {'images': images, 'name': name}
+
             args = {'images': images}
             return render(request, "gkHomepage/gkHomepage.html", args)
 
