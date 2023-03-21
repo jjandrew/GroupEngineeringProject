@@ -1,12 +1,7 @@
-""" Outlines the method to be used by the submission app. """
-from datetime import datetime, timedelta
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from accounts.models import CustomUser
-from leaderboard.models import BuildingModel
-from gkHomepage.crowd_source import input_stats
+from .forms import ImageForm
 from submission.models import ImageSubmission, RoomModel
-from submission.forms import ImageForm
 from datetime import datetime, timedelta
 
 
@@ -23,16 +18,11 @@ def calc_user_streaks(user: CustomUser, today: datetime):
     user.save()
 
 
+
 @login_required
 def submission_view(request):
-    """ The webpage and page validation for image submissions. Note, the user
-    must be logged in to see the page.
-
-    Args:
-        request : The web request the user has made that needs to be
-            processed.
-    Returns:
-        render(): The webpage to be displayed to the user.
+    """ Displays the form (GET request) and takes the data from the form,
+    validates it and awards the user points.
     """
     # Checks if request is after submitting form or before
     if request.method == 'POST':
@@ -42,9 +32,13 @@ def submission_view(request):
         # Checks the submission has all valid fields
         if form.is_valid():
             form.save()
+            # Get the current instance object to display in the template
+            img_obj = form.instance
 
             # Get the username of the logged in user
             username = request.user.username
+            # TODO: Different numbers of points for different rooms.
+            # TODO: Add validation.
 
             return render(request, 'UI/submission.html',
                           {'form': form})
@@ -57,14 +51,8 @@ def submission_view(request):
 
 @login_required
 def working_submission_view(request):
-    """ The webpage and page validation for image submissions. Note, the user
-    must be logged in to see the page.
-
-    Args:
-        request : The web request the user has made that needs to be
-            processed.
-    Returns:
-        render(): The webpage to be displayed to the user.
+    """ Displays the form (GET request) and takes the data from the form,
+    validates it and awards the user points.
     """
     # Checks if request is after submitting form or before
     if request.method == 'POST':
@@ -82,30 +70,11 @@ def working_submission_view(request):
             username = request.user.username
 
             # Create an image submission model of this
-            image_submission = ImageSubmission(building=data["building"],
-                                               room=data["room"],
+            image_submission = ImageSubmission(building=data["building"], room=data["room"],
                                                lights_status=data["lights_status"],
                                                windows_status=data["windows_status"],
-                                               litter_items=data["litter_items"],
-                                               image=data["image"],
-                                               user=username,
-                                               date=datetime.today().strftime('%Y-%m-%d'))
-
-            # Check if a room has been submitted in the last hour
-            # Get the room
-            room = None
-            skip = False
-            if RoomModel.objects.filter(building=image_submission.building, name=image_submission.room.lower()).exists():
-                room = RoomModel.objects.get(
-                    name=image_submission.room.lower(), building=image_submission.building)
-            else:
-                skip = True
-            if not skip:
-                # Check if done an hour before
-                hour_ago = (datetime.now() - timedelta(hours=1))
-                if room.last_done.replace(tzinfo=None) > hour_ago:
-                    return render(request, 'submission/index.html',
-                                  {'form': form, 'message': "Error: room submitted too recently"})
+                                               litter_items=data["litter_items"], image=data["image"],
+                                               user=username, date=datetime.today().strftime('%Y-%m-%d'))
 
             image_submission.save()
 
@@ -115,6 +84,7 @@ def working_submission_view(request):
             calc_user_streaks(user, datetime.today())
 
             message = "Success"
+
 
             # Maybe reset the form?
             return render(request, 'submission/index.html',

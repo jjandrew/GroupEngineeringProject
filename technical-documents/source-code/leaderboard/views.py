@@ -1,9 +1,8 @@
-""" Outlines the methods to be used in the leaderboard app. """
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from accounts.models import CustomUser
+from .models import BuildingModel
 from submission.models import building_choices
-from leaderboard.models import BuildingModel
 
 
 def get_building_name(const):
@@ -23,13 +22,6 @@ def get_building_name(const):
 def leaderboard(request):
     """ A function for displaying and ordering (in descending order) the
     leaderboard. Note, to access this, the user must be logged in.
-
-    Args:
-        request: The HTTP request submitted by the user.
-
-    Returns:
-        render: Returns the leaderboard page with different values, depending
-        on whether or not certain criteria are met.
     """
 
     to_use = 'player'

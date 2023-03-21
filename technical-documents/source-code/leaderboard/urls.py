@@ -1,8 +1,7 @@
-""" Defines and names the url that displays the leaderboard. """
 from django.urls import path
-from leaderboard.views import leaderboard
+from .views import leaderboard
 
-
+""" Defines and names the url that displays the leaderboard.  """
 urlpatterns = [
     # Defines and names the url that displays the leaderboard.
     path('', leaderboard, name='leaderboard'),

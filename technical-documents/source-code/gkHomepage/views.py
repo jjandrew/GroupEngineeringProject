@@ -135,14 +135,23 @@ def index(request):
                 return render(request, "gkHomepage/gkHomepage.html", args)
             username = top_sub.user
 
-            print("----", top_sub.building)
+            building_name = get_building_name(top_sub)
+
+            args['name'] = building_name
+
+            user = CustomUser.objects.get(username=username)
+            # calulate the users streak(if any)
+
+            calc_user_streaks(user, datetime.today())
+
+            print("----", get_top_submission().building)
             # calculate the points to give the user
-            points = calcPoints(top_sub.building)
+            points = calcPoints(get_top_submission().building)
             # add the points to the users account
             addPoints(username, points)
             # remove that image from the database
 
-            print("----", top_sub.building)
+            
 
             # Checks if stats can be input and inputs if so
             input_stats(top_sub)
@@ -183,7 +192,9 @@ def index(request):
             # get the username of the user who sumbitted the image
             username = get_top_username()
             user = CustomUser.objects.get(username=username)
+            
             image = str(get_top_submission().image)
+
             print("----", image)
             # generate an email to send to the univeristy
             email = EmailMessage(
