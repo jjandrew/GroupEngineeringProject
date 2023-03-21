@@ -4,7 +4,7 @@
 
 In order to run the project all libraries, modules, and packages in the requirements.txt file need to be installed.
 
-- This can be done from the base directory using the command:
+- This can be done from the base directory (the directory containing manage.py) using the command:
   - pip install -r requirements.txt
 
 ## Product Documents
