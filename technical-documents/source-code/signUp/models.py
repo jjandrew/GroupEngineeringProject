@@ -1,1 +1,1 @@
-""" Outlines the models to be used by the signUp app. """
+from django.db import models

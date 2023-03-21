@@ -1,48 +1,37 @@
-""" Outlines the methods to be used in the location app. """
-from django.shortcuts import HttpResponse
+from django.shortcuts import render, HttpResponse
 from django.contrib.auth.decorators import login_required
+import requests
+import json
+from urllib.request import urlopen
 
-
-TESTING = True
+testing = True
 
 
 @login_required
 def home(request):
-    """ Returns the home page for the location app
-
-    Args:
-        request: The HTTP request submitted by the user.
-
-    Returns:
-
-        HttpResponse:str: A string containing the user's location data is
-        displayed as an HTTP webpage.
-    """
+    """Returns the home page for the location app"""
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
-        i_p = x_forwarded_for.split(',')[0]
+        ip = x_forwarded_for.split(',')[0]
     else:
-        i_p = request.META.get('REMOTE_ADDR')
+        ip = request.META.get('REMOTE_ADDR')
 
     # deal with test case
-    if TESTING:
-        return HttpResponse("Your IP address is : 0.0.0.0 " +
-                            "You are visiting from latitude: 12.1234, longitude: -1.1234")
+    if (testing):
+        return HttpResponse("Your IP address is : 0.0.0.0 You are visiting from latitude: 12.1234, longitude: -1.1234")
     else:
-        location_data = get_location_data()
+        location_data = getLocationData()
+        country = location_data['country']
+        region = location_data['region']
         longitude = location_data['longitude']
         latitude = location_data['latitude']
-        str = (f"Your IP address is : {i_p} \n You are visiting from \
-                                latitude: {latitude}, longitude: {longitude}")
+        str = "Your IP address is : {} \n You are visiting from \
+                                latitude: {}, longitude: {}".format(ip, latitude, longitude)
         return HttpResponse(str)
 
 
-def get_location_data():
-    """ Returns the location data using a location API
-
-    Returns:
-        json: A json dictionary containing the user's location data.
-    """
+def getLocationData():
+    """Returns the location data using a location API"""
     json = {
         "country": "UK",
         "region": "Devon",

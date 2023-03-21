@@ -1,30 +1,25 @@
-""" Outlines the methods to be used in the signUp app. """
 from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode
-from django.utils.encoding import force_bytes
+from django.contrib.auth import get_user_model
+from django.utils.encoding import force_bytes, force_str
+from . import forms
 from accounts.models import CustomUser
+from django.contrib import messages
 from django.contrib.auth.models import Group
-from signUp import forms
-from signUp.tokens import account_activation_token
 
 
-def activate(token):  # request, uidb64,
-    """ Gives points for each day since a building has been checked
+from .tokens import account_activation_token
 
-    Args:
-        token (str): The name of the building to calculate points for
-            provided as a string for readability.
 
-    Returns:
-        redirect: redirects the user to the login page.
-    """
+def activate(request, uidb64, token):
     # User = CustomUser.objects.get
 
     try:
-        # uid = force_str(urlsafe_base64_encode(uidb64))
+        uid = force_str(urlsafe_base64_encode(uidb64))
         user = CustomUser.objects.get(pk=id)
         user.is_user = True
         user.save()
@@ -39,15 +34,7 @@ def activate(token):  # request, uidb64,
     return redirect('login')
 
 
-def activate_email(request, user, to_email) -> None:
-    """ Sends the user an email to validate their email address.
-
-    Args:
-        request : The HTTP request (page) submitted by the user.
-        user (user): The user object of the user who's email address
-            is being validated.
-        to_email : The email address being validated.
-    """
+def activateEmail(request, user, to_email):
     mail_subject = "Activate your user account"
 
     message = render_to_string(
@@ -67,13 +54,6 @@ def signup(request):
     """ Displays the sign up page (GET request) and takes the data from the
     sign up form, validates it and creates a new user, displaying any error
     messages if necessary.
-
-    Args:
-        request (str): The HTTP request (page) submitted by the user.
-
-    Returns:
-        redirect: redirects the user to either the leaderboard (are signed in)
-        or the signup page (don't have an account).
     """
     if request.method == "POST":
 
@@ -87,7 +67,7 @@ def signup(request):
             user.save()
             user_group = Group.objects.get(name='user')
             user_group.user_set.add(user)
-            activate_email(request, user, form.cleaned_data.get('email'))
+            activateEmail(request, user, form.cleaned_data.get('email'))
             return redirect('leaderboard')
         # else:
             # messages.info(request, 'Invalid registration details')

@@ -1,1 +1,1 @@
-""" Outlines the models to be used by the login app. """
+from django.db import models
