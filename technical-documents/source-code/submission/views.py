@@ -4,7 +4,7 @@ from django.shortcuts import render
 from .forms import ImageForm
 from accounts.models import CustomUser
 from submission.crowd_source import input_stats
-from submission.models import ImageSubmission
+from submission.models import ImageSubmission, RoomModel
 from datetime import datetime, timedelta
 from leaderboard.models import BuildingModel
 
@@ -13,7 +13,12 @@ def calcPoints(buildingName):
     """Gives a points for each day since a building has been checked"""
     # Get the building model
     # Definitely created as this is checked when stats are input
-    building = BuildingModel.objects.get(name=buildingName)
+    building = None
+    if not BuildingModel.objects.filter(name=buildingName).exists():
+        building = BuildingModel(name=buildingName)
+        building.save()
+    else:
+        building = BuildingModel.objects.get(name=buildingName)
     # Get todays date and difference between
     today = datetime.today()
     last_done = building.last_done.replace(tzinfo=None)
@@ -27,7 +32,6 @@ def calcPoints(buildingName):
     building.last_done = today
     building.save()
     return days_since
-
 
 
 def addPoints(username, points):
@@ -76,8 +80,6 @@ def submission_view(request):
             username = request.user.username
             # TODO: Different numbers of points for different rooms.
             # TODO: Add validation.
-            points = calcPoints(image_submission.building)
-            addPoints(username, points)
 
             return render(request, 'UI/submission.html',
                           {'form': form})
@@ -115,6 +117,22 @@ def working_submission_view(request):
                                                litter_items=data["litter_items"], image=data["image"],
                                                user=username, date=datetime.today().strftime('%Y-%m-%d'))
 
+            # Check if a room has been submitted in the last hour
+            # Get the room
+            room = None
+            skip = False
+            if RoomModel.objects.filter(building=image_submission.building, name=image_submission.room.lower()).exists():
+                room = RoomModel.objects.get(
+                    name=image_submission.room.lower(), building=image_submission.building)
+            else:
+                skip = True
+            if not skip:
+                # Check if done an hour before
+                hour_ago = (datetime.now() - timedelta(hours=1))
+                if room.last_done.replace(tzinfo=None) > hour_ago:
+                    return render(request, 'submission/index.html',
+                                  {'form': form, 'message': "Error: room submitted too recently"})
+
             image_submission.save()
 
             # TODO VALIDATION HERE
@@ -133,7 +151,8 @@ def working_submission_view(request):
 
             # TODO: Different numbers of points for different rooms.
             # TODO: Add validation.
-            addPoints(username, 1)
+            points = calcPoints(image_submission.building)
+            addPoints(username, points)
 
             # Maybe reset the form?
             return render(request, 'submission/index.html',

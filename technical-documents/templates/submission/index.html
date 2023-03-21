@@ -12,12 +12,15 @@
         <p>Please Try Again When on Campus</p>
         <a href="{% url 'homepage' %}">Return to homepage</a>
       {% endfor %}
+
   {% else %}
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Upload</button>
     </form>
+
+    {{message}}
       
     {% if img_obj %}
     <!-- Displays the image to the user if it has been uploaded successfully -->

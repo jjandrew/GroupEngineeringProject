@@ -13,6 +13,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='buildingmodel',
             name='last_done',
-            field=models.DateTimeField(default='2023-01-01 00:00:00'),
+            field=models.DateTimeField(default='2023-01-01 00:00:00 +0000'),
         ),
     ]
