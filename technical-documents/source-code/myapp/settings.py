@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-=5fgre8%%9=q3z6z_1bvu+8!osyo$)zh@7zypgsw3xp%x(*ctj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['3.8.17.152', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -140,7 +140,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # If time permits an email service like MailGun or SendGrid would be
 # used to send reset emails, instead of having them stored locally.
-
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_FROM = "thegreenmasterproject@gmail.com"
