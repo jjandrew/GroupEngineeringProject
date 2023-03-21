@@ -1,1 +1,1 @@
-""" Outlines the models to be used by the location app. """
+from django.db import models

@@ -1,0 +1,38 @@
+Percentage renewable: 
+    - https://www.exeter.ac.uk/media/universityofexeter/campusservices/sustainability/pdf/2020-21_Electricity_Consumption.pdf
+    - 7% of university's electricity is non-renewable
+    - The rest is under third parties:
+        - For this will use estimated CO2 per kwh given by the UK government:
+            - https://www.gov.uk/government/publications/greenhouse-gas-reporting-conversion-factors-2022
+            - This is 0.19338 kg/kwh (2022)
+
+
+
+How were number of rooms approximated:
+- Selected buildings we knew (Amory, XFI, Harrison)
+- Each estimated number of rooms results:
+    - Amory: 60, 100, 80, 80, 60 (average: 76)
+    - XFI: 30, 20, 15, 30, 20 (average: 23)
+    - Harrison: 60, 50, 50, 50, 50 (average: 52)
+- Divided total kwh for building by estimated number of rooms for estimate kwh per room
+    - Stats from 2018/19: https://www.exeter.ac.uk/about/sustainability/energyandwater/energyuse/
+    - Amory total: 537805
+    - XFI total: 121001
+    - Harrison total: 615482
+    - Amory kwh/r: 7076.38
+    - XFI kwh/r: 5260.91
+    - Harrison kwh/r: 11836.19
+    - Average kwh/r: 8057.83
+- did total kwh for all buildings divided by estimated average kwh per room
+     - Total for rooms used in project: 11999806
+        - From https://www.exeter.ac.uk/about/sustainability/energyandwater/energyuse/
+- From this received 1489 rooms in the buildings we looked at
+
+How much energy lost from lights and windows:
+    Lights:
+        - https://www.eia.gov/tools/faqs/faq.php?id=99&t=3#:~:text=The%20commercial%20sector%2C%20which%20includes,U.S.%20electricity%20consumption%20in%202021.
+        - 11% of energy bills on commercial premises
+    
+    Windows:
+        - https://www.energy.gov/energysaver/energy-efficient-window-coverings#:~:text=About%2030%25%20of%20a%20home's%20heating%20energy%20is%20lost%20through%20windows.
+        - 30% of energy lost to open windows
