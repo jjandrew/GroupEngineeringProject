@@ -12,7 +12,6 @@ from django.http import HttpResponse
 from django.core.mail import send_mail
 from django.core.mail import send_mail
 from django.core.mail import EmailMessage
-=======
 from gkHomepage.crowd_source import input_stats
 from leaderboard.co2_calcs import get_co2
 import pytz
