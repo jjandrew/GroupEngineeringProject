@@ -203,4 +203,4 @@ class Co2CalculationsTestCase(TestCase):
         building.save()
 
         co2 = get_co2(self.no_sub, "AMORY")
-        self.assertAlmostEqual(co2, 0)
+        self.assertEqual(co2, 0)

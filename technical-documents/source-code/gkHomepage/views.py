@@ -139,9 +139,9 @@ def index(request):
 
             top_sub = get_top_submission()
 
-                # Calculate statistics for user
+            # Calculate statistics for user
 
-            #get the username of the users imag
+            # get the username of the users imag
             username = get_top_username()
 
             if top_sub == None:
@@ -149,15 +149,15 @@ def index(request):
             username = top_sub.user
 
             user = CustomUser.objects.get(username=username)
-            #calulate the users streak(if any)
+            # calulate the users streak(if any)
             calc_user_streaks(user, datetime.today())
 
-            print("----",get_top_submission().building)
-            #calculate the points to give the user
+            print("----", get_top_submission().building)
+            # calculate the points to give the user
             points = calcPoints(get_top_submission().building)
-            #add the points to the users account
+            # add the points to the users account
             addPoints(username, points)
-            #remove that image from the database
+            # remove that image from the database
 
             print("----", top_sub.building)
             points = calcPoints(top_sub.building)
@@ -167,7 +167,7 @@ def index(request):
             input_stats(top_sub)
 
             ImageSubmission.objects.all().first().delete()
-            #render the template again, checking if theres a new image to upload
+            # render the template again, checking if theres a new image to upload
             return render(request, "gkHomepage/gkHomepage.html", args)
 
         # if the user presses the delete button
@@ -200,8 +200,8 @@ def index(request):
             username = get_top_username()
             user = CustomUser.objects.get(username=username)
             image = str(get_top_submission().image)
-            print("----",image)
-            #generate an email to send to the univeristy
+            print("----", image)
+            # generate an email to send to the univeristy
             email = EmailMessage(
                 'Inapropriate usage of GreenMaster App', 'To whom it may concern, \n'
                 'You are recieving this email as one of our GameKeepers has reported this user for submitting '
