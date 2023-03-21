@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;500;800&display=swap" rel="stylesheet">
+
+
+    <title>Green Master : Leaderboard</title>
+</head>
+
+
+
+<body>
+
+    <div class="menu-wrap">
+        
+        <input type="checkbox" class="toggler">
+        
+        <div class="hamburger">
+            <div>
+            </div>
+        </div>
+        
+        <div class="menu">
+            <div>
+                <div>
+                    <ul>
+                        <li><a href="{% url 'homepage' %}">HOME</a></li>
+                        <li><a href="{% url 'submission' %}">SUBMISSION</a></li>
+                        <li><a href="{% url 'leaderboard' %}">LEADERBOARD</a></li>
+                        <li><a href="{% url 'login' %}">LOGIN/SIGNUP</a></li>
+                        <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <div id="oc_main">
+
+        <div id="ic_topbar">
+
+            <div id="ic_logo">
+                <img src="../../static/images/logo.png">
+            </div>
+
+        </div>
+
+        <div id="ic_header">
+
+            <div id="title_box">
+                
+                <div class="title">
+
+                    <p> Leaderboard </p>
+
+                </div>
+                <div class="subtitle">
+
+                    <p> all hail your Exeter sustainability champions ...</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="ic_topwinners">
+            
+            <div id="player_card_2nd">
+
+                <div id="player_icon">
+                    <img src="../../static/images/user.png">
+                </div>
+
+                <div id="player_place">
+                    <img src="../../static/images/2nd-place.png">
+                </div>
+
+                <div id="ic_points">
+
+                    <div class="player_name_top">
+                        <p>{{second.username}}</p>
+                    </div>
+
+                    <div class="points_title">
+                        <p>Points</p>
+                    </div>
+
+                    <div class="points">
+                        <p>{{second.points}}</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div id="player_card_1st">
+
+                <div id="player_icon">
+                    <img src="../../static/images/user.png">
+                </div>
+
+                <div id="player_place">
+                    <img src="../../static/images/1st-place.png">
+                </div>
+
+                <div id="ic_points">
+
+                    <div class="player_name_top">
+                        <p>{{first.username}}</p>
+                    </div>
+
+                    <div class="points_title">
+                        <p>Points</p>
+                    </div>
+
+                    <div class="points">
+                        <p>{{first.points}}</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div id="player_card_3rd">
+                
+                <div id="player_icon">
+                    <img src="../../static/images/user.png">
+                </div>
+
+                <div id="player_place">
+                    <img src="../../static/images/3rd-place.png">
+                </div>
+
+                
+
+                <div id="ic_points">
+
+                    <div class="player_name_top">
+                        <p>{{third.username}}</p>
+                    </div>
+
+                    <div class="points_title">
+                        <p>Points</p>
+                    </div>
+
+                    <div class="points">
+                        <p>{{third.points}}</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div id="ic_otherplayers">
+            {% for entry in remaining %}
+            <div id="player_card_other">
+                <div class="player_rank">
+                    <p>{{forloop.counter|add:"3"}}</p>
+                </div>
+                
+                <div id="player_icon_small">
+                    <img src="../../static/images/user.png">
+                </div>
+
+                <div class="player_name">
+                    <p>{{entry.username}}</p>
+                </div>
+
+                <div id="ic_points2">
+
+                    <div class="points">
+                        <p>{{entry.points}} <z>points</z></p>
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
+            
+        </div>
+
+        <div class="footerBx">
+
+        </div>
+    </div>
+
+
+
+
+
+</body>
+
+
+
+</html>
