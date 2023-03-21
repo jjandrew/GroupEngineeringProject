@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from accounts.models import CustomUser
 from leaderboard.models import BuildingModel
+from django.contrib import messages
 from gkHomepage.crowd_source import input_stats
 from submission.models import ImageSubmission, RoomModel
 from submission.forms import ImageForm
@@ -98,6 +99,10 @@ def submission_view(request):
     Returns:
         render(): The webpage to be displayed to the user.
     """
+    # Verifies that the user is making a submission from campus
+    if validate_user_ip(request) is False:
+         messages.error(request, ("Must be on Exeter campus to submit images!"))
+
     # Checks if request is after submitting form or before
     if request.method == 'POST':
         # Recreates the form with the posted data
@@ -130,6 +135,10 @@ def working_submission_view(request):
     Returns:
         render(): The webpage to be displayed to the user.
     """
+    # Verifies that the user is making a submission from campus
+    if validate_user_ip(request) is False:
+         messages.error(request, ("Must be on Exeter campus to submit images!"))
+
     # Checks if request is after submitting form or before
     if request.method == 'POST':
         # Recreates the form with the posted data
@@ -216,3 +225,30 @@ def working_submission_view(request):
         form = ImageForm()
     # Will return the formatted index.html file with the form entered
     return render(request, 'submission/index.html', {'form': form})
+
+
+
+def validate_user_ip(request):
+    """ Extracts the user's IP address from the provided HTTP request and
+    uses it to validate that they are making a submission from campus.
+
+    Args:
+        request: The HTTP request submitted by the user.
+
+    Returns:
+        bool: True/ False: A boolean value indicating whether the user's IP
+            is in the range of IP's provided by the campus wifi.
+    """
+    forwarded_ips = request.META.get('HTTP_X_FORWARDED_FOR')
+    # Get the user's IP
+    if forwarded_ips is not None:
+        user_ip = forwarded_ips.split(',')[-1].strip()
+    else:
+        user_ip = request.META.get('REMOTE_ADDR')
+
+    # Validate that it is in the range of possible IPs on the university
+    # campus
+    if "10.173.80" in user_ip:
+        return True
+    else:
+        return False

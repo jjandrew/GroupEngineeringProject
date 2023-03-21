@@ -4,10 +4,37 @@
 
 <head>
   <link rel="stylesheet" href="/../../static/css/privacypolicy.css">
-  <title>Privacy Policy</title>
+  <title>Privacy Policy and GDPR Compliance</title>
 </head>
 
 <body>
+  <div class="s-mainWrapper">
+
+    <div class="menu-wrap">
+                
+            <input type="checkbox" class="toggler">
+                
+            <div class="hamburger">
+                <div>
+                </div>
+            </div>
+                
+            <div class="menu">
+                <div>
+                    <div>
+                        <ul>
+                            <li><a href="{% url 'homepage' %}">HOME</a></li>
+                            <li><a href="{% url 'submission' %}">SUBMISSION</a></li>
+                            <li><a href="{% url 'leaderboard' %}">LEADERBOARD</a></li>
+                            <li><a href="{% url 'login' %}">LOGIN/SIGNUP</a></li>
+                            <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+                            <li><a href="{% url 'privacypolicy' %}">LOGOUT</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+    </div>
   <div class="main">
     <p class="sign" align="center">Our Privacy Policy</p>
 
@@ -75,13 +102,24 @@
       <ol>
         <p> Ben Theron: bct207@exeter.ac.uk</p>
       </ol>
-    <p> GDPR Compliance:</p>
-    <ol>
-      <p>Lawful basis and transparency</p>
-      <p>Data security</p>
-      <p>Accountability and Governance</p>
-      <p>Privacy Rights</p>
-    </ol>
+      <p class="sign" align="center">GDPR Compliance</p>
+      <p><b>Data Protection Officer</b> </p>
+      <ol>
+        <p> Ben Theron is in charge of implementing GDPR within the project and is the main point of contact for anything GDPR related, see section 7 for relevant contact information.</p>
+      </ol>
+      <p><b>Lawful basis and transparency</b></p>
+      <ol>
+        <p>The lawful basis for data processing and collection, as well as the type and volume of data, are openly stated in the aforementioned privacy policy.</p>
+      </ol>
+      <p><b>Data security</b></p>
+      <p><b>Training and Policies</b></p>
+      <ol>
+
+      </ol>
+      <p><b>Privacy Rights</b></p>
+        <ol>
+          <p>The rights of the user, the processes in place to service these rights, in addition to the timeline for a response/ actioning these rights are stated in the privacy policy. </p>
+        </ol>
     </div>
 </body>
 </html>

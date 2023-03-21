@@ -36,7 +36,6 @@ def leaderboard(request):
 
     players = CustomUser.objects.filter(points__gt=0).order_by('-points')
     buildings = BuildingModel.objects.filter(co2__gt=0).order_by('co2')
-    print(buildings[0].co2)
 
     if to_use == 'players':
         try:
