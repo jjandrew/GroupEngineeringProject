@@ -8,9 +8,15 @@ from datetime import datetime, timedelta
 import os
 import smtplib
 from email.message import EmailMessage
+from django.http import HttpResponse
+from django.core.mail import send_mail
+from django.core.mail import send_mail
+from django.core.mail import EmailMessage
+=======
 from gkHomepage.crowd_source import input_stats
 from leaderboard.co2_calcs import get_co2
 import pytz
+
 
 
 def addPoints(username, points):
@@ -26,11 +32,38 @@ def addPoints(username, points):
     user.points += points
     user.save()
 
+def get_top_username():
+    """Gets the username of the user that sumbitted the image which the
+    gamekeeper is currently reviewing
+    """
+    top_submission = ImageSubmission.objects.order_by('-id').first()
+    #check if there is a image the gamekeeper is reviewing
+    if top_submission:
+        #if there is then return the username of whoever uploaded that image
+        return top_submission.user
+    return None
+
+
+def get_top_email():
+    """Gets the email of the user that sumbitted the image which the
+        gamekeeper is currently reviewing
+        """
+    top_submission = ImageSubmission.objects.order_by('-id').first()
+    # check if there is a image the gamekeeper is reviewing
+    if top_submission:
+        # if there is then return the email of whoever uploaded that image
+        email = CustomUser.objects.get(username=top_submission.user).email
+        return email
+    return None
 
 def get_top_submission():
-    """Gets the submission at the top of the ImageSubmission model"""
+    """Gets the full object of the user that sumbitted the image which the
+            gamekeeper is currently reviewing
+            """
     top_submission = ImageSubmission.objects.order_by('-id').first()
+    # check if there is a image the gamekeeper is reviewing
     if top_submission:
+        # if there is then return the full object of whoever uploaded that image
         return top_submission
     return None
 
@@ -87,10 +120,22 @@ def calcPoints(buildingName):
 
 
 def index(request):
+    """ Displays the form which displays the next image for the
+    gamekeeper to verify and a few buttons to either accept the image, and therefore
+    reward the points. Decline the image and finaly report the image. When an image
+    is reported, an emial is generated and sent to the unviersity with the email
+    of the user, date and image which the user had sent.
+        """
     images = ImageSubmission.objects.all
-    print(ImageSubmission.objects.all().count())
     args = {'images': images}
+
+    #if there is more than 0 images to review
+    if ImageSubmission.objects.all().count()>0:
+
+        #if someone presses the accept button
+
     if ImageSubmission.objects.all().count() > 0:
+
 
         if request.method == 'POST' and 'action_btn_accept' in request.POST:
             print("----", "YOU'VE PRESSED ACCEPT")
@@ -101,16 +146,31 @@ def index(request):
             top_sub = get_top_submission()
 
             # Calculate statistics for user
+
+            #get the username of the users imag
+            username = get_top_username()
+
             if top_sub == None:
                 return render(request, "gkHomepage/gkHomepage.html", args)
             username = top_sub.user
-            user = CustomUser.objects.get(username=username)
+
 
             building_name = get_building_name(top_sub)
 
             args['name'] = building_name
 
+            user = CustomUser.objects.get(username=username)
+            #calulate the users streak(if any)
+
             calc_user_streaks(user, datetime.today())
+
+            print("----",get_top_submission().building)
+            #calculate the points to give the user
+            points = calcPoints(get_top_submission().building)
+            #add the points to the users account
+            addPoints(username, points)
+            #remove that image from the database
+
             print("----", top_sub.building)
             points = calcPoints(top_sub.building)
             addPoints(username, points)
@@ -118,21 +178,58 @@ def index(request):
             # Checks if stats can be input and inputs if so
             input_stats(top_sub)
 
+
             get_co2(top_sub, top_sub.building)
+
             ImageSubmission.objects.all().first().delete()
+            #render the template again, checking if theres a new image to upload
             return render(request, "gkHomepage/gkHomepage.html", args)
 
+        #if the user presses the delete button
         if request.method == 'POST' and 'action_btn_delete' in request.POST:
+
+            print("----","YOUVE PRESSED DELETE")
+            #delete that image object from the database
+
             print("----", "YOUVE PRESSED DELETE")
+
             ImageSubmission.objects.all().first().delete()
 
             top_sub = get_top_submission()
             name = get_building_name(top_sub)
 
             args = {'images': images, 'name': name}
+
+            # render the template again, checking if theres a new image to upload
+
             return render(request, "gkHomepage/gkHomepage.html", args)
 
         if request.method == 'POST' and 'action_btn_report' in request.POST:
+
+            print("----","YOUVE PRESSED REPORT")
+            #get the date which the image was submitted
+            date = get_top_submission().date;
+            #get the email of the user who submitted the image
+            email = str(get_top_email())
+            #get the username of the user who sumbitted the image
+            username = get_top_username()
+            user = CustomUser.objects.get(username=username)
+            image = stR(get_top_submission().image)
+            print("----",image)
+            #generate an email to send to the univeristy
+            email = EmailMessage(
+            'Inapropriate usage of GreenMaster App', 'To whom it may concern, \n' \
+                      'You are recieving this email as one of our GameKeepers has reported this user for submitting ' \
+                      'inappropriate images into our application. \n' \
+                      'Please find the image that was sent attached to this email. \n' \
+                      'The users email who sent the attacked image is '+ email+ ' \n' \
+                      'This image was sent to us on '+ str(date) +' ', 'thegreenmasterproject@gmail.com', ["louislusso@hotmail.com", ])
+            #attach the image which has been reported to the email
+            #email.attach_file() PUT IMAGE DIR HERE
+            email.send()
+            #delete the image object from the database
+            ImageSubmission.objects.all().first().delete()
+
             print("----", "YOUVE PRESSED REPORT")
             ImageSubmission.objects.all().first().delete()
             # TODO write a mockup email with image, name of user, email of user, date etc and save to file.
@@ -158,6 +255,7 @@ def index(request):
                 smtp.send_message(msg)
             print("----", 'Email sent.')
 
+
             images = ImageSubmission.objects.all
 
             top_sub = get_top_submission()
@@ -166,8 +264,10 @@ def index(request):
             args = {'images': images, 'name': name}
 
             args = {'images': images}
+            # render the template again, checking if theres a new image to upload
             return render(request, "gkHomepage/gkHomepage.html", args)
 
+        # render the template again, checking if theres a new image to upload
         return render(request, "gkHomepage/gkHomepage.html", args)
 
     return render(request, "gkHomepage/gkHomepage.html", args)
