@@ -2,6 +2,13 @@
 from submission.models import ImageSubmission
 from leaderboard.annual_building_usage import building_usage
 from leaderboard.models import BuildingModel
+from submission.models import ImageSubmission
+from math import log10, floor
+
+
+def round_5(x, sig=5):
+    """Round a float to five significant figures"""
+    return round(x, sig-int(floor(log10(abs(x))))-1)
 
 
 def get_co2(sub: ImageSubmission, building_name: str) -> float:
@@ -41,11 +48,8 @@ def get_co2(sub: ImageSubmission, building_name: str) -> float:
         usage += (building_usage['window_loss'] * room_usage_day)
     if lights == "ON":
         usage += (building_usage['lighting_loss'] * room_usage_day)
-    building.co2 += usage
-
-    # Convert building.co2 to 5sf
-    toString = str(building.co2)
-    building.co2 = float(toString[:5])
+    if usage != 0:
+        building.co2 += round_5(usage)
 
     building.number_submissions += 1
     building.save()
