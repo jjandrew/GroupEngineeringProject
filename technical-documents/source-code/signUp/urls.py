@@ -1,5 +1,8 @@
+""" Outlines the paths to each of the URLs for the signUp app. """
 from django.urls import path
-from . import views
+from signUp import views
+
+
 urlpatterns = [
     # Declares the pattern for the sign up page
     path('signup/', views.signup, name="signup"),

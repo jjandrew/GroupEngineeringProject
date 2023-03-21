@@ -1,3 +1,4 @@
+""" Outlines the models to be used for image submission. """
 from django.db import models
 
 # The choices of every room as a constant
@@ -70,6 +71,9 @@ windows_choices = (("CLOSE", "Closed"),
 class ImageSubmission(models.Model):
     """ A model containing all the required fields for the successfull
     submission of a room.
+
+    Args:
+        models.Model (Model): The image submission model to be used.
     """
     building = models.CharField(choices=building_choices, max_length=48)
     room = models.CharField(max_length=100)
@@ -85,7 +89,11 @@ class ImageSubmission(models.Model):
 
 
 class RoomModel(models.Model):
-    """A model for a room in order to calculate environmental statistics"""
+    """ A model for a room in order to calculate environmental statistics
+
+    Args:
+        models.Model (Model): The room model to be used in image submission.
+    """
     building = models.CharField(choices=building_choices, max_length=48)
     name = models.CharField(max_length=100)
     number_lights_on = models.PositiveIntegerField(default=0)
