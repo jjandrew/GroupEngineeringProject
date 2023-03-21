@@ -7,8 +7,7 @@ class CustomUserAdmin(UserAdmin):
     along with a list of which user metrics are displayed for them.
     """
     list_display = (
-        'username', 'email', 'first_name', 'last_name', 'is_mod',
-        'is_user',  'points'
+        'username', 'email', 'first_name', 'last_name', 'points'
         )
 
     fieldsets = (
@@ -20,7 +19,7 @@ class CustomUserAdmin(UserAdmin):
         }),
         ('Permissions', {
             'fields': (
-                'is_active', 'is_mod', 'is_superuser',
+                'is_active', 'is_superuser',
                 'groups', 'user_permissions'
                 )
         }),
@@ -28,7 +27,7 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('last_login', 'date_joined')
         }),
         ('Additional info', {
-            'fields': ( 'is_user', 'points')
+            'fields': ('points', None)
         })
     )
 
@@ -41,7 +40,7 @@ class CustomUserAdmin(UserAdmin):
         }),
         ('Permissions', {
             'fields': (
-                'is_active', 'is_mod', 'is_superuser',
+                'is_active', 'is_superuser',
                 'groups', 'user_permissions'
                 )
         }),
@@ -49,7 +48,7 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('last_login', 'date_joined')
         }),
         ('Additional info', {
-            'fields': ( 'is_user', 'points')
+            'fields': ('points')
         })
     )
 

@@ -12,7 +12,7 @@ from django.http import HttpResponse
 from django.core.mail import send_mail
 from django.core.mail import send_mail
 from django.core.mail import EmailMessage
-=======
+
 from gkHomepage.crowd_source import input_stats
 
 
@@ -119,7 +119,7 @@ def index(request):
 
         #if someone presses the accept button
 
-    if ImageSubmission.objects.all().count() > 0:
+
 
 
         if request.method == 'POST' and 'action_btn_accept' in request.POST:
