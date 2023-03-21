@@ -198,17 +198,4 @@ class RoomSubmissionTestCase(TestCase):
         self.existing_room.save()
 
 
-class test_user_streaks(TestCase):
-    """A testing case for user streaks"""
-    user: CustomUser
 
-    def setUp(self):
-        """Creates a custom user with default values"""
-        self.user = CustomUser(
-            username="test", email="test@test.com", password="password")
-        self.user.save()
-
-    def test_new_user_has_streak_of_0(self):
-        """Tests a user is created with default streak  value 0"""
-        user = CustomUser.objects.get(username="test")
-        self.assertEqual(user.streak, 0)

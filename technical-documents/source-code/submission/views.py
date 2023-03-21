@@ -9,55 +9,13 @@ from datetime import datetime, timedelta
 from leaderboard.models import BuildingModel
 
 
-def calcPoints(buildingName):
-    """Gives a points for each day since a building has been checked"""
-    # Get the building model
-    # Definitely created as this is checked when stats are input
-    building = None
-    if not BuildingModel.objects.filter(name=buildingName).exists():
-        building = BuildingModel(name=buildingName)
-        building.save()
-    else:
-        building = BuildingModel.objects.get(name=buildingName)
-    # Get todays date and difference between
-    today = datetime.today()
-    last_done = building.last_done.replace(tzinfo=None)
-    td = today - last_done
-    days_since = td.days
-    # If difference less than 1 due to default value then make points worth 1
-    if last_done.year == 2023 and last_done.month == 1:
-        days_since = 1
-    if days_since < 1:
-        days_since = 1
-    building.last_done = today
-    building.save()
-    return days_since
 
 
-def addPoints(username, points):
-    """ Lets the user enter points, and validates the points they enter into
-    the form; to execute this function, the user must be logged in.
-    """
-    # Check if user already has a score entered
-    if points <= 0:
-        raise RuntimeError("Can't add negative points")
-
-    # Add the points to a user's points
-    user = CustomUser.objects.get(username=username)
-    user.points += points
-    user.save()
 
 
-def calc_user_streaks(user, today):
-    # Check if user submitted a room yesterday
-    yesterday = today - timedelta(days=1)
-    if user.last_submission.strftime('%Y-%m-%d') == yesterday.strftime('%Y-%m-%d'):
-        user.streak += 1
-    elif user.last_submission.strftime('%Y-%m-%d') < yesterday.strftime('%Y-%m-%d'):
-        user.streak = 1
-    user.last_submission = today.strftime('%Y-%m-%d')
 
-    user.save()
+
+
 
 
 @login_required
@@ -104,7 +62,7 @@ def working_submission_view(request):
         if form.is_valid():
             # Get the current instance object to display in the template
 
-            # Gets the data fro the form
+            # Gets the data from the form
             data = form.cleaned_data
 
             # Gets username of logged in user
@@ -137,10 +95,6 @@ def working_submission_view(request):
 
             # TODO VALIDATION HERE
 
-            # Calculate statistics for user
-            user = CustomUser.objects.get(username=username)
-
-            calc_user_streaks(user, datetime.today())
 
             # Checks if stats can be input and inputs if so
             input_stats(image_submission)
@@ -151,8 +105,8 @@ def working_submission_view(request):
 
             # TODO: Different numbers of points for different rooms.
             # TODO: Add validation.
-            points = calcPoints(image_submission.building)
-            addPoints(username, points)
+            #points = calcPoints(image_submission.building)
+            #addPoints(username, points)
 
             # Maybe reset the form?
             return render(request, 'submission/index.html',

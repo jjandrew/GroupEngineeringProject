@@ -146,6 +146,8 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_FROM = "thegreenmasterproject@gmail.com"
 EMAIL_HOST_USER = "thegreenmasterproject@gmail.com"
 EMAIL_HOST_PASSWORD = "qbtpbupbcpdeqczd"
+#tXbA1JUXqnVxUBQgWwXt
+REPORT_EMAIL = 'louislusso@hotmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_FILE_PATH = BASE_DIR / "sent_emails"

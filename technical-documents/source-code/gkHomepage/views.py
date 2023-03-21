@@ -1,18 +1,18 @@
 from django.shortcuts import render
 from submission.models import ImageSubmission
+from leaderboard.models import BuildingModel
 from django.http import HttpResponse
 from accounts.models import CustomUser
-import email
-import smtplib
-from email import encoders
-from email.message import Message
-from email.mime.audio import MIMEAudio
-from email.mime.base import MIMEBase
-from email.mime.image import MIMEImage
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from django.core.mail import send_mail
+from django.core.mail import EmailMessage
+from django.http import HttpResponseBadRequest
+from django.shortcuts import get_object_or_404
+from django.views.decorators.http import require_POST
+from django.conf import settings
 from datetime import datetime, timedelta
+import os
+import smtplib
+from email.message import EmailMessage
+from django.http import HttpResponse
 def addPoints(username, points):
     """ Lets the user enter points, and validates the points they enter into
     the form; to execute this function, the user must be logged in.
@@ -32,22 +32,47 @@ def get_top_username():
         return top_submission.user
     return None
 
-def report_user(userEmail,date,image,filename):
-    msg = email.mime.text.MIMEText('Dear Campus services,It has come to our attention that a user, under the email '+userEmail+
-                                   'has used our platform to send the following image attached on '+date +
-                                   'We have now removed the user from our platform and trust you will deal with this'+
-                                   'appropriately')
-    #msg.attach(MIMEText('<html><body>' +
-     #                   '<p><img src="'+image+'"></p>' +
-     #                   '</body></html>', 'html', 'utf-8'))
-    msg['Subject'] = 'Inapropriate images being uploaded to Exeters Green Master app'
-    msg['From'] = 'gamekeeper@exeter.ac.uk'
-    msg['To'] = 'CampusServices@exeter.ac.uk'
-    filename = filename +".elm"
-    # open a file and save mail to it
-    file = open("/../../reportedEmails/filename.elm", "w")
-    gen = email.generator.Generator(file)
-    gen.flatten(msg)
+def get_top_submission():
+    top_submission = ImageSubmission.objects.order_by('-id').first()
+    if top_submission:
+        return top_submission
+    return None
+def calc_user_streaks(user: CustomUser, today: datetime):
+    # Check if user submitted a room yesterday
+    yesterday = today - timedelta(days=1)
+    if user.last_submission.strftime('%Y-%m-%d') == yesterday.strftime('%Y-%m-%d'):
+        user.streak += 1
+    elif user.last_submission.strftime('%Y-%m-%d') < yesterday.strftime('%Y-%m-%d'):
+        user.streak = 1
+    #print(user.last_submission.type())
+    user.last_submission = today.strftime('%Y-%m-%d')
+
+    user.save()
+
+def calcPoints(buildingName):
+    """Gives a points for each day since a building has been checked"""
+    # Get the building model
+    # Definitely created as this is checked when stats are input
+    building = None
+    if not BuildingModel.objects.filter(name=buildingName).exists():
+        building = BuildingModel(name=buildingName)
+        building.save()
+    else:
+        building = BuildingModel.objects.get(name=buildingName)
+    # Get todays date and difference between
+    today = datetime.today()
+    last_done = building.last_done.replace(tzinfo=None)
+    td = today - last_done
+    days_since = td.days
+    # If difference less than 1 due to default value then make points worth 1
+    if last_done.year == 2023 and last_done.month == 1:
+        days_since = 1
+    if days_since < 1:
+        days_since = 1
+    building.last_done = today
+    building.save()
+    return days_since
+
 def index(request):
     images = ImageSubmission.objects.all
     print(ImageSubmission.objects.all().count())
@@ -59,8 +84,15 @@ def index(request):
             print("----", "YOU'VE PRESSED ACCEPT")
             images = ImageSubmission.objects.exclude(id=ImageSubmission.objects.first().id)
             args = {'images': images}
-            #username = get_top_username()
-            #addPoints(username, 1)
+
+            # Calculate statistics for user
+            username = get_top_username()
+            user = CustomUser.objects.get(username=username)
+
+            calc_user_streaks(user, datetime.today())
+            print("----",get_top_submission().building)
+            points = calcPoints(get_top_submission().building)
+            addPoints(username, points)
             ImageSubmission.objects.all().first().delete()
             return render(request, "gkHomepage/gkHomepage.html", args)
 
@@ -74,17 +106,29 @@ def index(request):
             print("----","YOUVE PRESSED REPORT")
             ImageSubmission.objects.all().first().delete()
             #TODO write a mockup email with image, name of user, email of user, date etc and save to file.
+
+            image_filename = '04d.png'
+            image_path = os.path.abspath(os.path.join(os.path.dirname(__file__), image_filename))
+            msg = EmailMessage()
+            msg['Subject'] = 'Image Report'
+            msg['From'] = 'thegreenmasterproject@gmail.com'
+            msg['To'] = 'louislusso@hotmail.com'
+            msg.set_content('Please find the attached image report.')
+            with open(image_path, 'rb') as f:
+                file_data = f.read()
+                file_name = os.path.basename(image_path)
+                msg.add_attachment(file_data, maintype='image', subtype='png', filename=file_name)
+            with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
+                smtp.starttls()
+                smtp.login('thegreenmasterproject@gmail.com', 'bkstedudehhuuetb')
+                #bkstedudehhuuetb
+                smtp.send_message(msg)
+            print("----",'Email sent.')
+
+            images = ImageSubmission.objects.all
             args = {'images': images}
             return render(request, "gkHomepage/gkHomepage.html", args)
 
         return render(request, "gkHomepage/gkHomepage.html", args)
-    else:
-        ImageSubmission(building="No Building Left", room="No Room Left",
-                                           lights_status="OFF",
-                                           windows_status="CLOSED",
-                                           litter_items= 0, image="/../../updated UI/img/defaultimage.jpg",
-                                           user="NONE", date=datetime.today().strftime('%Y-%m-%d'))
-        images = ImageSubmission.objects.all
-        args = {'images': images}
-        #TODO crate a object thats the standard object or set it as standard object
-        return render(request, "gkHomepage/gkHomepage.html", args)
+
+    return render(request, "gkHomepage/gkHomepage.html", args)
