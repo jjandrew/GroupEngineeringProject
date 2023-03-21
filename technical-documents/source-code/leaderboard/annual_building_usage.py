@@ -1,3 +1,5 @@
+""" Defines a dictionary containing the annual enegry usage for each building.
+"""
 building_usage = {
     'year': '2018/2019',
     'lighting_loss': 0.11,

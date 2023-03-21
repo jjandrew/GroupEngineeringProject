@@ -1,7 +1,8 @@
+""" Outlines the paths to each of the URLs for the login app. """
 from django.contrib import admin
-from django.urls import path, include
-from django.views.generic.base import TemplateView
-from . import views
+from django.urls import path
+from loginApp import views
+
 
 urlpatterns = [
     # Path for the admin URL

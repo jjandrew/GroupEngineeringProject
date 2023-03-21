@@ -1,1 +1,1 @@
-from django.test import TestCase
+""" Outlines the tests to be used for the signUp app. """

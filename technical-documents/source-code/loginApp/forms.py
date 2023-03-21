@@ -1,9 +1,17 @@
+""" Outlines the fields and data to be displayed to the user in the login
+page.
+"""
 from django import forms
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import authenticate
+
 
 class LoginForm(forms.Form):
     """ Defines the parameters and data collected from the login form,
-    in addition to methods for cleaning and validating the data 
+    in addition to methods for cleaning and validating the data.
+
+    Args:
+        forms.Form: Form: The login form to be displayed to
+            and received from, the user.
     """
     username = forms.CharField(max_length=255, required=True)
     password = forms.CharField(widget=forms.PasswordInput, required=True)
@@ -11,6 +19,11 @@ class LoginForm(forms.Form):
     def clean(self):
         """ 'Cleans' the username and password values collected from the login
         page. Also performs validation, preventing invalid logins.
+
+        Returns:
+            cleaned_data: 'Cleaned' versions of the data the user entered into
+                the login form, doing this ensures it is valid and able to be
+                parsed.
         """
         username = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')
@@ -23,7 +36,14 @@ class LoginForm(forms.Form):
 
     def login(self, request):
         """ Authenticates and returns the user object entered into the login
-        form
+        form.
+
+        Args:
+            request: The HTTP request, which the user submits when loging in.
+
+        Returns:
+            User: user: The user object corresponding to the user that just
+            logged in.
         """
         username = self.cleaned_data.get('username')
         password = self.cleaned_data.get('password')
