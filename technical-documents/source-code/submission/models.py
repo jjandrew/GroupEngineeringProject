@@ -92,4 +92,4 @@ class RoomModel(models.Model):
     number_windows_open = models.PositiveIntegerField(default=0)
     litter_items = models.PositiveIntegerField(default=0)
     number_submissions = models.PositiveIntegerField(default=0)
-    last_done = models.DateTimeField(default='2023-01-01 00:00:00')
+    last_done = models.DateTimeField(default='2023-01-01 00:00:00 +0000')
