@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from accounts.models import CustomUser
+from .models import BuildingModel
+from submission.models import building_choices
 
 
 @login_required
@@ -8,14 +10,32 @@ def leaderboard(request):
     """ A function for displaying and ordering (in descending order) the
     leaderboard. Note, to access this, the user must be logged in.
     """
-    leaderboard = CustomUser.objects.filter(
-        points__gt=0).order_by('-points')
+    leaderboard = CustomUser.objects.filter(points__gt=0).order_by('-points')
+    
+    buildings = BuildingModel.objects.order_by('co2')
+
+
     try:
         first = leaderboard[0]
         second = leaderboard[1]
         third = leaderboard[2]
         remaining = leaderboard[3:]
-        return render(request, 'UI/leaderboard.html', {'first': first, 'second': second, 'third': third, 'remaining': remaining})
+
+        buildingNames = dict(building_choices)
+        building1 = buildings[0]
+        building1.name = buildingNames[building1.name]
+        building2 = buildings[1]
+        building2.name = buildingNames[building2.name]
+        building3 = buildings[2]
+        building3.name = buildingNames[building3.name]
+        remBuilding = buildings[3:]
+
+        
+        for building in remBuilding:
+            building.name = buildingNames[building.name]
+        
+        
+        return render(request, 'UI/leaderboard2.html', {'first': first, 'second': second, 'third': third, 'remaining': remaining, "building1" : building1, "building2" : building2, "building3": building3, "buildings" : remBuilding})
     except IndexError:
         try:
             return render(request, 'UI/leaderboard.html', {'first': first, 'second': second, 'third': third, 'remaining': []})

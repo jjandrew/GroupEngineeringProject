@@ -10,22 +10,133 @@
 
 
     <title>Green Master : Leaderboard</title>
+
+    <style>
+.filterBx {
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800; 
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+}
+
+.dropdown {
+
+    min-width: 15em;
+    position: relative;
+    margin: 2em;
+
+}
+
+.dropdown * {
+
+    box-sizing: border-box;
+
+}
+
+.select {
+
+    background-color: rgb(196, 196, 196);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px #9a9a9a solid;
+    border-radius: 0.5em;
+    padding: 1em;
+    transition: background 0.3s;
+
+}
+
+.select-clicked {
+    border: 2px #3a3a3a solid;
+}
+
+
+.caret {
+
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #fff;
+    transition: 0.3s;
+}
+
+.caret-rotate {
+    transform: rotate(180deg);
+}
+
+.menu {
+    list-style: none;
+    padding: 0.2em 0.5em;
+    background: rgb(196, 196, 196);
+    border: 1px  rgb(196, 196, 196) solid;
+    box-shadow: 0 0.5em 1em rgba(0,0,0,0.2);
+    border-radius: 0.5em;
+    color: rgb(255, 255, 255);
+    position: absolute;
+    top: 3em;
+    left: 50%;
+    width: 100%;
+    transform: translateX(-50%);
+    opacity: 0;
+    display: none;
+    transition: 0.2s;
+    z-index:1;
+
+}
+
+.menu li {
+
+    padding: 0.7em 0.5em;
+    margin: 0.3em 0;
+    border-radius: 0.5em;
+
+
+}
+
+.active {
+
+    background: #00DEA5;
+    color: #3a3a3a;
+
+}
+
+.menu-open {
+    display: block;
+    opacity:1;
+}
+
+    </style>
+
 </head>
 
 
 
 <body>
 
+
+
     <div class="menu-wrap">
         
-        <input type="checkbox" class="toggler">
+      
+    
+
         
         <div class="hamburger">
             <div>
+                
             </div>
         </div>
         
         <div class="menu">
+            
             <div>
                 <div>
                     <ul>
@@ -63,6 +174,78 @@
                 <div class="subtitle">
 
                     <p> all hail your Exeter sustainability champions ...</p>
+                    
+    <div class="filterBx">
+
+        <div class="dropdown">
+
+            <div class="select">
+
+                <span class="selected">Selected</span>
+
+                <div class="caret">
+
+                </div>
+
+            </div>
+
+            <ul class="menu">
+
+                <li class="active"> Players</li>
+
+                <li class="active">Buildings</li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    <script>
+
+const dropdowns = document.querySelectorAll('.dropdown');
+
+dropdowns.forEach(dropdown => {
+
+    const select = dropdown.querySelector('.select');
+    const caret = dropdown.querySelector('.caret');
+    const menu = dropdown.querySelector('.menu');
+    const options = dropdown.querySelectorAll('.menu li');
+    const selected = dropdown.querySelector('.selected');
+    
+
+    select.addEventListener('click', () => {
+        
+        select.classList.toggle('select-clicked');
+
+        caret.classList.toggle('caret-rotate');
+
+        menu.classList.toggle('menu-open')
+    });
+
+    options.forEach(option => {
+
+        option.addEventListener('click', () =>{
+
+            selected.innerText = options.innerText;
+
+            select.classList.remove('selected-clicked');
+
+            caret.classList.remove('caret-rotate');
+
+            menu.classList.remove('menu-open');
+
+            options.forEach(option => {
+
+                option.classList.remove('active');
+            });
+
+            option.classList.add('active');
+        });
+    });
+
+});
+    </script>
 
                 </div>
 

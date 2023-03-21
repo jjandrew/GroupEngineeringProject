@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;500;800&display=swap" rel="stylesheet">
+
+
+    <title>Green Master : Leaderboard</title>
+
+    <style>
+
+.mySlides {display:none;}
+
+.filterBx {
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800; 
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+}
+
+.dropdown {
+
+    min-width: 15em;
+    position: relative;
+    margin: 2em;
+
+}
+
+.dropdown * {
+
+    box-sizing: border-box;
+
+}
+
+.select {
+
+    background-color: rgb(196, 196, 196);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px #9a9a9a solid;
+    border-radius: 0.5em;
+    padding: 1em;
+    transition: background 0.3s;
+
+}
+
+.select-clicked {
+    border: 2px #3a3a3a solid;
+}
+
+
+.caret {
+
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #fff;
+    transition: 0.3s;
+}
+
+.caret-rotate {
+    transform: rotate(180deg);
+}
+
+.menu {
+    list-style: none;
+    padding: 0.2em 0.5em;
+    background: rgb(196, 196, 196);
+    border: 1px  rgb(196, 196, 196) solid;
+    box-shadow: 0 0.5em 1em rgba(0,0,0,0.2);
+    border-radius: 0.5em;
+    color: rgb(255, 255, 255);
+    position: absolute;
+    top: 3em;
+    left: 50%;
+    width: 100%;
+    transform: translateX(-50%);
+    opacity: 0;
+    display: none;
+    transition: 0.2s;
+    z-index:1;
+
+}
+
+.menu li {
+
+    padding: 0.7em 0.5em;
+    margin: 0.3em 0;
+    border-radius: 0.5em;
+
+
+}
+
+.active {
+
+    background: #00DEA5;
+    color: #3a3a3a;
+
+}
+
+.menu-open {
+    display: block;
+    opacity:1;
+}
+
+    </style>
+
+</head>
+
+
+
+<body>
+
+
+
+    <div class="menu-wrap">
+        
+      
+    
+
+        
+        <div class="hamburger">
+            <div>
+                
+            </div>
+        </div>
+        
+        <div class="menu">
+            
+            <div>
+                <div>
+                    <ul>
+                        <li><a href="{% url 'homepage' %}">HOME</a></li>
+                        <li><a href="{% url 'submission' %}">SUBMISSION</a></li>
+                        <li><a href="{% url 'leaderboard' %}">LEADERBOARD</a></li>
+                        <li><a href="{% url 'login' %}">LOGIN/SIGNUP</a></li>
+                        <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <div id="oc_main">
+
+        <div id="ic_topbar">
+
+            <div id="ic_logo">
+                <img src="../../static/images/logo.png">
+            </div>
+
+        </div>
+
+        <div id="ic_header">
+
+            <div id="title_box">
+                
+                <div class="title">
+
+                    <p> Leaderboard </p>
+
+                </div>
+                <div class="subtitle">
+
+                    <p> all hail your Exeter sustainability champions ...</p>
+ 
+                    
+                    <script>
+                        var slideIndex = 1;
+                        showDivs(slideIndex);
+                        
+                        function plusDivs(n) {
+                          showDivs(slideIndex += n);
+                        }
+                        
+                        function currentDiv(n) {
+                          showDivs(slideIndex = n);
+                        }
+                        
+                        function showDivs(n) {
+                          var i;
+                          var x = document.getElementsByClassName("mySlides");
+                          var dots = document.getElementsByClassName("demo");
+                          if (n > x.length) {slideIndex = 1}    
+                          if (n < 1) {slideIndex = x.length}
+                          for (i = 0; i < x.length; i++) {
+                            x[i].style.display = "none";  
+                          }
+                          for (i = 0; i < dots.length; i++) {
+                            dots[i].className = dots[i].className.replace(" w3-red", "");
+                          }
+                          x[slideIndex-1].style.display = "block";  
+                          dots[slideIndex-1].className += " w3-red";
+                        }</script>           
+            
+            
+        
+        <div class="w3-content" style="max-width:800px">
+            
+        <div class="mySlides" id="player_leaderboard">
+            
+            <div id="ic_topwinners">
+            
+                <div id="player_card_2nd">
+    
+                    <div id="player_icon">
+                        <img src="../../static/images/user.png">
+                    </div>
+    
+                    <div id="player_place">
+                        <img src="../../static/images/2nd-place.png">
+                    </div>
+    
+                    <div id="ic_points">
+    
+                        <div class="player_name_top">
+                            <p>{{second.username}}</p>
+                        </div>
+    
+                        <div class="points_title">
+                            <p>Points</p>
+                        </div>
+    
+                        <div class="points">
+                            <p>{{second.points}}</p>
+                        </div>
+    
+                    </div>
+    
+                </div>
+    
+                <div id="player_card_1st">
+    
+                    <div id="player_icon">
+                        <img src="../../static/images/user.png">
+                    </div>
+    
+                    <div id="player_place">
+                        <img src="../../static/images/1st-place.png">
+                    </div>
+    
+                    <div id="ic_points">
+    
+                        <div class="player_name_top">
+                            <p>{{first.username}}</p>
+                        </div>
+    
+                        <div class="points_title">
+                            <p>Points</p>
+                        </div>
+    
+                        <div class="points">
+                            <p>{{first.points}}</p>
+                        </div>
+    
+                    </div>
+    
+                </div>
+    
+                <div id="player_card_3rd">
+                    
+                    <div id="player_icon">
+                        <img src="../../static/images/user.png">
+                    </div>
+    
+                    <div id="player_place">
+                        <img src="../../static/images/3rd-place.png">
+                    </div>
+    
+                    
+    
+                    <div id="ic_points">
+    
+                        <div class="player_name_top">
+                            <p>{{third.username}}</p>
+                        </div>
+    
+                        <div class="points_title">
+                            <p>Points</p>
+                        </div>
+    
+                        <div class="points">
+                            <p>{{third.points}}</p>
+                        </div>
+    
+                    </div>
+    
+                </div>
+    
+            </div>
+            
+    
+            <div id="ic_otherplayers">
+                {% for entry in remaining %}
+                <div id="player_card_other">
+                    <div class="player_rank">
+                        <p>{{forloop.counter|add:"3"}}</p>
+                    </div>
+                    
+                    <div id="player_icon_small">
+                        <img src="../../static/images/user.png">
+                    </div>
+    
+                    <div class="player_name">
+                        <p>{{entry.username}}</p>
+                    </div>
+    
+                    <div id="ic_points2">
+    
+                        <div class="points">
+                            <p>{{entry.points}} <z>points</z></p>
+                        </div>
+    
+                    </div>
+                </div>
+                {% endfor %}
+                
+            </div>
+        </div>
+        
+
+        <div class="mySlides", id="building_leaderboard">
+              <div id="ic_topwinners">
+            
+                <div id="player_card_2nd">
+    
+                    <div id="player_icon">
+                        <img src="../../static/images/user.png">
+                    </div>
+    
+                    <div id="player_place">
+                        <img src="../../static/images/2nd-place.png">
+                    </div>
+    
+                    <div id="ic_points">
+    
+                        <div class="player_name_top">
+                            <p>{{building2.name}}</p>
+                        </div>
+    
+                        <div class="points_title">
+                            <p>CO2</p>
+                        </div>
+    
+                        <div class="points">
+                            <p>{{building2.co2}}</p>
+                        </div>
+    
+                    </div>
+    
+                </div>
+    
+                <div id="player_card_1st">
+    
+                    <div id="player_icon">
+                        <img src="../../static/images/user.png">
+                    </div>
+    
+                    <div id="player_place">
+                        <img src="../../static/images/1st-place.png">
+                    </div>
+    
+                    <div id="ic_points">
+    
+                        <div class="player_name_top">
+                            <p>{{building1.name}}</p>
+                        </div>
+    
+                        <div class="points_title">
+                            <p>CO2 </p>
+                        </div>
+    
+                        <div class="points">
+                            <p>{{building1.co2}}</p>
+                        </div>
+    
+                    </div>
+    
+                </div>
+    
+                <div id="player_card_3rd">
+                    
+                    <div id="player_icon">
+                        <img src="../../static/images/user.png">
+                    </div>
+    
+                    <div id="player_place">
+                        <img src="../../static/images/3rd-place.png">
+                    </div>
+    
+                    
+    
+                    <div id="ic_points">
+    
+                        <div class="player_name_top">
+                            <p>{{building3.name}}</p>
+                        </div>
+    
+                        <div class="points_title">
+                            <p>CO2</p>
+                        </div>
+    
+                        <div class="points">
+                            <p>{{building3.co2}}</p>
+                        </div>
+    
+                    </div>
+    
+                </div>
+    
+            </div>
+    
+            <div id="ic_otherplayers">
+                {% for entry in buildings%}
+                <div id="player_card_other">
+                    <div class="player_rank">
+                        <p>{{forloop.counter|add:"3"}}</p>
+                    </div>
+                    
+                    <div id="player_icon_small">
+                        <img src="../../static/images/user.png">
+                    </div>
+    
+                    <div class="player_name">
+                        <p>{{entry.name}}</p>
+                    </div>
+    
+                    <div id="ic_points2">
+    
+                        <div class="points">
+                            <p>{{entry.co2}} <z>CO2</z></p>
+                        </div>
+    
+                    </div>
+                </div>
+                {% endfor %}
+                
+            </div>
+        </div>
+
+    
+          
+        </div>
+  
+    <div class="w3-center">
+        <div class="w3-section">
+         
+            <button class="w3-button w3-light-grey" onclick="plusDivs(1)">Switch Boards❯</button>
+        </div>
+  
+    </div>
+
+
+                </div>
+
+            </div>
+
+        
+
+        <div class="footerBx">
+
+        </div>
+    </div>
+
+    </div>
+
+
+
+</body>
+
+
+
+</html>
