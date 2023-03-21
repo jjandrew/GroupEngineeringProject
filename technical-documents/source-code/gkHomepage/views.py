@@ -67,19 +67,6 @@ def get_top_submission():
     return None
 
 
-def calc_user_streaks(user: CustomUser, today: datetime):
-    # Check if user submitted a room yesterday
-    yesterday = today - timedelta(days=1)
-    if user.last_submission.strftime('%Y-%m-%d') == yesterday.strftime('%Y-%m-%d'):
-        user.streak += 1
-    elif user.last_submission.strftime('%Y-%m-%d') < yesterday.strftime('%Y-%m-%d'):
-        user.streak = 1
-    # print(user.last_submission.type())
-    user.last_submission = today.strftime('%Y-%m-%d')
-
-    user.save()
-
-
 def get_building_name(top_sub):
     # Translate Constant building name to formatted string
     building_name = None
@@ -164,13 +151,12 @@ def index(request):
             addPoints(username, points)
             # remove that image from the database
 
-            print("----", top_sub.building)
-            points = calcPoints(top_sub.building)
-            addPoints(username, points)
+            
 
             # Checks if stats can be input and inputs if so
             input_stats(top_sub)
 
+            # Calculate the CO2 output for the building
             get_co2(top_sub, top_sub.building)
 
             ImageSubmission.objects.all().first().delete()
@@ -206,7 +192,9 @@ def index(request):
             # get the username of the user who sumbitted the image
             username = get_top_username()
             user = CustomUser.objects.get(username=username)
-            image = stR(get_top_submission().image)
+            
+            image = str(get_top_submission().image)
+
             print("----", image)
             # generate an email to send to the univeristy
             email = EmailMessage(
