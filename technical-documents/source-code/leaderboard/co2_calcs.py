@@ -28,6 +28,11 @@ def get_co2(sub: ImageSubmission, building_name: str):
     if lights == "ON":
         usage += (building_usage['lighting_loss'] * room_usage_day)
     building.co2 += usage
+
+    # Convert building.co2 to 5sf
+    toString = str(building.co2)
+    building.co2 = float(toString[:5])
+
     building.number_submissions += 1
     building.save()
 
