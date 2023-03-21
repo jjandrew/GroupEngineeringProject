@@ -145,7 +145,8 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_FROM = "thegreenmasterproject@gmail.com"
 EMAIL_HOST_USER = "thegreenmasterproject@gmail.com"
-EMAIL_HOST_PASSWORD = "qbtpbupbcpdeqczd"
+EMAIL_HOST_PASSWORD = "sdvkpjhaaenvnshj"
+#qbtpbupbcpdeqczd this is the old one what was there
 #tXbA1JUXqnVxUBQgWwXt
 REPORT_EMAIL = 'louislusso@hotmail.com'
 EMAIL_PORT = 587
