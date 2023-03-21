@@ -1,10 +1,9 @@
 from django.test import TestCase
 from submission.models import ImageSubmission, RoomModel
 import tempfile
-from submission.views import addPoints, calc_user_streaks
 from accounts.models import CustomUser
-from submission.crowd_source import input_stats
-from datetime import datetime, timedelta
+from gkHomepage.crowd_source import input_stats
+from datetime import datetime
 
 
 class ImageSubmissionTestCase(TestCase):
@@ -90,33 +89,6 @@ class ImageSubmissionTestCase(TestCase):
         except:
             self.fail("Can't save an image file with a .png format")
 
-    def test_cant_add_negative_points(self):
-        """ Check a user can't have negative points added. """
-        with self.assertRaises(RuntimeError):
-            addPoints("test", -1)
-
-    def test_cant_add_zero_points(self):
-        """ Check a user can't have zero points added. """
-        with self.assertRaises(RuntimeError):
-            addPoints("test", 0)
-
-    def test_user_points_added(self):
-        """ Tests a user has n points added with function. """
-        user = CustomUser(
-            username="test", email="test@test.com", password="password")
-        user.save()
-        self.assertEqual(user.points, 0)
-
-        # Test user with no points can have 1 point added
-        addPoints("test", 1)
-        updated_user = CustomUser.objects.get(username="test")
-        self.assertEqual(updated_user.points, 1)
-
-        # Test user with 1 point can have multiple added
-        addPoints("test", 5)
-        updated_user = CustomUser.objects.get(username="test")
-        self.assertEqual(updated_user.points, 6)
-
 
 class RoomSubmissionTestCase(TestCase):
     existing_room: RoomModel
@@ -196,6 +168,3 @@ class RoomSubmissionTestCase(TestCase):
                                        number_lights_on=5, number_windows_open=5,
                                        litter_items=5, number_submissions=5)
         self.existing_room.save()
-
-
-

@@ -1,18 +1,16 @@
 from django.shortcuts import render
 from submission.models import ImageSubmission
 from leaderboard.models import BuildingModel
-from django.http import HttpResponse
 from accounts.models import CustomUser
 from django.core.mail import EmailMessage
-from django.http import HttpResponseBadRequest
-from django.shortcuts import get_object_or_404
-from django.views.decorators.http import require_POST
 from django.conf import settings
 from datetime import datetime, timedelta
 import os
 import smtplib
 from email.message import EmailMessage
-from django.http import HttpResponse
+from gkHomepage.crowd_source import input_stats
+
+
 def addPoints(username, points):
     """ Lets the user enter points, and validates the points they enter into
     the form; to execute this function, the user must be logged in.
@@ -26,17 +24,14 @@ def addPoints(username, points):
     user.points += points
     user.save()
 
-def get_top_username():
-    top_submission = ImageSubmission.objects.order_by('-id').first()
-    if top_submission:
-        return top_submission.user
-    return None
 
 def get_top_submission():
     top_submission = ImageSubmission.objects.order_by('-id').first()
     if top_submission:
         return top_submission
     return None
+
+
 def calc_user_streaks(user: CustomUser, today: datetime):
     # Check if user submitted a room yesterday
     yesterday = today - timedelta(days=1)
@@ -44,10 +39,11 @@ def calc_user_streaks(user: CustomUser, today: datetime):
         user.streak += 1
     elif user.last_submission.strftime('%Y-%m-%d') < yesterday.strftime('%Y-%m-%d'):
         user.streak = 1
-    #print(user.last_submission.type())
+    # print(user.last_submission.type())
     user.last_submission = today.strftime('%Y-%m-%d')
 
     user.save()
+
 
 def calcPoints(buildingName):
     """Gives a points for each day since a building has been checked"""
@@ -73,42 +69,51 @@ def calcPoints(buildingName):
     building.save()
     return days_since
 
+
 def index(request):
     images = ImageSubmission.objects.all
     print(ImageSubmission.objects.all().count())
     args = {'images': images}
-    if ImageSubmission.objects.all().count()>0:
-
+    if ImageSubmission.objects.all().count() > 0:
 
         if request.method == 'POST' and 'action_btn_accept' in request.POST:
             print("----", "YOU'VE PRESSED ACCEPT")
-            images = ImageSubmission.objects.exclude(id=ImageSubmission.objects.first().id)
+            images = ImageSubmission.objects.exclude(
+                id=ImageSubmission.objects.first().id)
             args = {'images': images}
 
+            top_sub = get_top_submission()
+
             # Calculate statistics for user
-            username = get_top_username()
+            if top_sub == None:
+                return render(request, "gkHomepage/gkHomepage.html", args)
+            username = top_sub.user
             user = CustomUser.objects.get(username=username)
 
             calc_user_streaks(user, datetime.today())
-            print("----",get_top_submission().building)
-            points = calcPoints(get_top_submission().building)
+            print("----", top_sub.building)
+            points = calcPoints(top_sub.building)
             addPoints(username, points)
+
+            # Checks if stats can be input and inputs if so
+            input_stats(top_sub)
             ImageSubmission.objects.all().first().delete()
             return render(request, "gkHomepage/gkHomepage.html", args)
 
         if request.method == 'POST' and 'action_btn_delete' in request.POST:
-            print("----","YOUVE PRESSED DELETE")
+            print("----", "YOUVE PRESSED DELETE")
             ImageSubmission.objects.all().first().delete()
             args = {'images': images}
             return render(request, "gkHomepage/gkHomepage.html", args)
 
         if request.method == 'POST' and 'action_btn_report' in request.POST:
-            print("----","YOUVE PRESSED REPORT")
+            print("----", "YOUVE PRESSED REPORT")
             ImageSubmission.objects.all().first().delete()
-            #TODO write a mockup email with image, name of user, email of user, date etc and save to file.
+            # TODO write a mockup email with image, name of user, email of user, date etc and save to file.
 
             image_filename = '04d.png'
-            image_path = os.path.abspath(os.path.join(os.path.dirname(__file__), image_filename))
+            image_path = os.path.abspath(os.path.join(
+                os.path.dirname(__file__), image_filename))
             msg = EmailMessage()
             msg['Subject'] = 'Image Report'
             msg['From'] = 'thegreenmasterproject@gmail.com'
@@ -117,13 +122,15 @@ def index(request):
             with open(image_path, 'rb') as f:
                 file_data = f.read()
                 file_name = os.path.basename(image_path)
-                msg.add_attachment(file_data, maintype='image', subtype='png', filename=file_name)
+                msg.add_attachment(file_data, maintype='image',
+                                   subtype='png', filename=file_name)
             with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
                 smtp.starttls()
-                smtp.login('thegreenmasterproject@gmail.com', 'bkstedudehhuuetb')
-                #bkstedudehhuuetb
+                smtp.login('thegreenmasterproject@gmail.com',
+                           'bkstedudehhuuetb')
+                # bkstedudehhuuetb
                 smtp.send_message(msg)
-            print("----",'Email sent.')
+            print("----", 'Email sent.')
 
             images = ImageSubmission.objects.all
             args = {'images': images}

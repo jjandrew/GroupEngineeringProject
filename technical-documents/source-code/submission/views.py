@@ -1,21 +1,8 @@
-from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from .forms import ImageForm
-from accounts.models import CustomUser
-from submission.crowd_source import input_stats
 from submission.models import ImageSubmission, RoomModel
 from datetime import datetime, timedelta
-from leaderboard.models import BuildingModel
-
-
-
-
-
-
-
-
-
 
 
 @login_required
@@ -95,18 +82,14 @@ def working_submission_view(request):
 
             # TODO VALIDATION HERE
 
-
-            # Checks if stats can be input and inputs if so
-            input_stats(image_submission)
-
             # TODO this is where gamekeeper validation occurs
 
             message = "Success"
 
             # TODO: Different numbers of points for different rooms.
             # TODO: Add validation.
-            #points = calcPoints(image_submission.building)
-            #addPoints(username, points)
+            # points = calcPoints(image_submission.building)
+            # addPoints(username, points)
 
             # Maybe reset the form?
             return render(request, 'submission/index.html',
