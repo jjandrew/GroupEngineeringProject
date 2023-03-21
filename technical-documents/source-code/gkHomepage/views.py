@@ -137,7 +137,7 @@ def index(request):
                 id=ImageSubmission.objects.first().id)
             args = {'images': images, 'name': 'Building'}
 
-                top_sub = get_top_submission()
+            top_sub = get_top_submission()
 
                 # Calculate statistics for user
 
@@ -159,9 +159,9 @@ def index(request):
             addPoints(username, points)
             #remove that image from the database
 
-                print("----", top_sub.building)
-                points = calcPoints(top_sub.building)
-                addPoints(username, points)
+            print("----", top_sub.building)
+            points = calcPoints(top_sub.building)
+            addPoints(username, points)
 
             # Checks if stats can be input and inputs if so
             input_stats(top_sub)
@@ -199,7 +199,7 @@ def index(request):
             # get the username of the user who sumbitted the image
             username = get_top_username()
             user = CustomUser.objects.get(username=username)
-            image = stR(get_top_submission().image)
+            image = str(get_top_submission().image)
             print("----",image)
             #generate an email to send to the univeristy
             email = EmailMessage(
