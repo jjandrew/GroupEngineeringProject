@@ -130,9 +130,7 @@ def index(request):
 
     # if there is more than 0 images to review
     if ImageSubmission.objects.all().count() > 0:
-
         # if someone presses the accept button
-
         if request.method == 'POST' and 'action_btn_accept' in request.POST:
             print("----", "YOU'VE PRESSED ACCEPT")
             images = ImageSubmission.objects.exclude(
