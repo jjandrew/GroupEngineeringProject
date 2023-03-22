@@ -1,3 +1,1 @@
-from django.contrib import admin
-
-# Register your models here.
+""" Specifies the data to be used by the admins. """
