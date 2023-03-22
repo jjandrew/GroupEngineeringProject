@@ -1,3 +1,1 @@
-from django.test import TestCase
-
-# Create your tests here.
+""" Outlines the tests for use by the gamekeeper sign up page. """

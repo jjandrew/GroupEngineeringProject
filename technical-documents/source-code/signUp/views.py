@@ -16,14 +16,12 @@ def activate(request, uidb64, token):
 
     Args:
         request: The HTTP request submitted by the user.
-
         uidb64: A unique ID for the user's email.
-
         token: A object to help identify the user.
 
     Returns:
         redirect: 'login': Redirects the user to the login page once their,
-            accounts has been validated.
+            account has been validated.
     """
     # User = CustomUser.objects.get
 
