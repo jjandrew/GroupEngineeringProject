@@ -7,9 +7,10 @@ from django.core.mail import EmailMessage
 from leaderboard.models import BuildingModel
 from leaderboard.co2_calcs import get_co2
 from gkHomepage.crowd_source import input_stats
+import pytz
 
 
-def add_points(username:str, points:int) -> None:
+def add_points(username: str, points: int) -> None:
     """ Lets the user enter points, and validates the points they enter into
     the form; to execute this function, the user must be logged in.
 
@@ -32,7 +33,7 @@ def add_points(username:str, points:int) -> None:
     user.save()
 
 
-def get_top_username() -> None:
+def get_top_username() -> str:
     """ Gets the username of the user that sumbitted the image which the
     gamekeeper is currently reviewing.
 
@@ -47,7 +48,7 @@ def get_top_username() -> None:
     return None
 
 
-def get_top_email() -> None:
+def get_top_email() -> str:
     """ Gets the email of the user that sumbitted the image which the
         gamekeeper is currently reviewing.
 
@@ -63,7 +64,7 @@ def get_top_email() -> None:
     return None
 
 
-def get_top_submission() -> None:
+def get_top_submission() -> ImageSubmission:
     """ Gets the full object of the user that sumbitted the image which the
         gamekeeper is currently reviewing.
 
@@ -78,12 +79,11 @@ def get_top_submission() -> None:
     return None
 
 
-def get_building_name(top_sub: ImageSubmission) -> str:
+def get_building_name(build_name: str) -> str:
     """ Gets the name of the building.
 
     Args:
-        top_sub: ImageSubmission: The ImageSubmission objet representing the
-            top image submission.
+        build_name: str: The name of the building to find formatted name of
 
     Returns:
         str: building_name: The name of the building as a string for ease
@@ -92,7 +92,7 @@ def get_building_name(top_sub: ImageSubmission) -> str:
     # Translate Constant building name to formatted string
     building_name = None
     for choice in building_choices:
-        if choice[0] == top_sub.building:
+        if choice[0] == build_name:
             building_name = choice[1]
             break
     if building_name == None:
@@ -100,7 +100,7 @@ def get_building_name(top_sub: ImageSubmission) -> str:
     return building_name
 
 
-def calc_points(building_name:str) -> int:
+def calc_points(building_name: str) -> int:
     """ Gives a points for each day since a building has been checked.
 
     Args:
@@ -116,13 +116,17 @@ def calc_points(building_name:str) -> int:
     building = None
     if not BuildingModel.objects.filter(name=building_name).exists():
         building = BuildingModel(name=building_name)
-        building.f_name = get_building_name(building_name)
         building.save()
     else:
         building = BuildingModel.objects.get(name=building_name)
     # Get todays date and difference between
     today = datetime.today()
-    last_done = building.last_done.replace(tzinfo=None)
+    last_done = None
+    if isinstance(building.last_done, str):
+        last_done = datetime.strptime(
+            building.last_done, '%Y-%m-%d %H:%M:%S %z').replace(tzinfo=None)
+    else:
+        last_done = building.last_done.replace(tzinfo=None)
     td = today - last_done
     days_since = td.days
     # If difference less than 1 due to default value then make points worth 1
@@ -131,6 +135,7 @@ def calc_points(building_name:str) -> int:
     if days_since < 1:
         days_since = 1
     building.last_done = today
+    building.f_name = get_building_name(building_name)
     building.save()
     return days_since
 
@@ -154,7 +159,8 @@ def index(request):
 
     # if there is more than 0 images to review
     if ImageSubmission.objects.all().count() > 0:
-        args['name'] = get_building_name(get_top_submission())
+        top_sub = get_top_submission()
+        args['name'] = get_building_name(top_sub.building)
 
         # if someone presses the accept button
         if request.method == 'POST' and 'action_btn_accept' in request.POST:
@@ -174,8 +180,7 @@ def index(request):
             if top_sub == None:
                 return render(request, "gkHomepage/gkHomepage.html", args)
             username = top_sub.user
-
-            building_name = get_building_name(top_sub)
+            building_name = get_building_name(top_sub.building)
 
             args['name'] = building_name
 
@@ -212,7 +217,7 @@ def index(request):
             ImageSubmission.objects.all().first().delete()
 
             top_sub = get_top_submission()
-            name = get_building_name(top_sub)
+            name = get_building_name(top_sub.building)
 
             args = {'images': images, 'name': name}
 
@@ -265,8 +270,8 @@ def index(request):
     else:
         date = None
         image = ("/Users/louislusso/Library/CloudStorage/OneDrive-" +
-        "UniversityofExeter/Year 2/Semester 2/Software Development " +
-        "Project/GroupEngineeringProjectGroup4/technical-documents/st" +
-        "atic/images/donkey-looking-down.jpg")
+                 "UniversityofExeter/Year 2/Semester 2/Software Development " +
+                 "Project/GroupEngineeringProjectGroup4/technical-documents/st" +
+                 "atic/images/donkey-looking-down.jpg")
         args = {'images': images}
         return render(request, "gkHomepage/gkHomepage.html", args)

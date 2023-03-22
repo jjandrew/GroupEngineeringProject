@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.contrib import messages
 from accounts.models import CustomUser
-from submission.models import ImageSubmission
+from submission.models import ImageSubmission, RoomModel
 from submission.forms import ImageForm
 
 
@@ -27,43 +27,6 @@ def calc_user_streaks(user: CustomUser, today: datetime):
     user.last_submission = today.strftime('%Y-%m-%d')
 
     user.save()
-
-
-@login_required
-def submission_view(request):
-    """ Displays the form (GET request) and takes the data from the form,
-    validates it and awards the user points.
-
-    Args:
-        request: The HTTP request submitted by the user.
-
-    Returns:
-        render(): If the user has successfully submitted a picture (POST),
-            the submission page is rendered.
-
-        render(): If the submission is unsuccessful, the user is redirected
-            to the submission page.
-    """
-    # Verifies that the user is making a submission from campus
-    if validate_user_ip(request) is False:
-        messages.error(request, ("Must be on Exeter campus to submit images!"))
-
-    # Checks if request is after submitting form or before
-    if request.method == 'POST':
-        # Recreates the form with the posted data
-        form = ImageForm(request.POST, request.FILES)
-
-        # Checks the submission has all valid fields
-        if form.is_valid():
-            form.save()
-
-            return render(request, 'UI/submission.html',
-                          {'form': form})
-    else:
-        # If not already submitted will create a new image form
-        form = ImageForm()
-    # Will return the formatted index.html file with the form entered
-    return render(request, 'UI/submission.html', {'form': form})
 
 
 @login_required
@@ -93,7 +56,6 @@ def working_submission_view(request):
 
             # Gets the data from the form
             data = form.cleaned_data
-            print(data)
             # Gets username of logged in user
             username = request.user.username
 
@@ -116,6 +78,8 @@ def working_submission_view(request):
                     name=image_submission.room.lower(), building=image_submission.building)
             else:
                 skip = True
+                room = RoomModel(name=image_submission.room.lower(),
+                                 building=image_submission.building)
             if not skip:
                 # Check if done an hour before
                 hour_ago = (datetime.now() - timedelta(hours=1))
@@ -142,7 +106,7 @@ def working_submission_view(request):
         # If not already submitted will create a new image form
         form = ImageForm()
     # Will return the formatted index.html file with the form entered
-    return render(request, 'submission/submissionNEW.html', {'form': form})
+    return render(request, 'submission/index.html', {'form': form})
 
 
 def validate_user_ip(request):
@@ -166,7 +130,7 @@ def validate_user_ip(request):
     # Validate that it is in the range of possible IPs on the university
     # campus or from the local host
     if '144.173.23' in user_ip or '127.0.0' in user_ip:
-        #10.173.80
+        # 10.173.80
         return True
     else:
         return False
