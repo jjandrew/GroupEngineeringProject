@@ -64,19 +64,8 @@ body{
     font-size: 24px;
     padding: 12px;
 }
-.tcontrols {}
-    .buttons {
-width: 960px;
-margin: 0 auto;}
 
-    .action_btn {
-width: 500px;
-margin: 0 auto;}
-.tno i {
-    color: #ff695b;
-    font-size: 80px;
-    padding: 17px 28px;
-}
+
 .ti {
     background-color: #fff;
     height: 50px;
@@ -115,26 +104,22 @@ margin: 0 auto;}
     font-size: 60px;
     padding: 35px 30px;
 }
-.action_btn_accept{
-  display:block;
-  height: 80px;
-  width: 80px;
-  border-radius: 50%;
-  border: 1px solid black;
+.flex-parent {
+  display: flex;
 }
-.action_btn_delete{
-  display:block;
-  height: 80px;
-  width: 80px;
-    margin:0 auto;
-    text-align: center;
-  border-radius: 50%;
-  border: 1px solid black;
+
+.jc-center {
+  justify-content: center;
+    padding-top: 40px;
+       color: #8C55AA;
+       font-weight: bold;
+       font-size: 23px;
 }
-.action_btn_report{
-  display:block;
-  height: 80px;
-  width: 80px;
-  border-radius: 50%;
-  border: 1px solid black;
+
+button.margin-right {
+  margin-right: 20px;
 }
+
+.sign{
+
+   }

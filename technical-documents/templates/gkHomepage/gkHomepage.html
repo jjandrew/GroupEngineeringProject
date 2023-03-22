@@ -25,17 +25,18 @@
 
       <div class="tinfo"><i class="fa fa-book" aria-hidden="true"> 0</i><i class="fa fa-users" aria-hidden="true"> 0</i></div>
     </div>
-    <div class="tcontrols" >
+
         <form action="" method="post">
         {% csrf_token %}
-
-      <button class = "action_btn_accept" name="action_btn_accept" type="submit" value="{{ current_id }}" onclick="myFunction()">Accept</button>
-        <button class = "action_btn_delete" name="action_btn_delete" type="submit" value="{{ current_id }}" onclick="myFunction2()">Decline</button>
-        <button class = "action_btn_report" name="action_btn_report" type="submit" value="{{ current_id }}" onclick="myFunction3()">Report</button>
-
+        <div class="flex-parent jc-center">
+            <button  name="action_btn_accept" type="submit" value="{{ current_id }}" >Accept</button>
+            <button name="action_btn_delete" type="submit" value="{{ current_id }}" >Decline</button>
+            <button  name="action_btn_report" type="submit" value="{{ current_id }}" >Report</button>
+        </div>
         </form>
         <p class="forgot"  align="center"><a href="http://127.0.0.1:8000/accounts/gkSignUp/">Create New Account</a></p>
-        </div>
+       <p class="forgot"  align="center"><a href="http://127.0.0.1:8000/logout">Logout</a></p>
+
     </div>
     </div>
 </body>
