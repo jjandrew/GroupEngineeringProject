@@ -2,10 +2,8 @@ from datetime import datetime, timedelta
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from accounts.models import CustomUser
-from leaderboard.models import BuildingModel
 from django.contrib import messages
-from gkHomepage.crowd_source import input_stats
-from submission.models import ImageSubmission, RoomModel
+from submission.models import ImageSubmission
 from submission.forms import ImageForm
 from datetime import datetime, timedelta
 
@@ -40,13 +38,6 @@ def submission_view(request):
         # Checks the submission has all valid fields
         if form.is_valid():
             form.save()
-            # Get the current instance object to display in the template
-            img_obj = form.instance
-
-            # Get the username of the logged in user
-            username = request.user.username
-            # TODO: Different numbers of points for different rooms.
-            # TODO: Add validation.
 
             return render(request, 'UI/submission.html',
                           {'form': form})
