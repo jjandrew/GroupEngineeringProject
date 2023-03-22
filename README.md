@@ -46,6 +46,13 @@ Our product documents are primarily in the form of a product UI. Below is a link
 
 [./product-documents/UI-screenshots](./product-documents/UI-screenshots)
 
-The UI and design documents for the client have also been archived under the link below in the file UI-documentation:
+The other documents describing the product are included in the following file.
 
 [./product-documents/](./product-documents/)
+
+These include:
+
+- "ECM2434 Group 4.pdf" which is the UI documentation and contains the user guide.
+- Green-Master_Poster which is the promotional poster.
+- README_DEVELOPER.MD, this is the guide for onboarding a new developer.
+- testing-strategy.pdf, this is the strategy for the unit tests.

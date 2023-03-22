@@ -10,30 +10,143 @@
 
 
     <title>Green Master : Leaderboard</title>
+
+    <style>
+.filterBx {
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800; 
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+}
+
+.dropdown {
+
+    min-width: 15em;
+    position: relative;
+    margin: 2em;
+
+}
+
+.dropdown * {
+
+    box-sizing: border-box;
+
+}
+
+.select {
+
+    background-color: rgb(196, 196, 196);
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 2px #9a9a9a solid;
+    border-radius: 0.5em;
+    padding: 1em;
+    transition: background 0.3s;
+
+}
+
+.select-clicked {
+    border: 2px #3a3a3a solid;
+}
+
+
+.caret {
+
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #fff;
+    transition: 0.3s;
+}
+
+.caret-rotate {
+    transform: rotate(180deg);
+}
+
+.menu {
+    list-style: none;
+    padding: 0.2em 0.5em;
+    background: rgb(196, 196, 196);
+    border: 1px  rgb(196, 196, 196) solid;
+    box-shadow: 0 0.5em 1em rgba(0,0,0,0.2);
+    border-radius: 0.5em;
+    color: rgb(255, 255, 255);
+    position: absolute;
+    top: 3em;
+    left: 50%;
+    width: 100%;
+    transform: translateX(-50%);
+    opacity: 0;
+    display: none;
+    transition: 0.2s;
+    z-index:1;
+
+}
+
+.menu li {
+
+    padding: 0.7em 0.5em;
+    margin: 0.3em 0;
+    border-radius: 0.5em;
+
+
+}
+
+.active {
+
+    background: #00DEA5;
+    color: #3a3a3a;
+
+}
+
+.menu-open {
+    display: block;
+    opacity:1;
+}
+
+    </style>
+
 </head>
 
 
 
 <body>
 
+
+
     <div class="menu-wrap">
         
-        <input type="checkbox" class="toggler">
+      
+    
+
         
         <div class="hamburger">
             <div>
+                
             </div>
         </div>
         
         <div class="menu">
+            
             <div>
                 <div>
                     <ul>
-                        <li><a href="{% url 'homepage' %}">HOME</a></li>
-                        <li><a href="{% url 'submission' %}">SUBMISSION</a></li>
-                        <li><a href="{% url 'leaderboard' %}">LEADERBOARD</a></li>
-                        <li><a href="{% url 'login' %}">LOGIN/SIGNUP</a></li>
-                        <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+                        <li><a href="{% url 'homepage' %}">home</a></li>
+                        <li><a href="{% url 'submission' %}">submission</a></li>
+                        <li><a href="{% url 'leaderboard' %}">leaderboard</a></li>
+                        <li><a href="{% url 'login' %}">login/signup</a></li>
+                        <li><a href="{% url 'logout' %}">logout</a></li>
+                        <li><a href="{% url 'privacypolicy' %}">privacy policy</a></li>
+                        <li><a href="{% url 'about' %}">about</a></li>
                     </ul>
                 </div>
             </div>
@@ -64,6 +177,79 @@
 
                     <p> all hail your Exeter sustainability champions ...</p>
 
+                    
+    <div class="filterBx">
+
+        <div class="dropdown">
+
+            <div class="select">
+
+                <span class="selected">Selected</span>
+
+                <div class="caret">
+
+                </div>
+
+            </div>
+
+            <ul class="menu">
+
+                <li class="active"> Players</li>
+
+                <li class="active">Buildings</li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    <script>
+
+const dropdowns = document.querySelectorAll('.dropdown');
+
+dropdowns.forEach(dropdown => {
+
+    const select = dropdown.querySelector('.select');
+    const caret = dropdown.querySelector('.caret');
+    const menu = dropdown.querySelector('.menu');
+    const options = dropdown.querySelectorAll('.menu li');
+    const selected = dropdown.querySelector('.selected');
+    
+
+    select.addEventListener('click', () => {
+        
+        select.classList.toggle('select-clicked');
+
+        caret.classList.toggle('caret-rotate');
+
+        menu.classList.toggle('menu-open')
+    });
+
+    options.forEach(option => {
+
+        option.addEventListener('click', () =>{
+
+            selected.innerText = options.innerText;
+
+            select.classList.remove('selected-clicked');
+
+            caret.classList.remove('caret-rotate');
+
+            menu.classList.remove('menu-open');
+
+            options.forEach(option => {
+
+                option.classList.remove('active');
+            });
+
+            option.classList.add('active');
+        });
+    });
+
+});
+    </script>
+
                 </div>
 
             </div>
@@ -85,7 +271,7 @@
                 <div id="ic_points">
 
                     <div class="player_name_top">
-                        <p><k>Red</k> Beard</p>
+                        <p>{{first.username}}</p>
                     </div>
 
                     <div class="points_title">
@@ -93,7 +279,7 @@
                     </div>
 
                     <div class="points">
-                        <p> 1500 </p>
+                        <p>{{first.points}}</p>
                     </div>
 
                 </div>
@@ -113,7 +299,7 @@
                 <div id="ic_points">
 
                     <div class="player_name_top">
-                        <p><k>Fortune</k> Cookie</p>
+                        <p>{{second.username}}</p>
                     </div>
 
                     <div class="points_title">
@@ -121,7 +307,7 @@
                     </div>
 
                     <div class="points">
-                        <p> 4500 </p>
+                        <p>{{second.points}}</p>
                     </div>
 
                 </div>
@@ -143,7 +329,7 @@
                 <div id="ic_points">
 
                     <div class="player_name_top">
-                        <p><k>Baguette</k> Iced</p>
+                        <p>{{third.username}}</p>
                     </div>
 
                     <div class="points_title">
@@ -151,7 +337,7 @@
                     </div>
 
                     <div class="points">
-                        <p> 750 </p>
+                        <p>{{third.points}}</p>
                     </div>
 
                 </div>
@@ -161,11 +347,10 @@
         </div>
 
         <div id="ic_otherplayers">
-
+            {% for entry in remaining %}
             <div id="player_card_other">
-
                 <div class="player_rank">
-                    <p>#4</p>
+                    <p>{{forloop.counter|add:"3"}}</p>
                 </div>
                 
                 <div id="player_icon_small">
@@ -173,166 +358,18 @@
                 </div>
 
                 <div class="player_name">
-                    <p><k>Cherry</k> Blossom</p>
+                    <p>{{entry.username}}</p>
                 </div>
 
                 <div id="ic_points2">
 
                     <div class="points">
-                        <p> 250 <z>points</z></p>
+                        <p>{{entry.points}} <z>points</z></p>
                     </div>
 
                 </div>
-
             </div>
-
-            <div id="player_card_other">
-
-                <div class="player_rank">
-                    <p>#5</p>
-                </div>
-                
-                <div id="player_icon_small">
-                    <img src="../../static/images/user.png">
-                </div>
-
-                <div class="player_name">
-                    <p><k>Green</k> Twig</p>
-                </div>
-
-                <div id="ic_points2">
-
-                    <div class="points">
-                        <p> 150 <z>points</z></p>
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div id="player_card_other">
-
-                <div class="player_rank">
-                    <p>#6</p>
-                </div>
-                
-                <div id="player_icon_small">
-                    <img src="../../static/images/user.png">
-                </div>
-
-                <div class="player_name">
-                    <p><k>Ultimate </k>Stones</p>
-                </div>
-
-                <div id="ic_points2">
-
-                    <div class="points">
-                        <p> 100 <z>points</z></p>
-                    </div>
-
-                </div>
-
-            </div>
-            
-            <div id="player_card_other">
-
-                <div class="player_rank">
-                    <p>#7</p>
-                </div>
-                
-                <div id="player_icon_small">
-                    <img src="../../static/images/user.png">
-                </div>
-
-                <div class="player_name">
-                    <p><k>Paper </k>Vase</p>
-                </div>
-
-                <div id="ic_points2">
-
-                    <div class="points">
-                        <p> 78 <z>points</z></p>
-                    </div>
-
-                </div>
-
-            </div>
-            
-            
-            <div id="player_card_other">
-
-                <div class="player_rank">
-                    <p>#8</p>
-                </div>
-                
-                <div id="player_icon_small">
-                    <img src="../../static/images/user.png">
-                </div>
-
-                <div class="player_name">
-                    <p><k>Nitro </k>Rollover</p>
-                </div>
-
-                <div id="ic_points2">
-
-                    <div class="points">
-                        <p> 53 <z>points</z></p>
-                    </div>
-
-                </div>
-
-            </div>
-            
-            
-            <div id="player_card_other">
-
-                <div class="player_rank">
-                    <p>#9</p>
-                </div>
-                
-                <div id="player_icon_small">
-                    <img src="../../static/images/user.png">
-                </div>
-
-                <div class="player_name">
-                    <p><k>Neutral </k>Waterfall</p>
-                </div>
-
-                <div id="ic_points2">
-
-                    <div class="points">
-                        <p> 42 <z>points</z></p>
-                    </div>
-
-                </div>
-
-            </div>
-            
-            
-            <div id="player_card_other">
-
-                <div class="player_rank">
-                    <p>#10</p>
-                </div>
-                
-                <div id="player_icon_small">
-                    <img src="../../static/images/user.png">
-                </div>
-
-                <div class="player_name">
-                    <p><k>Bakoona </k>Grave</p>
-                </div>
-
-                <div id="ic_points2">
-
-                    <div class="points">
-                        <p> 34 <z>points</z></p>
-                    </div>
-
-                </div>
-
-            </div>
-            
+            {% endfor %}
             
         </div>
 

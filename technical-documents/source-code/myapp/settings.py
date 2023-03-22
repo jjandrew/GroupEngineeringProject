@@ -25,17 +25,20 @@ SECRET_KEY = 'django-insecure-=5fgre8%%9=q3z6z_1bvu+8!osyo$)zh@7zypgsw3xp%x(*ctj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['3.8.17.152', 'localhost', '127.0.0.1', '13.40.15.241']
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'location',
     'accounts',
     'loginApp',
     'leaderboard',
+    'buildingLeaderboard',
     'submission',
+    'gkHomepage',
+    'gkSignUp',
+    'homepage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -90,6 +93,8 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
+AUTH_USER_MODEL="accounts.CustomUser"
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
@@ -136,7 +141,15 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # If time permits an email service like MailGun or SendGrid would be
 # used to send reset emails, instead of having them stored locally.
-
-EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_FROM = "thegreenmasterproject@gmail.com"
+EMAIL_HOST_USER = "thegreenmasterproject@gmail.com"
+EMAIL_HOST_PASSWORD = "sdvkpjhaaenvnshj"
+#qbtpbupbcpdeqczd this is the old one what was there
+#tXbA1JUXqnVxUBQgWwXt
+REPORT_EMAIL = 'louislusso@hotmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
 AUTH_USER_MODEL = 'accounts.CustomUser'

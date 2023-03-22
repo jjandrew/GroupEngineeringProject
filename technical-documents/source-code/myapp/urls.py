@@ -23,8 +23,11 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    # Adds a project level url for the sign up page
+    # Adds a project level url for the signup page for normal users
     path('accounts/', include("signUp.urls")),
+
+    # Adds a project level url for the signup page for gamekeepers
+    path('accounts/', include("gkSignUp.urls")),
 
     # Adds a path to all the views provided by the auth app
     path('accounts/', include("django.contrib.auth.urls")),
@@ -32,22 +35,36 @@ urlpatterns = [
     # Adds a project level url for the logins
     path('login/', include('loginApp.urls')),
 
-    # Takes the user to the location page if they are logged in
-    path('location/', include("location.urls")),
-
     # The leaderboard url
     path('leaderboard/', include('leaderboard.urls')),
 
+    # The building leaderboard url
+    path('buildingLeaderboard/', include('buildingLeaderboard.urls')),
+
+    # The gamekeepers page url
+    path('gkHomepage/', include('gkHomepage.urls')),
+
+    # path('myprofile/', include('myprofile.urls')),
+
     # Takes the user to the 'homepage' if they are not logged in
-    path('', TemplateView.as_view(
-        template_name='UI/index.html'), name='homepage'),
+    # path('', TemplateView.as_view(
+    #    template_name='UI/index.html'), name='homepage'),
+    path('', include('homepage.urls')),
 
     # Path for logging out the user
-    path('logout/', views.userLogout, name='logout'),
+    path('logout/', views.user_logout, name='logout'),
 
     # Path for submission
     path('submission/', include('submission.urls')),
-]
+    # Path for homepage
+    path('', include('homepage.urls')),
+
+    # Path for the privacy policy
+    path('privacypolicy/', views.privacy_policy, name='privacypolicy'),
+
+
+    path('about/', TemplateView.as_view(
+        template_name='UI/about.html'), name='about'),]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Green Master :: Home</title>
+
+    <link rel="stylesheet" href="../../static/css/stylev2.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;500;800&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="gfxhead">
+        <img src="../../static/images/gfx2.png">
+    </div>
+
+    <div class="logo2">
+        <img src="../../static/images\Slice 1.png">
+    </div>
+
+
+
+
+
+
+    <div class="d-mainWrapper">
+
+        <div class="menu-wrap">
+
+                <input type="checkbox" class="toggler">
+
+                <div class="hamburger">
+                    <div>
+                    </div>
+                </div>
+
+                <div class="menu">
+                    <div>
+                        <div>
+                            <ul>
+                                <li><a href="{% url 'homepage' %}">home</a></li>
+                                <li><a href="{% url 'submission' %}">submission</a></li>
+                                <li><a href="{% url 'leaderboard' %}">leaderboard</a></li>
+                                <li><a href="{% url 'logout' %}">logout</a></li>
+                                <li><a href="{% url 'privacypolicy' %}">privacy policy</a></li>
+                                <li><a href="{% url 'about' %}">about</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+
+        <div class="dashboardBx-h">
+            <div class="dashboardTxt-h">
+                Your Dashboard
+            </div>
+        </div>
+
+        <div class="usericonBx">
+            <img src="../../static/images/user.png">
+        </div>
+
+        <div class="userdataBx">
+            <div class="userdataname">
+                {{ username }}
+            </div>
+
+            <div class="userdatapts">
+                <z>Points</z> &nbsp;&nbsp;&nbsp; {{ points }}
+
+            </div>
+            <div class="userdatapts">
+                <z>Streak</z> &nbsp;&nbsp;&nbsp; {{ streak }} &nbsp; <z>days&#128293;</z>
+            </div>
+        </div>
+
+        <div class="userbuttonBx1">
+            <button class="userbtn" type="button">
+                <div class="btnimg">
+                    <img src="../../static/images/apply.png">
+                </div>
+            </button>
+            <p class="userbtnTxt">
+                <a href="{% url 'submission' %}">Submit</a></p>
+            </p>
+        </div>
+        <div class="userbuttonBx2">
+            <button class="userbtn" type="button">
+                <div class="btnimg">
+                    <img src="../../static/images/leaderboard.png">
+                </div>
+            </button>
+            <p class="userbtnTxt">
+                <a href="{% url 'leaderboard' %}">Leaderboard</a></p>
+            </p>
+        </div>
+
+        <div class="userbuttonBx3">
+            <button class="userbtn" type="button">
+                <div class="btnimg">
+                    <img src="../../static/images/log.png">
+                </div>
+            </button>
+            <p class="userbtnTxt">view logs</p>
+        </div>
+
+
+        <div class="notificationBx">
+            <div class="notificationTtl">
+                Notification Hub
+            </div>
+        </div>
+
+        <div class="notifBx1">
+
+            <div class="promoBx1">
+
+                <div class="promoTxt-Ttl ">
+                    Your daily task today is pick a random room in...
+                </div>
+
+                <div class="promoTxt-Ttl ">
+                    <a href="{% url 'submission' %}">{{ task }}</a></p>
+                </div>
+                <div class="promoTxt-subTtl ">
+
+
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+        <div class="notifBx2">
+
+            <div class="promoBx2">
+
+                <div class="promoTxt-Ttl ">
+                    Make your Carbon Footprint smaller!
+                </div>
+
+                <div class="promoTxt-subTtl ">
+
+                    <p>Find out why we do what we do below </p>
+
+
+                </div>
+
+                <div class="link ">
+                    <a href="{% url 'about' %}">Learn More</a></p>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <script src="../../static/js/main.js"></script>
+
+</body>
+
+</html>

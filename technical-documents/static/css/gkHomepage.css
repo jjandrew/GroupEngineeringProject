@@ -1,0 +1,125 @@
+body{
+    background: linear-gradient(to right, #00dea5, #e1e9f0);
+   }
+.imageshowcase {
+    height: 1000px;
+    width: 900px;
+    background-color: rgb(224, 224, 224);
+    margin: 0 auto;
+    border: 1px solid #c0c0c0;
+    border-radius: 25px;
+}
+.tbgwrap { padding: 10px; }
+.theader { height: 65px; border-bottom: 1px solid #c0c0c0; }
+.theader i.fa-comments {
+    color: #c0c0c0;
+    font-size: 40px;
+    display: inline-block;
+    float: right;
+    padding: 10px 20px;
+    position: relative;
+}
+.theader i.fa-cog {
+    color: #c0c0c0;
+    font-size: 40px;
+    display: inline-block;
+    float: left;
+    padding: 10px 20px;
+    position: relative;
+}
+.tlogo { width: 100px; margin: 0 auto; padding: 10px; }
+.tlogo img { width: 100px; }
+
+.image {
+    display: block;
+    width: 800px;
+    height: 700px;
+    overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
+    top: 15px;
+    border: 1px solid #c0c0c0;
+    background-color: rgb(234, 234, 234);
+    box-shadow: 2px 2px 2px #c0c0c0;
+}
+.center {
+ background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+}
+.tphoto img {}
+.tname {
+    padding: 15px;
+    font-size: 20px;
+    font-family: 'Helvetica', sans-serif;
+    float: left;
+}
+.tname .date { font-weight: 200; }
+.tinfo { font-family: 'Helvetica', sans-serif; }
+.tinfo .fa-users, .tinfo .fa-book {
+    color: #c0c0c0;
+    float: right;
+    position: relative;
+    font-size: 24px;
+    padding: 12px;
+}
+
+
+.ti {
+    background-color: #fff;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -o-border-radius: 50%;
+    -ms-border-radius: 50%;
+    position: relative;
+    display: inline-block;
+    left: 12px;
+    top: 30px;
+    border: 10px solid #f0f0f0;
+}
+.ti .fa-info {
+    font-size: 23px;
+    padding: 15px 20px;
+    color: #398beb;
+}
+.tyes {
+    background-color: #fff;
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -o-border-radius: 50%;
+    -ms-border-radius: 50%;
+    position: relative;
+    display: inline-block;
+    top: 48px;
+    left: 0px;
+    border: 10px solid #f0f0f0;
+}
+.tyes i {
+    color: #5de19c;
+    font-size: 60px;
+    padding: 35px 30px;
+}
+.flex-parent {
+  display: flex;
+}
+
+.jc-center {
+  justify-content: center;
+    padding-top: 40px;
+       color: #8C55AA;
+       font-weight: bold;
+       font-size: 23px;
+}
+
+button.margin-right {
+  margin-right: 20px;
+}
+
+.sign{
+
+   }
