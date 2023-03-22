@@ -58,7 +58,7 @@ urlpatterns = [
     path('submission/', include('submission.urls')),
 
     # Path for the privacy policy
-    path('privacypolicy/', views.privacyPolicy, name='privacypolicy'),
+    #path('privacypolicy/', views.privacy_policy, name='privacypolicy'),
 
     path('dashboard/', TemplateView.as_view(
         template_name='UI/dashboard.html'), name='dashboard'),
