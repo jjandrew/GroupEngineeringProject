@@ -124,7 +124,7 @@ def calc_points(building_name: str) -> int:
     last_done = None
     if isinstance(building.last_done, str):
         last_done = datetime.strptime(
-            building.last_done, '%Y-%m-%d %H:%M:%S %z').replace(tzinfo=None)
+            building.last_done, "%Y-%m-%d %H:%M:%S %z").replace(tzinfo=None)
     else:
         last_done = building.last_done.replace(tzinfo=None)
     td = today - last_done
@@ -134,9 +134,7 @@ def calc_points(building_name: str) -> int:
         days_since = 1
     if days_since < 1:
         days_since = 1
-    now = datetime.today()
-    date = now.strftime("%Y-%m-%d %H:%M:%S %z")
-    building.last_done = date
+    building.last_done = datetime.now()
     building.f_name = get_building_name(building_name)
     building.save()
     return days_since
