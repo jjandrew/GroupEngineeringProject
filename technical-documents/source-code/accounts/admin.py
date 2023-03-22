@@ -28,7 +28,7 @@ class CustomUserAdmin(UserAdmin):
             'fields': ('last_login', 'date_joined')
         }),
         ('Additional info', {
-            'fields': ('points', None)
+            'fields': ('points',)
         })
     )
 
