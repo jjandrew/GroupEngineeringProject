@@ -6,23 +6,25 @@ from accounts.models import CustomUser
 from datetime import date
 from django.shortcuts import render
 from django.views import View
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
 def get_daily_task(user):
 
-
     # Check if the user has a daily task assigned for today
     if user.last_daily_task != date.today():
         # Generate a new daily task and assign it to the user
 
-        user.daily_task = random.randint(0, 43)#44 options
+        user.daily_task = random.randint(0, 43)  # 44 options
         user.last_daily_task = date.today()
         user.save()
 
 
+@login_required
 def index(request):
     user = request.user
+
     get_daily_task(user)
 
 
@@ -37,6 +39,7 @@ def index(request):
                         'Reed Mews Wellbeing Centre','Roborough','Russell Seal Fitness Centre','Sir Christopher Ondaatje Devon Cricket Centre',
                         'Sir Henry Wellcome Building for Mood Disorders Research','Streatham Court','Streatham Farm','Washington Singer','Xfi']
 
+
     taskNumber = user.daily_task
     task = building_choices[taskNumber]
 
@@ -46,7 +49,6 @@ def index(request):
     points = request.user.points
     streak = request.user.streak
 
-    args = {'username': username, 'email': email, 'points': points, 'streak': streak, 'task': task}
+    args = {'username': username, 'email': email,
+            'points': points, 'streak': streak, 'task': task}
     return render(request, "homepage/homepage.html", args)
-
-
