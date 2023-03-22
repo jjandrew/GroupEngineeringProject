@@ -38,8 +38,15 @@ def index(request):
                         'Sir Henry Wellcome Building for Mood Disorders Research','Streatham Court','Streatham Farm','Washington Singer','Xfi']
 
     taskNumber = user.daily_task
-    task1 = building_choices[taskNumber]
+    task = building_choices[taskNumber]
 
+    print("____", request.user.points)
+    username = request.user.username
+    email = request.user.email
+    points = request.user.points
+    streak = request.user.streak
 
-    args = {'task1': task1}
+    args = {'username': username, 'email': email, 'points': points, 'streak': streak, 'task': task}
     return render(request, "homepage/homepage.html", args)
+
+

@@ -60,12 +60,13 @@ def submission_view(request):
 
 @login_required
 def working_submission_view(request):
-    """     The webpage and page validation for image submissions. Note, the user
-            must be logged in to see the page.
-            Args:
+    """ The webpage and page validation for image submissions. Note, the user
+    must be logged in to see the page.
+
+    Args:
         request : The web request the user has made that needs to be
             processed.
-        Returns:
+    Returns:
         render(): The webpage to be displayed to the user.
     """
 
@@ -117,8 +118,8 @@ def working_submission_view(request):
     else:
         # If not already submitted will create a new image form
         form = ImageForm()
-        # Will return the formatted index.html file with the form entered
-        return render(request, 'submission/index.html', {'form': form})
+    # Will return the formatted index.html file with the form entered
+    return render(request, 'submission/index.html', {'form': form})
 
 
 def validate_user_ip(request):

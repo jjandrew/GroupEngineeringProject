@@ -71,11 +71,15 @@
 
         <div class="userdataBx">
             <div class="userdataname">
-                Chery Bloom
+                {{ username }}
             </div>
 
             <div class="userdatapts">
-                <z>Points</z> &nbsp;&nbsp;&nbsp; 2305
+                <z>Points</z> &nbsp;&nbsp;&nbsp; {{ points }}
+
+            </div>
+            <div class="userdatapts">
+                <z>Streak</z> &nbsp;&nbsp;&nbsp; {{ streak }} &nbsp; <z>days&#128293;</z>
             </div>
         </div>
 
@@ -85,7 +89,9 @@
                     <img src="../../static/images/apply.png">
                 </div>
             </button>
-            <p class="userbtnTxt">submit</p>
+            <p class="userbtnTxt">
+                <a href="{% url 'submission' %}">Submit</a></p>
+            </p>
         </div>
         <div class="userbuttonBx2">
             <button class="userbtn" type="button">
@@ -93,7 +99,9 @@
                     <img src="../../static/images/leaderboard.png">
                 </div>
             </button>
-            <p class="userbtnTxt">leaderboard</p>
+            <p class="userbtnTxt">
+                <a href="{% url 'submission' %}">Leaderboard</a></p>
+            </p>
         </div>
 
         <div class="userbuttonBx3">
@@ -117,18 +125,19 @@
             <div class="promoBx1">
 
                 <div class="promoTxt-Ttl ">
-                    Star Tip ...
+                    Your daily task today is pick a random room in...
                 </div>
 
+                <div class="promoTxt-Ttl ">
+                    <a href="{% url 'submission' %}">{{ task }}</a></p>
+                </div>
                 <div class="promoTxt-subTtl ">
 
-                    Want more points? Find the least targeted spots on campus
+
 
                 </div>
 
-                <div class="link ">
-                    Go to Maps =>
-                </div>
+
 
             </div>
 
@@ -139,18 +148,18 @@
             <div class="promoBx2">
 
                 <div class="promoTxt-Ttl ">
-                    Make your Carbon Footprint 0
+                    Make your Carbon Footprint smaller!
                 </div>
 
                 <div class="promoTxt-subTtl ">
 
-                    <p>Did you know?</p>
-                    <p>Paper Production Contributes to Carbon Emissions</p>
+                    <p>Find out why we do what we do below </p>
+
 
                 </div>
 
                 <div class="link ">
-                    Learn More =>
+                    <a href="{% url 'about' %}">Learn More</a></p>
                 </div>
 
             </div>
