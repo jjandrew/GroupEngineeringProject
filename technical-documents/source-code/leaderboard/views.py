@@ -77,7 +77,8 @@ def leaderboard(request):
             remaining = buildings[3:]
             remaining_names = []
             for building in remaining:
-                remaining_names.append(get_building_name(building.name))
+                building.f_name = get_building_name(building.name)
+                building.save()
 
             return render(request, 'UI/building_leaderboard.html', {'first': first, 'second': second, 'third': third, 'remaining': remaining, 'first_name': first_name, 'second_name': second_name, 'third_name': third_name, 'remaining_names': remaining_names, })
         except IndexError:
