@@ -31,7 +31,7 @@ def submission_view(request):
     """
     # Verifies that the user is making a submission from campus
     if validate_user_ip(request) is False:
-         messages.error(request, ("Must be on Exeter campus to submit images!"))
+        messages.error(request, ("Must be on Exeter campus to submit images!"))
 
     # Checks if request is after submitting form or before
     if request.method == 'POST':
@@ -65,7 +65,7 @@ def working_submission_view(request):
     """
     # Verifies that the user is making a submission from campus
     if validate_user_ip(request) is False:
-         messages.error(request, ("Must be on Exeter campus to submit images!"))
+        messages.error(request, ("Must be on Exeter campus to submit images!"))
 
     # Checks if request is after submitting form or before
     if request.method == 'POST':
@@ -129,8 +129,8 @@ def validate_user_ip(request):
         user_ip = request.META.get('REMOTE_ADDR')
 
     # Validate that it is in the range of possible IPs on the university
-    # campus
-    if "10.173.80" in user_ip and "127.0.0.1" in user_ip:
+    # campus or from the local host
+    if '10.173.80' in user_ip or '127.0.0' in user_ip:
         return True
     else:
         return False
