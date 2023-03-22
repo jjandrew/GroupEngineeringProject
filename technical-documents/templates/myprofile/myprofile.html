@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<html>
+
+<head>
+  <link rel="stylesheet" href="/../../static/css/login.css">
+  <title>My Profile</title>
+</head>
+
+<body>
+  <div class="main">
+    <p class="sign" align="center">Hello {{ username }}!</p>
+<center><img src="/../../static/images/user.png"
+                width="55"
+                height="55"
+                /></center>
+    <form class="form1" action=""  method=POST>
+        {% csrf_token %}
+
+
+
+        <p  align="center">{{ email }}</p>
+
+        <p class="stats" align="center">Your points earned - {{ points }}</p>
+        <p class="stats" align="center">Current streak - {{ streak }}</p>
+
+
+        <a href="http://127.0.0.1:8000" class="submit" align="center">Back</a>
+    </form>
+    </div>
+</body>
+</html>
+{% endblock%}

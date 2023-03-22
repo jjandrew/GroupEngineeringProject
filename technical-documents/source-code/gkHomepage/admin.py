@@ -1,3 +1,1 @@
-from django.contrib import admin
-
-# Register your models here.
+""" Creates the class for the outlining the data stored for admins """

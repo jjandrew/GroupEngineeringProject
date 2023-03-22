@@ -67,19 +67,6 @@ def get_top_submission():
     return None
 
 
-def calc_user_streaks(user: CustomUser, today: datetime):
-    # Check if user submitted a room yesterday
-    yesterday = today - timedelta(days=1)
-    if user.last_submission.strftime('%Y-%m-%d') == yesterday.strftime('%Y-%m-%d'):
-        user.streak += 1
-    elif user.last_submission.strftime('%Y-%m-%d') < yesterday.strftime('%Y-%m-%d'):
-        user.streak = 1
-    # print(user.last_submission.type())
-    user.last_submission = today.strftime('%Y-%m-%d')
-
-    user.save()
-
-
 def get_building_name(top_sub):
     # Translate Constant building name to formatted string
     building_name = None
@@ -135,39 +122,46 @@ def index(request):
             print("----", "YOU'VE PRESSED ACCEPT")
             images = ImageSubmission.objects.exclude(
                 id=ImageSubmission.objects.first().id)
+
             args = {'images': images, 'name': 'Building'}
 
             top_sub = get_top_submission()
 
-                # Calculate statistics for user
+            # Calculate statistics for user
 
-            #get the username of the users imag
+            # get the username of the users imag
             username = get_top_username()
 
             if top_sub == None:
                 return render(request, "gkHomepage/gkHomepage.html", args)
             username = top_sub.user
 
+            building_name = get_building_name(top_sub)
+
+            args['name'] = building_name
+
             user = CustomUser.objects.get(username=username)
-            #calulate the users streak(if any)
-            calc_user_streaks(user, datetime.today())
+            # calulate the users streak(if any)
 
-            print("----",get_top_submission().building)
-            #calculate the points to give the user
+            #calc_user_streaks(user, datetime.today()) FIX THIS SOMEONES DELETED THE METHOD
+
+            print("----", get_top_submission().building)
+            # calculate the points to give the user
             points = calcPoints(get_top_submission().building)
-            #add the points to the users account
+            # add the points to the users account
             addPoints(username, points)
-            #remove that image from the database
+            # remove that image from the database
 
-            print("----", top_sub.building)
-            points = calcPoints(top_sub.building)
-            addPoints(username, points)
+            
 
             # Checks if stats can be input and inputs if so
             input_stats(top_sub)
 
+            # Calculate the CO2 output for the building
+            get_co2(top_sub, top_sub.building)
+
             ImageSubmission.objects.all().first().delete()
-            #render the template again, checking if theres a new image to upload
+            # render the template again, checking if theres a new image to upload
             return render(request, "gkHomepage/gkHomepage.html", args)
 
         # if the user presses the delete button
@@ -199,9 +193,11 @@ def index(request):
             # get the username of the user who sumbitted the image
             username = get_top_username()
             user = CustomUser.objects.get(username=username)
+
             image = str(get_top_submission().image)
-            print("----",image)
-            #generate an email to send to the univeristy
+
+            print("----", image)
+            # generate an email to send to the univeristy
             email = EmailMessage(
                 'Inapropriate usage of GreenMaster App', 'To whom it may concern, \n'
                 'You are recieving this email as one of our GameKeepers has reported this user for submitting '
@@ -210,42 +206,15 @@ def index(request):
                 'The users email who sent the attacked image is ' + email + ' \n'
                 'This image was sent to us on ' + str(date) + ' ', 'thegreenmasterproject@gmail.com', ["louislusso@hotmail.com", ])
             # attach the image which has been reported to the email
-            # email.attach_file() PUT IMAGE DIR HERE
+            email.attach_file("/Users/louislusso/Library/CloudStorage/OneDrive-UniversityofExeter/Year 2/Semester 2/Software Development Project/GroupEngineeringProjectGroup4/technical-documents/source-code/media/images/04d.png")
             email.send()
             # delete the image object from the database
             ImageSubmission.objects.all().first().delete()
 
             print("----", "YOUVE PRESSED REPORT")
-            ImageSubmission.objects.all().first().delete()
-            # TODO write a mockup email with image, name of user, email of user, date etc and save to file.
 
-            image_filename = '04d.png'
-            image_path = os.path.abspath(os.path.join(
-                os.path.dirname(__file__), image_filename))
-            msg = EmailMessage()
-            msg['Subject'] = 'Image Report'
-            msg['From'] = 'thegreenmasterproject@gmail.com'
-            msg['To'] = 'louislusso@hotmail.com'
-            msg.set_content('Please find the attached image report.')
-            with open(image_path, 'rb') as f:
-                file_data = f.read()
-                file_name = os.path.basename(image_path)
-                msg.add_attachment(file_data, maintype='image',
-                                   subtype='png', filename=file_name)
-            with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
-                smtp.starttls()
-                smtp.login('thegreenmasterproject@gmail.com',
-                           'bkstedudehhuuetb')
-                # bkstedudehhuuetb
-                smtp.send_message(msg)
-            print("----", 'Email sent.')
 
-            images = ImageSubmission.objects.all
 
-            top_sub = get_top_submission()
-            name = get_building_name(top_sub)
-
-            args = {'images': images, 'name': name}
 
             args = {'images': images}
             # render the template again, checking if theres a new image to upload
@@ -253,5 +222,11 @@ def index(request):
 
         # render the template again, checking if theres a new image to upload
         return render(request, "gkHomepage/gkHomepage.html", args)
-
-    return render(request, "gkHomepage/gkHomepage.html", args)
+    else:
+        #TODO make final image a defult one
+        room = None
+        user = None
+        date = None
+        image = "/Users/louislusso/Library/CloudStorage/OneDrive-UniversityofExeter/Year 2/Semester 2/Software Development Project/GroupEngineeringProjectGroup4/technical-documents/static/images/donkey-looking-down.jpg"
+        args = {'images': images}
+        return render(request, "gkHomepage/gkHomepage.html", args)

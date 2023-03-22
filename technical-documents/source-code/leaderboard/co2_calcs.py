@@ -1,31 +1,24 @@
-""" Outlines the methods for calculating CO2 statistics. """
-from submission.models import ImageSubmission
 from leaderboard.annual_building_usage import building_usage
 from leaderboard.models import BuildingModel
+from submission.models import ImageSubmission
+from math import log10, floor
 
 
-def get_co2(sub: ImageSubmission, building_name: str) -> float:
-    """ Gets the co2 emmissions for widows open and lights on.
+def round_5(x, sig=5):
+    """Round a float to five significant figures"""
+    return round(x, sig-int(floor(log10(abs(x))))-1)
 
-    Args:
-        sub: ImageSubmission: The user's submission image, as our custom
-            ImageSubmission object.
 
-        building_name: str: The name of the building to calculate C02
-            emissions for, given as a string to make processing easier.
 
-    Returns:
-        float: usage: The total C02 usage for the given building, returned as
-            a float to ensure maximum accuracy.
-    """
+def get_co2(sub: ImageSubmission, building_name: str):
+    """Gets the co2 emmissions for widows open and lights on"""
     # Get the building and the lights and window status
     building = BuildingModel.objects.get(name=building_name)
     windows = sub.windows_status
     lights = sub.lights_status
 
     # Get assumed energy usage per day
-    # Get the number of rooms in building by energy usage by building as a
-    # percentage of total usage
+    # Get the number of rooms in building by energy usage by building as a percentage of total usage
     # Assumes you are saving for a whole day
     rooms_in_building = (building_usage['kwh'][sub.building] /
                          building_usage['total_kwh']) * building_usage['approx_total_rooms']
@@ -41,11 +34,8 @@ def get_co2(sub: ImageSubmission, building_name: str) -> float:
         usage += (building_usage['window_loss'] * room_usage_day)
     if lights == "ON":
         usage += (building_usage['lighting_loss'] * room_usage_day)
-    building.co2 += usage
-
-    # Convert building.co2 to 5sf
-    toString = str(building.co2)
-    building.co2 = float(toString[:5])
+    if usage != 0:
+        building.co2 += round_5(usage)
 
     building.number_submissions += 1
     building.save()

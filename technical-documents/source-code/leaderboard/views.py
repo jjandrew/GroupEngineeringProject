@@ -1,9 +1,8 @@
-""" Outlines the methods to be used in the leaderboard app. """
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from accounts.models import CustomUser
+from .models import BuildingModel
 from submission.models import building_choices
-from leaderboard.models import BuildingModel
 
 
 def get_building_name(const):
@@ -23,20 +22,12 @@ def get_building_name(const):
 def leaderboard(request):
     """ A function for displaying and ordering (in descending order) the
     leaderboard. Note, to access this, the user must be logged in.
-
-    Args:
-        request: The HTTP request submitted by the user.
-
-    Returns:
-        render: Returns the leaderboard page with different values, depending
-        on whether or not certain criteria are met.
     """
 
     to_use = 'player'
 
     players = CustomUser.objects.filter(points__gt=0).order_by('-points')
     buildings = BuildingModel.objects.filter(co2__gt=0).order_by('co2')
-    print(buildings[0].co2)
 
     if to_use == 'players':
         try:
@@ -57,7 +48,6 @@ def leaderboard(request):
                     }
                     return render(request, 'UI/player_leaderboard.html', {'first': first, 'second': second, 'third': third, 'remaining': []})
                 except UnboundLocalError:
-                    print("here1")
                     try:
                         second = {
                             'username': "Insufficient Users",
@@ -79,7 +69,7 @@ def leaderboard(request):
             first_name = get_building_name(first.name)
             second = buildings[1]
             second_name = get_building_name(second.name)
-            third = second = buildings[2]
+            third = buildings[2]
             third_name = get_building_name(third.name)
             remaining = buildings[3:]
             remaining_names = []
@@ -98,7 +88,6 @@ def leaderboard(request):
                     third_name = "No buildings"
                     return render(request, 'UI/building_leaderboard.html', {'first': first, 'second': second, 'third': third, 'remaining': [], 'first_name': first_name, 'second_name': second_name, 'third_name': third_name, 'remaining_names': []})
                 except UnboundLocalError:
-                    print("here")
                     try:
                         second = {
                             'co2': 0
@@ -106,7 +95,6 @@ def leaderboard(request):
                         second_name = "No buildings"
                         return render(request, 'UI/building_leaderboard.html', {'first': first, 'second': second, 'third': third, 'remaining': [], 'first_name': first_name, 'second_name': second_name, 'third_name': third_name, 'remaining_names': []})
                     except UnboundLocalError:
-                        print("not here")
                         first = {
                             'co2': 0
                         }

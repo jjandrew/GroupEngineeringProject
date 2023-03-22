@@ -1,4 +1,4 @@
-""" myapp URL Configuration
+"""myapp URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.1/topics/http/urls/
@@ -16,10 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic.base import TemplateView
+from . import views
 from django.conf import settings
 from django.conf.urls.static import static
-from myapp import views
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -45,12 +44,15 @@ urlpatterns = [
     # The gamekeepers page url
     path('gkHomepage/', include('gkHomepage.urls')),
 
+    path('myprofile/', include('myprofile.urls')),
+
     # Takes the user to the 'homepage' if they are not logged in
-    path('', TemplateView.as_view(
-        template_name='UI/index.html'), name='homepage'),
+   # path('', TemplateView.as_view(
+    #    template_name='UI/index.html'), name='homepage'),
+    path('', include('homepage.urls')),
 
     # Path for logging out the user
-    path('logout/', views.user_logout, name='logout'),
+    path('logout/', views.userLogout, name='logout'),
 
     # Path for submission
     path('submission/', include('submission.urls')),
@@ -63,10 +65,7 @@ urlpatterns = [
 
     path('about/', TemplateView.as_view(
         template_name='UI/about.html'), name='about'),
-]
 
-# If the debug setting is set to true, add the media root and URL to the
-# patterns
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)

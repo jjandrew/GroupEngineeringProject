@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Green Master : Dashboard </title>
+
+    <link rel="stylesheet" href="../../static/css/homepage.css">
+
+
+</head>
+
+<body>
+
+    <div class="menu-wrap">
+
+        <input type="checkbox" class="toggler">
+
+        <div class="hamburger">
+            <div>
+            </div>
+        </div>
+
+        <div class="menu">
+            <div>
+                <div>
+                    <ul>
+                        <li><a href="{% url 'homepage' %}">HOME</a></li>
+                        <li><a href="{% url 'submission' %}">SUBMISSION</a></li>
+                        <li><a href="{% url 'leaderboard' %}">LEADERBOARD</a></li>
+                        <li><a href="{% url 'myprofile' %}">MY PROFILE</a></li>
+                        <li><a href="{% url 'login' %}">LOGIN/SIGNUP</a></li>
+                        <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+                        <li><a href="{% url 'privacypolicy' %}">PRIVACY POLICY</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="s-mainWrapper">
+
+        <div class="topBarBx">
+
+            <div class="topLogo">
+
+                <img src="../../static/images/logo.png">
+
+            </div>
+
+        </div>
+
+
+
+        <div class = "alert" >
+            <p>Your daily task is to visit <a href="{% url 'submission' %}">{{ task1 }}.</a></p>
+        </div>
+
+
+        <div class="footerBx">
+
+        </div>
+
+    </div>
+
+    <script src="/../../static/js/main.js"></script>
+
+</body>
+
+</html>
