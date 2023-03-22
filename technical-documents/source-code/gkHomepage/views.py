@@ -7,9 +7,10 @@ from django.core.mail import EmailMessage
 from leaderboard.models import BuildingModel
 from leaderboard.co2_calcs import get_co2
 from gkHomepage.crowd_source import input_stats
+import pytz
 
 
-def add_points(username:str, points:int) -> None:
+def add_points(username: str, points: int) -> None:
     """ Lets the user enter points, and validates the points they enter into
     the form; to execute this function, the user must be logged in.
 
@@ -91,8 +92,9 @@ def get_building_name(top_sub: ImageSubmission) -> str:
     """
     # Translate Constant building name to formatted string
     building_name = None
+    print(building_name)
     for choice in building_choices:
-        if choice[0] == top_sub.building:
+        if choice[0] == top_sub:
             building_name = choice[1]
             break
     if building_name == None:
@@ -100,7 +102,7 @@ def get_building_name(top_sub: ImageSubmission) -> str:
     return building_name
 
 
-def calc_points(building_name:str) -> int:
+def calc_points(building_name: str) -> int:
     """ Gives a points for each day since a building has been checked.
 
     Args:
@@ -114,6 +116,7 @@ def calc_points(building_name:str) -> int:
     # Get the building model
     # Definitely created as this is checked when stats are input
     building = None
+    print(building_name)
     if not BuildingModel.objects.filter(name=building_name).exists():
         building = BuildingModel(name=building_name)
         building.f_name = get_building_name(building_name)
@@ -122,7 +125,12 @@ def calc_points(building_name:str) -> int:
         building = BuildingModel.objects.get(name=building_name)
     # Get todays date and difference between
     today = datetime.today()
-    last_done = building.last_done.replace(tzinfo=None)
+    last_done = None
+    if isinstance(building.last_done, str):
+        last_done = datetime.strptime(
+            building.last_done, '%Y-%m-%d %H:%M:%S %z').replace(tzinfo=None)
+    else:
+        last_done = building.last_done.replace(tzinfo=None)
     td = today - last_done
     days_since = td.days
     # If difference less than 1 due to default value then make points worth 1
@@ -174,8 +182,8 @@ def index(request):
             if top_sub == None:
                 return render(request, "gkHomepage/gkHomepage.html", args)
             username = top_sub.user
-
-            building_name = get_building_name(top_sub)
+            print("t", top_sub)
+            building_name = get_building_name(top_sub.building)
 
             args['name'] = building_name
 
@@ -186,7 +194,7 @@ def index(request):
 
             print("----", get_top_submission().building)
             # calculate the points to give the user
-            points = calc_points(get_top_submission().building)
+            points = calc_points(get_top_submission())
             # add the points to the users account
             add_points(username, points)
             # remove that image from the database
@@ -265,8 +273,8 @@ def index(request):
     else:
         date = None
         image = ("/Users/louislusso/Library/CloudStorage/OneDrive-" +
-        "UniversityofExeter/Year 2/Semester 2/Software Development " +
-        "Project/GroupEngineeringProjectGroup4/technical-documents/st" +
-        "atic/images/donkey-looking-down.jpg")
+                 "UniversityofExeter/Year 2/Semester 2/Software Development " +
+                 "Project/GroupEngineeringProjectGroup4/technical-documents/st" +
+                 "atic/images/donkey-looking-down.jpg")
         args = {'images': images}
         return render(request, "gkHomepage/gkHomepage.html", args)
