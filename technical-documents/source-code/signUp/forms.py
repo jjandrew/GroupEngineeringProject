@@ -1,12 +1,18 @@
+""" Creates all the forms to be displayed to the user as part of the signup
+app.
+"""
 from django import forms
-from accounts.models import CustomUser
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib import messages
+from accounts.models import CustomUser
+
 
 class SignUpForm(UserCreationForm):
     """ Defines the parameters and data collected from the sign up form,
     in addition to methods for cleaning and validating the username, email and
     password.
+
+    Args:
+        UserCreationForm: The Django default form object for creating users.
     """
     def __init__(self, *args, **kwargs):
         """ The constructor for the signup form that specifies the CSS characteristics for
@@ -56,6 +62,7 @@ class SignUpForm(UserCreationForm):
             'name': 'password2',
             'placeholder': 'Confirm password',
         })
+    # Each of the fields to be displayed on the signup page
     username = forms.CharField(max_length=20, label=False)
     first_name = forms.CharField(max_length=20, label=False)
     last_name = forms.CharField(max_length=20, label=False)
@@ -64,17 +71,26 @@ class SignUpForm(UserCreationForm):
     def clean_email(self):
         """ Validates the email the user enters into the sign up form to ensure
         it is an @exeter.ac.uk email.
-        """
-        cleanEmail = self.cleaned_data['email']
 
-        if "@exeter.ac.uk" not in cleanEmail:
+        Return:
+            str: cleanEmail: The 'cleaned' version of the email the user
+                entered into the signup page, given as a string for ease of
+                processing.
+        """
+        clean_email = self.cleaned_data['email']
+
+        if "@exeter.ac.uk" not in clean_email:
             raise forms.ValidationError("Please use an @exeter.ac.uk email.")
 
-        return cleanEmail
+        return clean_email
 
     def clean_password2(self):
         """ 'Cleans' the passwords entered into the form and checks if they
         match, raising an error if they don't.
+
+        Return:
+            str: password: The second password the user entered into the signup
+                page, returned as a string for ease of processing.
         """
         password1 = self.cleaned_data['password1']
         password2 = self.cleaned_data['password2']
@@ -91,6 +107,10 @@ class SignUpForm(UserCreationForm):
     def clean_username(self):
         """ 'Cleans' the username entered into the form and checks that the
         username the user has entered is unique.
+
+        Returns:
+            str: username: Returns the name of the user as a string for ease
+                of processing.
         """
         username = self.cleaned_data['username']
 
@@ -99,9 +119,9 @@ class SignUpForm(UserCreationForm):
 
         except CustomUser.DoesNotExist:
             return username
-        
+
         # Throws an error if the username is already being used
-        raise forms.ValidationError(u'Username "%s" is already in use.' % username)
+        raise forms.ValidationError(f'Username {username} is already in use.')
 
     class Meta:
         """ A class that talks about the sign up class, enabling further

@@ -1,3 +1,1 @@
-from django.db import models
-
-# Create your models here.
+""" Outlines the models to be used by the homepage. """

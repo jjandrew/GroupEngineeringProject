@@ -1,7 +1,8 @@
+""" The calculations for CO2 usage per building """
+from math import log10, floor
 from leaderboard.annual_building_usage import building_usage
 from leaderboard.models import BuildingModel
 from submission.models import ImageSubmission
-from math import log10, floor
 
 
 def round_5(x, sig=5):

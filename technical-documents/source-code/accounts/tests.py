@@ -1,14 +1,18 @@
+""" Outlines the tests to be used by the accounts section. """
 from django.test import TestCase
-from accounts.models import CustomUser
-from django.contrib.auth import get_user_model
 from django.db import IntegrityError
+from django.contrib.auth import get_user_model
+from accounts.models import CustomUser
 
 
 class CustomUserModel(TestCase):
     """ Declares each of the tests for the accounts section of the website.
+
+    Args:
+        TestCase: The Django TestCase object used to test parts of the accounts.
     """
 
-    def setUp(self):
+    def set_up(self):
         """ Creates a model user for use in testing. """
         user = CustomUser(username="testUser",
                           email="test@exeter.ac.uk", password="password")
@@ -27,15 +31,15 @@ class CustomUserModel(TestCase):
 
     def test_user_cant_be_created_without_username(self):
         """ Tests user must have username. """
-        User = get_user_model()
+        user = get_user_model()
         # Tests user must have username
         with self.assertRaises(TypeError):
-            User.objects.create_user(
+            user.objects.create_user(
                 email="test1@exeter.ac.uk", password="password")
 
         # Tests username can't be empty
         with self.assertRaises(ValueError):
-            User.objects.create_user(
+            user.objects.create_user(
                 username="", email="test1@exeter.ac.uk", password="password")
 
     def test_username_must_be_unique(self):

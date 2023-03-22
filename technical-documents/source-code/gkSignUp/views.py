@@ -1,21 +1,28 @@
+""" Outlines the functions to be used in the gamekeeper sign up. """
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.http import urlsafe_base64_encode
-from django.contrib.auth import get_user_model
 from django.utils.encoding import force_bytes, force_str
-from . import forms
-from accounts.models import CustomUser
-from django.contrib import messages
 from django.contrib.auth.models import Group
-
-
-from .tokens import account_activation_token
+from accounts.models import CustomUser
+from gkSignUp import forms
+from gkSignUp.tokens import account_activation_token
 
 
 def activate(request, uidb64, token):
+    """" Activates a new user account with their id being their primary key.
+
+    Args:
+        request: The HTTP request submitted by the user.
+        uidb64: A unique ID for the user's email.
+        token: A object to help identify the user.
+
+    Returns:
+        redirect: 'login': Redirects the user to the login page once their,
+            account has been validated.
+    """
     # User = CustomUser.objects.get
 
     try:
@@ -27,6 +34,7 @@ def activate(request, uidb64, token):
     except:
         user = None
 
+    # If the user exists and has a valid token, they are signed in
     if user is not None and account_activation_token.check_token(user, token):
         user.is_user = True
         user.save()
@@ -34,9 +42,19 @@ def activate(request, uidb64, token):
     return redirect('login')
 
 
-def activateEmail(request, user, to_email):
+def activate_email(request, user, to_email: str) -> None:
+    """ Activates the gamekeeper's email when they sign up.
+
+    Args:
+        request: The HTTP request submitted by the user.
+        user: (User): The User object corresponding to the user trying to sign
+            in.
+        to_email: (str): The email of the user trying to sign in, as a string
+            for ease of processing.
+    """
     mail_subject = "Activate your user account"
 
+    # Formats the email to sent to the user as a string
     message = render_to_string(
         "signUp/template_activate_user.html",
         {"user": user.username,
@@ -54,6 +72,16 @@ def signup(request):
     """ Displays the sign up page (GET request) and takes the data from the
     sign up form, validates it and creates a new user, displaying any error
     messages if necessary.
+
+    Args:
+        request: The HTTP request submitted by the user.
+
+    Returns:
+        redirect(): If the user has filled in the form (POST request), they are
+            redirected to the leaderboard.
+
+        render(): If the signup page is being requested as a GET request, the
+            sign up page is shown to the gamekeeper.
     """
     if request.method == "POST":
 
@@ -67,10 +95,9 @@ def signup(request):
             user.save()
             user_group = Group.objects.get(name='Gamekeeper')
             user_group.user_set.add(user)
-            activateEmail(request, user, form.cleaned_data.get('email'))
+            activate_email(request, user, form.cleaned_data.get('email'))
             return redirect('leaderboard')
-        # else:
-            # messages.info(request, 'Invalid registration details')
+
     else:
         # GET request case
         form = forms.gkSignUpForm()

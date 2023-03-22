@@ -1,3 +1,1 @@
-from django.test import TestCase
-
-# Create your tests here.
+""" Outlines the tests used to ensure the homepage runs as intended. """
