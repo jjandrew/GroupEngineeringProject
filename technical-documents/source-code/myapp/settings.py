@@ -31,7 +31,6 @@ ALLOWED_HOSTS = ['3.8.17.152', 'localhost', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
-    'location',
     'accounts',
     'loginApp',
     'leaderboard',
