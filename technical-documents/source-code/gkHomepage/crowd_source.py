@@ -1,6 +1,19 @@
-from submission.models import RoomModel, ImageSubmission
+from submission.models import RoomModel, ImageSubmission, building_choices
 from datetime import datetime
 from leaderboard.models import BuildingModel
+
+
+def get_building_name(top_sub):
+    # Translate Constant building name to formatted string
+    building_name = None
+    for choice in building_choices:
+        if choice[0] == top_sub.building:
+            building_name = choice[1]
+            break
+    if building_name == None:
+        # TODO remove this
+        print("Collosal error")
+    return building_name
 
 
 def input_stats(submission: ImageSubmission):
@@ -19,6 +32,7 @@ def input_stats(submission: ImageSubmission):
     building = None
     if not BuildingModel.objects.filter(name=submission.building).exists():
         building = BuildingModel(name=submission.building)
+        building.f_name = get_building_name(submission.building)
         building.save()
 
     add_stats(submission, room)

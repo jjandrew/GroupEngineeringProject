@@ -87,6 +87,7 @@ def calcPoints(buildingName):
     building = None
     if not BuildingModel.objects.filter(name=buildingName).exists():
         building = BuildingModel(name=buildingName)
+        building.f_name = get_building_name(buildingName)
         building.save()
     else:
         building = BuildingModel.objects.get(name=buildingName)
@@ -143,7 +144,7 @@ def index(request):
             user = CustomUser.objects.get(username=username)
             # calulate the users streak(if any)
 
-            #calc_user_streaks(user, datetime.today()) FIX THIS SOMEONES DELETED THE METHOD
+            # calc_user_streaks(user, datetime.today()) FIX THIS SOMEONES DELETED THE METHOD
 
             print("----", get_top_submission().building)
             # calculate the points to give the user
@@ -151,8 +152,6 @@ def index(request):
             # add the points to the users account
             addPoints(username, points)
             # remove that image from the database
-
-            
 
             # Checks if stats can be input and inputs if so
             input_stats(top_sub)
@@ -206,15 +205,13 @@ def index(request):
                 'The users email who sent the attacked image is ' + email + ' \n'
                 'This image was sent to us on ' + str(date) + ' ', 'thegreenmasterproject@gmail.com', ["louislusso@hotmail.com", ])
             # attach the image which has been reported to the email
-            email.attach_file("/Users/louislusso/Library/CloudStorage/OneDrive-UniversityofExeter/Year 2/Semester 2/Software Development Project/GroupEngineeringProjectGroup4/technical-documents/source-code/media/images/04d.png")
+            email.attach_file(
+                "/Users/louislusso/Library/CloudStorage/OneDrive-UniversityofExeter/Year 2/Semester 2/Software Development Project/GroupEngineeringProjectGroup4/technical-documents/source-code/media/images/04d.png")
             email.send()
             # delete the image object from the database
             ImageSubmission.objects.all().first().delete()
 
             print("----", "YOUVE PRESSED REPORT")
-
-
-
 
             args = {'images': images}
             # render the template again, checking if theres a new image to upload
@@ -223,7 +220,7 @@ def index(request):
         # render the template again, checking if theres a new image to upload
         return render(request, "gkHomepage/gkHomepage.html", args)
     else:
-        #TODO make final image a defult one
+        # TODO make final image a defult one
         room = None
         user = None
         date = None
