@@ -35,9 +35,6 @@ urlpatterns = [
     # Adds a project level url for the logins
     path('login/', include('loginApp.urls')),
 
-    # Takes the user to the location page if they are logged in
-    path('location/', include("location.urls")),
-
     # The leaderboard url
     path('leaderboard/', include('leaderboard.urls')),
 

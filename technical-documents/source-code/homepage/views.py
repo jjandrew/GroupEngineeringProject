@@ -24,22 +24,26 @@ def get_daily_task(user):
 @login_required
 def index(request):
     user = request.user
-    # get_daily_task(user)
 
-    building_choices = ['Alexander', 'Amory', 'Business School Building:One', 'Byrne House', 'Clayden',
-                        'Clydesdale House', 'Cornwall House', 'Cornwall House Swimming Pool', 'Devonshire House',
-                        'Estate Service Centre', 'Family Centre (Owlets)', 'Forum and Library', 'Geoffrey Pope',
-                        'Great Hall and University Reception', 'Harrison', 'Hatherly', 'Henry Wellcome Building for Biocatalysis',
-                        'Innovation Centre Phase 1 and 2', 'Institute of Arab and Islamic Studies', 'INTO International Study Centre',
-                        'Kay House Duryard', 'Knightley', 'Lafrowda House', 'Laver', 'Lazenby', 'Mary Harris Memorial Chapel', 'Newman',
-                        'Northcote House', 'Northcott Theatre', 'Old Library', 'Peter Chalk Centre', 'Physics', "Queen's", 'Redcot', 'Reed Hall',
-                        'Reed Mews Wellbeing Centre', 'Roborough', 'Russell Seal Fitness Centre', 'Sir Christopher Ondaatje Devon Cricket Centre',
-                        'Sir Henry Wellcome Building for Mood Disorders Research', 'Streatham Court', 'Streatham Farm', 'Washington Singer', 'Xfi']
+    get_daily_task(user)
+
+
+
+    building_choices = ['Alexander','Amory', 'Business School Building:One','Byrne House', 'Clayden',
+                        'Clydesdale House','Cornwall House','Cornwall House Swimming Pool','Devonshire House',
+                        'Estate Service Centre','Family Centre (Owlets)','Forum and Library','Geoffrey Pope',
+                        'Great Hall and University Reception','Harrison','Hatherly','Henry Wellcome Building for Biocatalysis',
+                        'Innovation Centre Phase 1 and 2','Institute of Arab and Islamic Studies','INTO International Study Centre',
+                        'Kay House Duryard','Knightley','Lafrowda House','Laver','Lazenby','Mary Harris Memorial Chapel','Newman',
+                        'Northcote House','Northcott Theatre','Old Library','Peter Chalk Centre','Physics',"Queen's",'Redcot','Reed Hall',
+                        'Reed Mews Wellbeing Centre','Roborough','Russell Seal Fitness Centre','Sir Christopher Ondaatje Devon Cricket Centre',
+                        'Sir Henry Wellcome Building for Mood Disorders Research','Streatham Court','Streatham Farm','Washington Singer','Xfi']
+
 
     taskNumber = user.daily_task
     task = building_choices[taskNumber]
 
-    print("____", request.user.points)
+    #print("____", request.user.points)
     username = request.user.username
     email = request.user.email
     points = request.user.points

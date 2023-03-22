@@ -34,8 +34,8 @@
             <button  name="action_btn_report" type="submit" value="{{ current_id }}" >Report</button>
         </div>
         </form>
-        <p class="forgot"  align="center"><a href="http://127.0.0.1:8000/accounts/gkSignUp/">Create New Account</a></p>
-       <p class="forgot"  align="center"><a href="http://127.0.0.1:8000/logout">Logout</a></p>
+        <p class="forgot"  align="center"><a href="{% url 'logout' %}">Create New Account</a></p>
+       <p class="forgot"  align="center"><a href="{% url 'logout' %}">Logout</a></p>
 
     </div>
     </div>
