@@ -12,3 +12,4 @@ class BuildingModel(models.Model):
     number_submissions = models.IntegerField(default=0)
     last_done = models.DateTimeField(default='2023-01-01 00:00:00 +0000')
     f_name = models.CharField(max_length=60, default="")
+    norm_co2 = models.FloatField(default=0)

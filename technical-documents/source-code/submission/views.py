@@ -23,7 +23,6 @@ def calc_user_streaks(user: CustomUser, today: datetime):
     user.save()
 
 
-
 @login_required
 def submission_view(request):
     """ Displays the form (GET request) and takes the data from the form,
@@ -31,7 +30,7 @@ def submission_view(request):
     """
     # Verifies that the user is making a submission from campus
     if validate_user_ip(request) is False:
-         messages.error(request, ("Must be on Exeter campus to submit images!"))
+        messages.error(request, ("Must be on Exeter campus to submit images!"))
 
     # Checks if request is after submitting form or before
     if request.method == 'POST':
@@ -60,24 +59,23 @@ def submission_view(request):
 
 @login_required
 def working_submission_view(request):
-    """     The webpage and page validation for image submissions. Note, the user
-            must be logged in to see the page.
-            Args:
+    """ The webpage and page validation for image submissions. Note, the user
+    must be logged in to see the page.
+
+    Args:
         request : The web request the user has made that needs to be
             processed.
-        Returns:
+    Returns:
         render(): The webpage to be displayed to the user.
     """
 
-    if request.method == 'POST':
-        uploadedFile = request.FILES["subFile"]
-       # print(uploadedFile.name)
-        return render(request, 'UI/submissionNEW.html')
-
+    # if request.method == 'POST':
+    #     # uploadedFile = request.FILES["subFile"]
+    #     return render(request, 'UI/submissionNEW.html')
 
     # Verifies that the user is making a submission from campus
     if validate_user_ip(request) is False:
-         messages.error(request, ("Must be on Exeter campus to submit images!"))
+        messages.error(request, ("Must be on Exeter campus to submit images!"))
 
     # Checks if request is after submitting form or before
     if request.method == 'POST':
@@ -110,15 +108,14 @@ def working_submission_view(request):
 
             message = "Success"
 
-
             # Maybe reset the form?
             return render(request, 'submission/index.html',
                           {'form': form, 'message': message})
     else:
         # If not already submitted will create a new image form
         form = ImageForm()
-        # Will return the formatted index.html file with the form entered
-        return render(request, 'submission/index.html', {'form': form})
+    # Will return the formatted index.html file with the form entered
+    return render(request, 'submission/index.html', {'form': form})
 
 
 def validate_user_ip(request):
@@ -140,9 +137,8 @@ def validate_user_ip(request):
         user_ip = request.META.get('REMOTE_ADDR')
 
     # Validate that it is in the range of possible IPs on the university
-    # campus
-    if "10.173.80" in user_ip and "127.0.0.1" in user_ip:
+    # campus or from the local host
+    if '10.173.80' in user_ip or '127.0.0' in user_ip:
         return True
     else:
         return False
-
