@@ -1,8 +1,26 @@
+from datetime import datetime, timedelta
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from .forms import ImageForm
+from accounts.models import CustomUser
+from leaderboard.models import BuildingModel
+from gkHomepage.crowd_source import input_stats
 from submission.models import ImageSubmission, RoomModel
+from submission.forms import ImageForm
 from datetime import datetime, timedelta
+
+
+def calc_user_streaks(user: CustomUser, today: datetime):
+    # Check if user submitted a room yesterday
+    yesterday = today - timedelta(days=1)
+    if user.last_submission.strftime('%Y-%m-%d') == yesterday.strftime('%Y-%m-%d'):
+        user.streak += 1
+    elif user.last_submission.strftime('%Y-%m-%d') < yesterday.strftime('%Y-%m-%d'):
+        user.streak = 1
+    # print(user.last_submission.type())
+    user.last_submission = today.strftime('%Y-%m-%d')
+
+    user.save()
+
 
 
 @login_required
@@ -62,34 +80,15 @@ def working_submission_view(request):
                                                litter_items=data["litter_items"], image=data["image"],
                                                user=username, date=datetime.today().strftime('%Y-%m-%d'))
 
-            # Check if a room has been submitted in the last hour
-            # Get the room
-            room = None
-            skip = False
-            if RoomModel.objects.filter(building=image_submission.building, name=image_submission.room.lower()).exists():
-                room = RoomModel.objects.get(
-                    name=image_submission.room.lower(), building=image_submission.building)
-            else:
-                skip = True
-            if not skip:
-                # Check if done an hour before
-                hour_ago = (datetime.now() - timedelta(hours=1))
-                if room.last_done.replace(tzinfo=None) > hour_ago:
-                    return render(request, 'submission/index.html',
-                                  {'form': form, 'message': "Error: room submitted too recently"})
-
             image_submission.save()
 
-            # TODO VALIDATION HERE
+            # Calculate statistics for user
+            user = CustomUser.objects.get(username=username)
 
-            # TODO this is where gamekeeper validation occurs
+            calc_user_streaks(user, datetime.today())
 
             message = "Success"
 
-            # TODO: Different numbers of points for different rooms.
-            # TODO: Add validation.
-            # points = calcPoints(image_submission.building)
-            # addPoints(username, points)
 
             # Maybe reset the form?
             return render(request, 'submission/index.html',
