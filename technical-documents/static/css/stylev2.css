@@ -617,6 +617,7 @@ z{
     grid-column: 2/6;
     grid-row: 5/10;
     justify-content: center;
+    background-color: blanchedalmond;
 
 }
 
@@ -739,6 +740,7 @@ z{
     text-align: center; 
     padding: 10px 10px;
     text-decoration: none;
+
 }
 
 .selectionbtn-clicked {
@@ -758,7 +760,55 @@ z{
     text-align: center; 
     padding: 10px 10px;
     text-decoration: none;
+    margin: 2vh;
 }
+
+.subBx{
+    grid-column: 2/6;
+    grid-row: 5/40;
+    justify-content: center;
+    
+}
+
+.form1 {
+    /* CSS rules for the form container */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    justify-content: center;
+    text-align: center;
+    
+}
+
+.form1 input[type="text"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+/* CSS rules for form labels */
+.form1 label {
+    margin-bottom: 10px;
+    display: block;
+    color: rgb(40, 40, 40);
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 800; 
+    text-align: center; 
+}
+
+select{
+    max-width: 30vw;
+    justify-content: center;
+    text-align: center;
+}
+
 
 /*---------------------------------------------------------*/
 /*-                        Maps                           -*/

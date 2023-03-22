@@ -47,5 +47,4 @@ def add_stats(submission: ImageSubmission, room: RoomModel):
         room.number_windows_open += 1
     room.litter_items += submission.litter_items
     room.number_submissions += 1
-    room.last_done = datetime.now()
     room.save()
