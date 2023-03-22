@@ -47,11 +47,13 @@
                     <div>
                         <div>
                             <ul>
-                                <li><a href="#">about</a></li>
-                                <li><a href="#">dashboard</a></li>
-                                <li><a href="{% url 'leaderboard' %}">leaderboard</a></li>
+                                <li><a href="{% url 'homepage' %}">home</a></li>
                                 <li><a href="{% url 'submission' %}">submission</a></li>
-                                <li><a href="#">maps</a></li>
+                                <li><a href="{% url 'leaderboard' %}">leaderboard</a></li>
+                                <li><a href="{% url 'login' %}">login/signup</a></li>
+                                <li><a href="{% url 'logout' %}">logout</a></li>
+                                <li><a href="{% url 'privacypolicy' %}">privacy policy</a></li>
+                                <li><a href="{% url 'about' %}">about</a></li>
                             </ul>
                         </div>
                     </div>
@@ -100,7 +102,7 @@
                 </div>
             </button>
             <p class="userbtnTxt">
-                <a href="{% url 'submission' %}">Leaderboard</a></p>
+                <a href="{% url 'leaderboard' %}">Leaderboard</a></p>
             </p>
         </div>
 
