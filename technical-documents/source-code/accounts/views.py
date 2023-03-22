@@ -1,1 +1,1 @@
-from django.shortcuts import render
+""" Outlines the methods to be used by the accounts section. """
