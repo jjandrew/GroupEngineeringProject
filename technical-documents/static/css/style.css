@@ -124,11 +124,11 @@ img {
 }
 
 #ic_points {
-    width: 12vw;
-    height: 5vh;
+    width: 15vw;
+    height: 5.5vh;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 2.5vh;
+    margin-top: 2vh;
 }
 
 .points_title {
@@ -219,7 +219,7 @@ k{
 
 
 #ic_points2 {
-    width: 12vw;
+    width: 15vw;
     height: 5vh;
     float: right;
     margin-top: 2.5vh;
