@@ -60,7 +60,16 @@ def submission_view(request):
 
 @login_required
 def working_submission_view(request):
-#this is in louis note for the comment here
+    """ The webpage and page validation for image submissions. Note, the user
+    must be logged in to see the page.
+
+    Args:
+        request : The web request the user has made that needs to be
+            processed.
+    Returns:
+        render(): The webpage to be displayed to the user.
+    """
+
     if request.method == 'POST':
         uploadedFile = request.FILES["subFile"]
        # print(uploadedFile.name)

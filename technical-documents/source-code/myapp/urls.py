@@ -44,7 +44,7 @@ urlpatterns = [
     # The gamekeepers page url
     path('gkHomepage/', include('gkHomepage.urls')),
 
-    path('myprofile/', include('myprofile.urls')),
+    #path('myprofile/', include('myprofile.urls')),
 
     # Takes the user to the 'homepage' if they are not logged in
    # path('', TemplateView.as_view(
@@ -56,12 +56,12 @@ urlpatterns = [
 
     # Path for submission
     path('submission/', include('submission.urls')),
+    # Path for homepage
+    path('', include('homepage.urls')),
 
     # Path for the privacy policy
-    #path('privacypolicy/', views.privacy_policy, name='privacypolicy'),
+    path('privacypolicy/', views.privacyPolicy, name='privacypolicy'),
 
-    path('dashboard/', TemplateView.as_view(
-        template_name='UI/dashboard.html'), name='dashboard'),
 
     path('about/', TemplateView.as_view(
         template_name='UI/about.html'), name='about'),]
