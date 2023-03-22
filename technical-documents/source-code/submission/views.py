@@ -1,14 +1,22 @@
+""" Outlines the methods used by the submission page(s). """
 from datetime import datetime, timedelta
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from accounts.models import CustomUser
 from django.contrib import messages
+from accounts.models import CustomUser
 from submission.models import ImageSubmission
 from submission.forms import ImageForm
-from datetime import datetime, timedelta
 
 
 def calc_user_streaks(user: CustomUser, today: datetime):
+    """ Calculates the streaks for a user.
+
+    Args:
+        user: (CustomUser): The user object corresponding to the user having
+            their streaks calculated.
+        today: (dateTime): Helps calculate the streak, the current date given
+            as the current date/ time.
+    """
     # Check if user submitted a room yesterday
     yesterday = today - timedelta(days=1)
     if user.last_submission.strftime('%Y-%m-%d') == yesterday.strftime('%Y-%m-%d'):
@@ -25,6 +33,16 @@ def calc_user_streaks(user: CustomUser, today: datetime):
 def submission_view(request):
     """ Displays the form (GET request) and takes the data from the form,
     validates it and awards the user points.
+
+    Args:
+        request: The HTTP request submitted by the user.
+
+    Returns:
+        render(): If the user has successfully submitted a picture (POST),
+            the submission page is rendered.
+
+        render(): If the submission is unsuccessful, the user is redirected
+            to the submission page.
     """
     # Verifies that the user is making a submission from campus
     if validate_user_ip(request) is False:
@@ -84,11 +102,14 @@ def working_submission_view(request):
             username = request.user.username
 
             # Create an image submission model of this
-            image_submission = ImageSubmission(building=data["building"], room=data["room"],
+            image_submission = ImageSubmission(building=data["building"],
+                                               room=data["room"],
                                                lights_status=data["lights_status"],
                                                windows_status=data["windows_status"],
-                                               litter_items=data["litter_items"], image=data["image"],
-                                               user=username, date=datetime.today().strftime('%Y-%m-%d'))
+                                               litter_items=data["litter_items"],
+                                               image=data["image"],
+                                               user=username,
+                                               date=datetime.today().strftime('%Y-%m-%d'))
 
             image_submission.save()
 

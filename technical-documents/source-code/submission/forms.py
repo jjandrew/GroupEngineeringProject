@@ -1,10 +1,14 @@
+""" Outlines the structure and content of the submission form. """
 from django import forms
-from .models import ImageSubmission
+from submission.models import ImageSubmission
 
 
 class ImageForm(forms.ModelForm):
-    """ Creates a form using the image submission model and includes all the 
+    """ Creates a form using the image submission model and includes all the
     fields.
+
+    formsl.ModelForm (ModelForm): The Django Form object used to create the
+        image submission form.
     """
 
     class Meta:
