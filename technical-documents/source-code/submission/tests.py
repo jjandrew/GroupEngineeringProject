@@ -1,30 +1,33 @@
-from django.test import TestCase
-from submission.models import ImageSubmission, RoomModel
+""" Outlines the tests for the submission page. """
 import tempfile
-from accounts.models import CustomUser
-from gkHomepage.crowd_source import input_stats
 from datetime import datetime
+from django.test import TestCase
+from gkHomepage.crowd_source import input_stats
+from submission.models import ImageSubmission, RoomModel
 
 
 class ImageSubmissionTestCase(TestCase):
     """ Declares each of the tests for the submission section of the website.
+
+    Args:
+        TestCase: The Django test object to be used to test the submission page.
     """
 
-    def setUp(self):
+    def set_up(self):
         """ Creates a model submission for use in testing. """
-        testSub = ImageSubmission(building="testBuilding", room="testRoom",
+        test_sub = ImageSubmission(building="testBuilding", room="testRoom",
                                   lights_status="OFF",
                                   windows_status="CLOSE",
                                   litter_items=0,
                                   image=tempfile.NamedTemporaryFile(
                                       suffix=".jpg").name, user="testUser",
                                   date=datetime.today().strftime('%Y-%m-%d'))
-        testSub.save()
+        test_sub.save()
 
     def test_jpg_format_can_be_created(self):
         """ Tests the jpg file extension is accepted in image submission. """
         try:
-            testSub = ImageSubmission(building="testBuilding", room="testRoom",
+            test_sub = ImageSubmission(building="testBuilding", room="testRoom",
                                       lights_status="OFF",
                                       windows_status="CLOSE",
                                       litter_items=0,
@@ -32,7 +35,7 @@ class ImageSubmissionTestCase(TestCase):
                                           suffix=".jpg").name, user="testUser",
                                       date=datetime.today().strftime('%Y-%m-%d')
                                       )
-            testSub.save()
+            test_sub.save()
             pass
 
         except:
@@ -41,7 +44,7 @@ class ImageSubmissionTestCase(TestCase):
     def test_jpeg_format_can_be_created(self):
         """ Tests the jpeg file extension is accepted in image submission. """
         try:
-            testSub = ImageSubmission(building="testBuilding", room="testRoom",
+            test_sub = ImageSubmission(building="testBuilding", room="testRoom",
                                       lights_status="OFF",
                                       windows_status="CLOSE",
                                       litter_items=0,
@@ -49,7 +52,7 @@ class ImageSubmissionTestCase(TestCase):
                                           suffix=".jpeg").name, user="testUser",
                                       date=datetime.today().strftime('%Y-%m-%d')
                                       )
-            testSub.save()
+            test_sub.save()
             pass
 
         except:
@@ -58,7 +61,7 @@ class ImageSubmissionTestCase(TestCase):
     def test_gif_format_can_be_created(self):
         """ Tests the gif file extension is accepted in image submission. """
         try:
-            testSub = ImageSubmission(building="testBuilding", room="testRoom",
+            test_sub = ImageSubmission(building="testBuilding", room="testRoom",
                                       lights_status="OFF",
                                       windows_status="CLOSE",
                                       litter_items=0,
@@ -66,7 +69,7 @@ class ImageSubmissionTestCase(TestCase):
                                           suffix=".gif").name, user="testUser",
                                       date=datetime.today().strftime('%Y-%m-%d')
                                       )
-            testSub.save()
+            test_sub.save()
             pass
 
         except:
@@ -75,7 +78,7 @@ class ImageSubmissionTestCase(TestCase):
     def test_png_format_can_be_created(self):
         """ Tests the png file extension is accepted in image submission. """
         try:
-            testSub = ImageSubmission(building="testBuilding", room="testRoom",
+            test_sub = ImageSubmission(building="testBuilding", room="testRoom",
                                       lights_status="OFF",
                                       windows_status="CLOSE",
                                       litter_items=0,
@@ -83,7 +86,7 @@ class ImageSubmissionTestCase(TestCase):
                                           suffix=".png").name, user="testUser",
                                       date=datetime.today().strftime('%Y-%m-%d')
                                       )
-            testSub.save()
+            test_sub.save()
             pass
 
         except:
@@ -91,10 +94,15 @@ class ImageSubmissionTestCase(TestCase):
 
 
 class RoomSubmissionTestCase(TestCase):
+    """ Declares each of the tests for the room submission section of the submission.
+
+    Args:
+        TestCase: The Django test object to be used to test the submission page.
+    """
     existing_room: RoomModel
 
     def setUp(self):
-        """Create a room for use"""
+        """ Create a room for use. """
         self.existing_room = RoomModel(building="AMORY", name="existingroom",
                                        number_lights_on=5, number_windows_open=5,
                                        litter_items=5, number_submissions=5)

@@ -1,5 +1,6 @@
+""" The URLs to be used by the submission page. """
 from django.urls import path
-from . import views
+from submission import views
 
 urlpatterns = [
     # Defines the URL pattern for the submission page

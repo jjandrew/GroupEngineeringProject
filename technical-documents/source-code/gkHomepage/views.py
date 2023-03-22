@@ -1,24 +1,26 @@
-from django.shortcuts import render
+""" Outlines the functions to be used by the gamekeeper homepage. """
+from datetime import datetime
 from submission.models import ImageSubmission, building_choices
-from leaderboard.models import BuildingModel
 from accounts.models import CustomUser
+from django.shortcuts import render
 from django.core.mail import EmailMessage
-from django.conf import settings
-from datetime import datetime, timedelta
-import os
-import smtplib
-from email.message import EmailMessage
-from django.http import HttpResponse
-from django.core.mail import send_mail
-from django.core.mail import send_mail
-from django.core.mail import EmailMessage
-from gkHomepage.crowd_source import input_stats
+from leaderboard.models import BuildingModel
 from leaderboard.co2_calcs import get_co2
+from gkHomepage.crowd_source import input_stats
 
 
-def addPoints(username, points):
+def add_points(username:str, points:int) -> None:
     """ Lets the user enter points, and validates the points they enter into
     the form; to execute this function, the user must be logged in.
+
+    Args:
+        username: (str): The username of the user as a string for ease of
+            processing.
+        points: (int): The number of points the user has as a int for ease of
+            altering.
+
+    Returns:
+        None: Nothing is returned.
     """
     # Check if user already has a score entered
     if points <= 0:
@@ -30,9 +32,12 @@ def addPoints(username, points):
     user.save()
 
 
-def get_top_username():
-    """Gets the username of the user that sumbitted the image which the
-    gamekeeper is currently reviewing
+def get_top_username() -> None:
+    """ Gets the username of the user that sumbitted the image which the
+    gamekeeper is currently reviewing.
+
+    Returns:
+        None: Nothing is returned.
     """
     top_submission = ImageSubmission.objects.order_by('-id').first()
     # check if there is a image the gamekeeper is reviewing
@@ -42,10 +47,13 @@ def get_top_username():
     return None
 
 
-def get_top_email():
-    """Gets the email of the user that sumbitted the image which the
-        gamekeeper is currently reviewing
-        """
+def get_top_email() -> None:
+    """ Gets the email of the user that sumbitted the image which the
+        gamekeeper is currently reviewing.
+
+    Returns:
+        None: Nothing is returned.
+    """
     top_submission = ImageSubmission.objects.order_by('-id').first()
     # check if there is a image the gamekeeper is reviewing
     if top_submission:
@@ -55,10 +63,13 @@ def get_top_email():
     return None
 
 
-def get_top_submission():
-    """Gets the full object of the user that sumbitted the image which the
-            gamekeeper is currently reviewing
-            """
+def get_top_submission() -> None:
+    """ Gets the full object of the user that sumbitted the image which the
+        gamekeeper is currently reviewing.
+
+    Returns:
+        None: Nothing is returned.
+    """
     top_submission = ImageSubmission.objects.order_by('-id').first()
     # check if there is a image the gamekeeper is reviewing
     if top_submission:
@@ -67,7 +78,17 @@ def get_top_submission():
     return None
 
 
-def get_building_name(top_sub: ImageSubmission):
+def get_building_name(top_sub: ImageSubmission) -> str:
+    """ Gets the name of the building.
+
+    Args:
+        top_sub: ImageSubmission: The ImageSubmission objet representing the
+            top image submission.
+
+    Returns:
+        str: building_name: The name of the building as a string for ease
+            of processing.
+    """
     # Translate Constant building name to formatted string
     building_name = None
     for choice in building_choices:
@@ -75,22 +96,30 @@ def get_building_name(top_sub: ImageSubmission):
             building_name = choice[1]
             break
     if building_name == None:
-        # TODO remove this
         print("Collosal error")
     return building_name
 
 
-def calcPoints(buildingName):
-    """Gives a points for each day since a building has been checked"""
+def calc_points(building_name:str) -> int:
+    """ Gives a points for each day since a building has been checked.
+
+    Args:
+        building_name: (str): The name of the building as a string for ease
+            of processing.
+
+    Returns:
+        int: days_since: The days since a submimission has been made for a
+            building.
+    """
     # Get the building model
     # Definitely created as this is checked when stats are input
     building = None
-    if not BuildingModel.objects.filter(name=buildingName).exists():
-        building = BuildingModel(name=buildingName)
-        building.f_name = get_building_name(buildingName)
+    if not BuildingModel.objects.filter(name=building_name).exists():
+        building = BuildingModel(name=building_name)
+        building.f_name = get_building_name(building_name)
         building.save()
     else:
-        building = BuildingModel.objects.get(name=buildingName)
+        building = BuildingModel.objects.get(name=building_name)
     # Get todays date and difference between
     today = datetime.today()
     last_done = building.last_done.replace(tzinfo=None)
@@ -112,7 +141,14 @@ def index(request):
     reward the points. Decline the image and finaly report the image. When an image
     is reported, an emial is generated and sent to the unviersity with the email
     of the user, date and image which the user had sent.
-        """
+
+    Args:
+        request: The HTTP request made by the user.
+
+    Returns:
+        render(): Displays the gamekeeper homepage to the user with a range
+            of data depending on a range of metrics.
+    """
     images = ImageSubmission.objects.all
     args = {'images': images}
 
@@ -150,9 +186,9 @@ def index(request):
 
             print("----", get_top_submission().building)
             # calculate the points to give the user
-            points = calcPoints(get_top_submission().building)
+            points = calc_points(get_top_submission().building)
             # add the points to the users account
-            addPoints(username, points)
+            add_points(username, points)
             # remove that image from the database
 
             # Checks if stats can be input and inputs if so
@@ -201,14 +237,19 @@ def index(request):
             # generate an email to send to the univeristy
             email = EmailMessage(
                 'Inapropriate usage of GreenMaster App', 'To whom it may concern, \n'
-                'You are recieving this email as one of our GameKeepers has reported this user for submitting '
+                'You are recieving this email as one of our GameKeepers has ' +
+                'reported this user for submitting '
                 'inappropriate images into our application. \n'
                 'Please find the image that was sent attached to this email. \n'
                 'The users email who sent the attacked image is ' + email + ' \n'
-                'This image was sent to us on ' + str(date) + ' ', 'thegreenmasterproject@gmail.com', ["louislusso@hotmail.com", ])
+                'This image was sent to us on ' + str(date) + ' ',
+                'thegreenmasterproject@gmail.com', ["louislusso@hotmail.com", ])
             # attach the image which has been reported to the email
             email.attach_file(
-                "/Users/louislusso/Library/CloudStorage/OneDrive-UniversityofExeter/Year 2/Semester 2/Software Development Project/GroupEngineeringProjectGroup4/technical-documents/source-code/media/images/04d.png")
+                "/Users/louislusso/Library/CloudStorage/" +
+                "OneDrive-UniversityofExeter/Year 2/Semester " +
+                "2/Software Development Project/GroupEngineeringP" +
+                "rojectGroup4/technical-documents/source-code/media/images/04d.png")
             email.send()
             # delete the image object from the database
             ImageSubmission.objects.all().first().delete()
@@ -222,10 +263,10 @@ def index(request):
         # render the template again, checking if theres a new image to upload
         return render(request, "gkHomepage/gkHomepage.html", args)
     else:
-        # TODO make final image a defult one
-        room = None
-        user = None
         date = None
-        image = "/Users/louislusso/Library/CloudStorage/OneDrive-UniversityofExeter/Year 2/Semester 2/Software Development Project/GroupEngineeringProjectGroup4/technical-documents/static/images/donkey-looking-down.jpg"
+        image = ("/Users/louislusso/Library/CloudStorage/OneDrive-" +
+        "UniversityofExeter/Year 2/Semester 2/Software Development " +
+        "Project/GroupEngineeringProjectGroup4/technical-documents/st" +
+        "atic/images/donkey-looking-down.jpg")
         args = {'images': images}
         return render(request, "gkHomepage/gkHomepage.html", args)

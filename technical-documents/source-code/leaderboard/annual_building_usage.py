@@ -1,3 +1,7 @@
+""" Outlines a dictionary containing the CO2 usage of each building on campus.
+"""
+
+
 building_usage = {
     'year': '2018/2019',
     'lighting_loss': 0.11,
