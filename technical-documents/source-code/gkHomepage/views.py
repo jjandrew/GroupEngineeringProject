@@ -135,6 +135,7 @@ def index(request):
             print("----", "YOU'VE PRESSED ACCEPT")
             images = ImageSubmission.objects.exclude(
                 id=ImageSubmission.objects.first().id)
+
             args = {'images': images, 'name': 'Building'}
 
             top_sub = get_top_submission()
@@ -206,7 +207,7 @@ def index(request):
             # get the username of the user who sumbitted the image
             username = get_top_username()
             user = CustomUser.objects.get(username=username)
-            image = stR(get_top_submission().image)
+            image = str(get_top_submission().image)
             print("----", image)
             # generate an email to send to the univeristy
             email = EmailMessage(
@@ -217,42 +218,15 @@ def index(request):
                 'The users email who sent the attacked image is ' + email + ' \n'
                 'This image was sent to us on ' + str(date) + ' ', 'thegreenmasterproject@gmail.com', ["louislusso@hotmail.com", ])
             # attach the image which has been reported to the email
-            # email.attach_file() PUT IMAGE DIR HERE
+            email.attach_file("/Users/louislusso/Library/CloudStorage/OneDrive-UniversityofExeter/Year 2/Semester 2/Software Development Project/GroupEngineeringProjectGroup4/technical-documents/source-code/media/images/04d.png")
             email.send()
             # delete the image object from the database
             ImageSubmission.objects.all().first().delete()
 
             print("----", "YOUVE PRESSED REPORT")
-            ImageSubmission.objects.all().first().delete()
-            # TODO write a mockup email with image, name of user, email of user, date etc and save to file.
 
-            image_filename = '04d.png'
-            image_path = os.path.abspath(os.path.join(
-                os.path.dirname(__file__), image_filename))
-            msg = EmailMessage()
-            msg['Subject'] = 'Image Report'
-            msg['From'] = 'thegreenmasterproject@gmail.com'
-            msg['To'] = 'louislusso@hotmail.com'
-            msg.set_content('Please find the attached image report.')
-            with open(image_path, 'rb') as f:
-                file_data = f.read()
-                file_name = os.path.basename(image_path)
-                msg.add_attachment(file_data, maintype='image',
-                                   subtype='png', filename=file_name)
-            with smtplib.SMTP('smtp.gmail.com', 587) as smtp:
-                smtp.starttls()
-                smtp.login('thegreenmasterproject@gmail.com',
-                           'bkstedudehhuuetb')
-                # bkstedudehhuuetb
-                smtp.send_message(msg)
-            print("----", 'Email sent.')
 
-            images = ImageSubmission.objects.all
 
-            top_sub = get_top_submission()
-            name = get_building_name(top_sub)
-
-            args = {'images': images, 'name': name}
 
             args = {'images': images}
             # render the template again, checking if theres a new image to upload
@@ -260,5 +234,11 @@ def index(request):
 
         # render the template again, checking if theres a new image to upload
         return render(request, "gkHomepage/gkHomepage.html", args)
-
-    return render(request, "gkHomepage/gkHomepage.html", args)
+    else:
+        #TODO make final image a defult one
+        room = None
+        user = None
+        date = None
+        image = "/Users/louislusso/Library/CloudStorage/OneDrive-UniversityofExeter/Year 2/Semester 2/Software Development Project/GroupEngineeringProjectGroup4/technical-documents/static/images/donkey-looking-down.jpg"
+        args = {'images': images}
+        return render(request, "gkHomepage/gkHomepage.html", args)
