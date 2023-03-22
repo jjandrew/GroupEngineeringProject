@@ -22,6 +22,20 @@ The technical documents are split into 4 sections:
 - templates
 - database.sql
 
+### When first running the app:
+
+To create a new gamekeeper go to /admin
+Create an account in user's to be the gamekeeper
+Create two groups: Gamekeeper and user
+
+In python manage.py shell:
+
+- from accounts.models import CustomUser
+- from django.contrib.auth.models import Group
+- user = CustomUser.objects.get(username='\<GameKeeperUsername>')
+- user_group = Group.objects.get(name="Gamekeeper")
+- user_group.user_set.add(user)
+
 ### source-code
 
 This contains the code for the project. It has been created using the django framework with the core application being called "myapp".
