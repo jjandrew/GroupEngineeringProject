@@ -60,9 +60,25 @@ def submission_view(request):
 
 @login_required
 def working_submission_view(request):
-    """ Displays the form (GET request) and takes the data from the form,
-    validates it and awards the user points.
+      """ The webpage and page validation for image submissions. Note, the user
+    must be logged in to see the page.
+
+    Args:
+        request : The web request the user has made that needs to be
+            processed.
+    Returns:
+        render(): The webpage to be displayed to the user.
     """
+
+    if request.method == 'POST':
+
+        uploadedFile = request.FILES["subFile"]
+
+        print(uploadedFile.name)
+
+    return render(request, 'UI/submissionNEW.html')
+
+
     # Verifies that the user is making a submission from campus
     if validate_user_ip(request) is False:
          messages.error(request, ("Must be on Exeter campus to submit images!"))
@@ -109,7 +125,6 @@ def working_submission_view(request):
     return render(request, 'submission/index.html', {'form': form})
 
 
-
 def validate_user_ip(request):
     """ Extracts the user's IP address from the provided HTTP request and
     uses it to validate that they are making a submission from campus.
@@ -134,3 +149,4 @@ def validate_user_ip(request):
         return True
     else:
         return False
+

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'submission',
     'gkHomepage',
     'gkSignUp',
+    'dashboard',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
