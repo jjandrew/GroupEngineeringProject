@@ -10,3 +10,5 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True, null=False)
     last_submission = models.DateField(default="2023-01-01")
     streak = models.PositiveIntegerField(default=0)
+    daily_task = models.IntegerField(default=0)
+    last_daily_task = models.DateField(default="2023-01-01")

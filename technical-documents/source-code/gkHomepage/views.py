@@ -143,7 +143,7 @@ def index(request):
             user = CustomUser.objects.get(username=username)
             # calulate the users streak(if any)
 
-            calc_user_streaks(user, datetime.today())
+            #calc_user_streaks(user, datetime.today()) FIX THIS SOMEONES DELETED THE METHOD
 
             print("----", get_top_submission().building)
             # calculate the points to give the user
