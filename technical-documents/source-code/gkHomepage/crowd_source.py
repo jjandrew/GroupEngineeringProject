@@ -6,6 +6,7 @@ from leaderboard.models import BuildingModel
 def get_building_name(top_sub):
     # Translate Constant building name to formatted string
     building_name = None
+    print(top_sub.building)
     for choice in building_choices:
         if choice[0] == top_sub.building:
             building_name = choice[1]
@@ -32,7 +33,7 @@ def input_stats(submission: ImageSubmission):
     building = None
     if not BuildingModel.objects.filter(name=submission.building).exists():
         building = BuildingModel(name=submission.building)
-        building.f_name = get_building_name(submission.building)
+        building.f_name = get_building_name(submission)
         building.save()
 
     add_stats(submission, room)
