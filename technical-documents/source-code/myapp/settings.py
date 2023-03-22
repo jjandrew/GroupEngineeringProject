@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'accounts',
     'loginApp',
     'leaderboard',
+    'buildingLeaderboard',
     'submission',
     'gkHomepage',
     'gkSignUp',

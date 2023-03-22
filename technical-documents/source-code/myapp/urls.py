@@ -41,6 +41,9 @@ urlpatterns = [
     # The leaderboard url
     path('leaderboard/', include('leaderboard.urls')),
 
+# The building leaderboard url
+    path('buildingLeaderboard/', include('buildingLeaderboard.urls')),
+
     # The gamekeepers page url
     path('gkHomepage/', include('gkHomepage.urls')),
 

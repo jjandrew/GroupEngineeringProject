@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from accounts.models import CustomUser
-from .models import BuildingModel
+from leaderboard.models import BuildingModel
 from submission.models import building_choices
 from leaderboard.co2_calcs import round_5
 
@@ -20,12 +20,12 @@ def get_building_name(const):
 
 
 @login_required
-def leaderboard(request):
+def buildingLeaderboard(request):
     """ A function for displaying and ordering (in descending order) the
     leaderboard. Note, to access this, the user must be logged in.
     """
 
-    to_use = 'players'
+    to_use = 'player'
 
     players = CustomUser.objects.filter(points__gt=0).order_by('-points')
     buildings = BuildingModel.objects.filter(co2__gt=0).order_by('co2')
