@@ -9,7 +9,6 @@ def round_5(x, sig=5):
     return round(x, sig-int(floor(log10(abs(x))))-1)
 
 
-
 def get_co2(sub: ImageSubmission, building_name: str):
     """Gets the co2 emmissions for widows open and lights on"""
     # Get the building and the lights and window status
@@ -35,7 +34,8 @@ def get_co2(sub: ImageSubmission, building_name: str):
     if lights == "ON":
         usage += (building_usage['lighting_loss'] * room_usage_day)
     if usage != 0:
-        building.co2 += round_5(usage)
+        building.co2 += usage
+    building.co2 = round_5(building.co2)
 
     building.number_submissions += 1
     building.save()
