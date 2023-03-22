@@ -4,11 +4,39 @@
 
 <head>
   <link rel="stylesheet" href="/../../static/css/privacypolicy.css">
-  <title>Privacy Policy</title>
+  <title>Privacy Policy and GDPR Compliance</title>
 </head>
 
 <body>
-  <div class="main">
+  <div class="s-mainWrapper">
+
+    <div class="menu-wrap">
+                
+            <input type="checkbox" class="toggler">
+                
+            <div class="hamburger">
+                <div>
+                </div>
+            </div>
+                
+            <div class="menu">
+                <div>
+                    <div>
+                        <ul>
+                            <li><a href="{% url 'homepage' %}">HOME</a></li>
+                            <li><a href="{% url 'submission' %}">SUBMISSION</a></li>
+                            <li><a href="{% url 'leaderboard' %}">LEADERBOARD</a></li>
+                            <li><a href="{% url 'login' %}">LOGIN/SIGNUP</a></li>
+                            <li><a href="{% url 'logout' %}">LOGOUT</a></li>
+                            <li><a href="{% url 'privacypolicy' %}">PRIVACY POLICY</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+  </div>
+  <div class="main" align="left">
     <p class="sign" align="center">Our Privacy Policy</p>
 
     <p>1. <b>User Data Collection and Purposes Behind it</b>: To use this service you are required to create an account, during this process you will provide us with some basic data personal data. Additionally, when sending us any correspondence we may obtain personally identifiable information. This basic personal data, including: your email; first name; surname and the password you use when you create an account, is only collected and stored for the purposes of validating your identity and preventing users from creating multiple accounts and thus gaming the system. In addition to this, we collect your IP address, with the sole aim of maintaining the integrity of the project by ensuring that a user can only submit a photo from campus. </p>
@@ -75,7 +103,52 @@
       <ol>
         <p> Ben Theron: bct207@exeter.ac.uk</p>
       </ol>
-    <p> GDPR Compliance:</p>
+      <p class="sign" align="center">GDPR Compliance</p>
+      <p><b>Data Protection Officer</b> </p>
+      <ol>
+        <p> Ben Theron is in charge of implementing GDPR within the project and is the main point of contact for anything GDPR related, see section 7 for relevant contact information.</p>
+      </ol>
+      <p><b>Lawful basis and transparency</b></p>
+      <ol>
+        <p>The lawful basis for data processing and collection, as well as the type and volume of data, are openly stated in the aforementioned privacy policy.</p>
+      </ol>
+      <p><b>Data security and Handling Data Breaches</b></p>
+      <ol>
+        <p> Data privacy and protection are heavily considered and worked into any processes and systems created as part of this project. Ensuring personal data is handled securely (passwords hashed and only verified admins able to view any other data) by ensuring that data is only stored locally on the developer's machine(s) (the use of GitHub ensures accountability and means any leaks can be traced back to the developer (if they are caused by a developer)) or securely on the server hosting the project. Furthermore, other data such as the user's first name, surname and Univeristy email address aren't hashed (already publicly available and hashing makes handling and processing the user's data near impossible given our time constraints), however they aren't included in this project's GitHub and are stored in such a way that only admins can view or process the data.</p>
+
+        The process for detecting and handling data breaches is detailed below:
+        <ol>
+          <p>1. Routinely checking sites and forums to validate if a user's details have been compromised (and so that we have) or if our own databases have been leaked to the public.<br></p>
+          <p>2. If a breach is detected, we will assess the severity of the breach (if the compromised data is encrypted or not).<br></p>
+          <p>3. If the user's has been breached and is now publicly available in unencrypted form, we will notify all user's to take effective measures to prevent unauthorised access to their accounts and mitigate the affects of the breach.<br></p>
+          <p>4. Shareholders will also (within a week of breach detection) be notified of the breach and of the measures to be taken in order to mitigate the current breach and prevent further breaches.<br></p>
+        </ol>
+      </ol>
+      <p><b>Training and Policies</b></p>
+      <ol>
+        <p> No specialised GDPR/ data protection training is required for this project. All developers working on the project partook and passed the modules ECM2426 (Network and Computer Security) and ECM1407 (Social and Professional Issues of the Information Age), which provided sufficient training and knowledge of data protection and data protection laws such as GDPR and the DPA.<br></p>
+
+        <p> In addition policies for each of the points required by a company to be GDPR compliant are included below:
+          <ol>
+            <p>- Obtained and processed fairly and lawfully. - Included in privacy policy.<br></p>
+            <p>- Be obtained for a specified and lawful purpose and shall not be processed in any manner incompatible with that purpose. - Included in the privacy policy.<br></p>
+            <p>- Be adequate, relevant and not excessive for those purposes. - Included in the privacy policy<br></p>
+            <p>- Be accurate and kept up to date.  Methods are provided to enable the user to change their data, unless otherwise done by them, no attempts will be made to change or validate user data.<br></p>
+            <p>- Not be kept longer than is necessary for that purpose. - Included in the privacy policy.<br></p>
+            <p>- Be processed in accordance with the data subject rights. - Included in the privacy policy.<br></p>
+            <p>- Be kept safe from unauthorised access, accidental loss or destruction. - Included in both this compliance write up and the privacy policy.</p>
+            <p>- Not be transferred to a country outside the European Economic area, unless that country has equivalent levels of protection for personal data. - Data has not and will not ever be transfered outside the EU for any purposes.</p>
+          </ol>
+        </p>
+      </ol>
+      <p><b>Privacy Rights</b></p>
+        <ol>
+          <p>The rights of the user, the processes in place to service these rights, in addition to the timeline for a response/ actioning these rights are stated in the privacy policy. </p>
+        </ol>
+      <p><b>Data Protection Impact Assessment</b></p>
+      <ol>
+        <p>Due to time restraints, as well as the scope of both the project and the data collected/ processed by the project, we feel it is not necessary to conduct a full Data Protection Impact Assessment (DPIA). The policies and other measures that are in place are already sufficient for ensuring the protection and minimising the exposure of the user's data.</p>
+      </ol>
     </div>
 </body>
 </html>
