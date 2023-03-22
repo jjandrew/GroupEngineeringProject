@@ -1,21 +1,28 @@
-from django.shortcuts import render, redirect
+"""The view for the building leaderboard"""
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from accounts.models import CustomUser
 from leaderboard.models import BuildingModel
-from submission.models import building_choices
 from leaderboard.co2_calcs import round_5
+from submission.models import building_choices
 
 
-def get_building_name(const):
+def get_building_name(const: str) -> str:
+    """Returns the formatted name of the building
+
+    Args:
+        const: (str): The constant name of the building to be formatted
+
+    Returns:
+        str: building_name: The formatted name of the building entered"""
     # Translate Constant building name to formatted string
     building_name = None
     for choice in building_choices:
         if choice[0] == const:
             building_name = choice[1]
             break
-    if building_name == None:
-        # TODO remove this
-        print("Collosal error")
+    if building_name is None:
+        raise RuntimeError("No building entered with name: ", const)
     return building_name
 
 
@@ -37,32 +44,40 @@ def buildingLeaderboard(request):
             third = players[2]
             remaining = players[3:]
 
-            return render(request, 'UI/player_leaderboard.html', {'first': first, 'second': second, 'third': third, 'remaining': remaining})
+            return render(request, 'UI/player_leaderboard.html',
+                          {'first': first, 'second': second,
+                           'third': third, 'remaining': remaining})
         except IndexError:
             try:
-                return render(request, 'UI/player_leaderboard.html', {'first': first, 'second': second, 'third': third, 'remaining': []})
+                return render(request, 'UI/player_leaderboard.html',
+                              {'first': first, 'second': second,
+                               'third': third, 'remaining': []})
             except UnboundLocalError:
                 try:
                     third = {
                         'username': "Insufficient Users",
                         'points': 0
                     }
-                    return render(request, 'UI/player_leaderboard.html', {'first': first, 'second': second, 'third': third, 'remaining': []})
+                    return render(request, 'UI/player_leaderboard.html',
+                                  {'first': first, 'second': second,
+                                   'third': third, 'remaining': []})
                 except UnboundLocalError:
                     try:
                         second = {
                             'username': "Insufficient Users",
                             'points': 0
                         }
-                        return render(request, 'UI/player_leaderboard.html', {'first': first, 'second': second,
-                                                                              'third': third, 'remaining': []})
+                        return render(request, 'UI/player_leaderboard.html',
+                                      {'first': first, 'second': second,
+                                       'third': third, 'remaining': []})
                     except UnboundLocalError:
                         first = {
                             'username': "Insufficient Users",
                             'points': 0
                         }
-                        return render(request, 'UI/player_leaderboard.html', {'first': first, 'second': second,
-                                                                              'third': third, 'remaining': []})
+                        return render(request, 'UI/player_leaderboard.html',
+                                      {'first': first, 'second': second,
+                                       'third': third, 'remaining': []})
     else:
         for building in buildings:
             building.norm_co2 = round_5(
@@ -80,27 +95,47 @@ def buildingLeaderboard(request):
                 building.f_name = get_building_name(building.name)
                 building.save()
 
-            return render(request, 'UI/building_leaderboard.html', {'first': first, 'second': second, 'third': third, 'remaining': remaining, 'first_name': first_name, 'second_name': second_name, 'third_name': third_name, 'remaining_names': remaining_names, })
+            return render(request, 'UI/building_leaderboard.html',
+                          {'first': first, 'second': second,
+                           'third': third, 'remaining': remaining,
+                           'first_name': first_name, 'second_name': second_name,
+                           'third_name': third_name, 'remaining_names': remaining_names, })
         except IndexError:
             try:
-                return render(request, 'UI/building_leaderboard.html', {'first': first, 'second': second, 'third': third, 'remaining': [], 'first_name': first_name, 'second_name': second_name, 'third_name': third_name, 'remaining_names': []})
+                return render(request, 'UI/building_leaderboard.html',
+                              {'first': first, 'second': second,
+                               'third': third, 'remaining': [],
+                               'first_name': first_name, 'second_name': second_name,
+                               'third_name': third_name, 'remaining_names': []})
             except UnboundLocalError:
                 try:
                     third = {
                         'norm_co2': 0
                     }
                     third_name = "No buildings"
-                    return render(request, 'UI/building_leaderboard.html', {'first': first, 'second': second, 'third': third, 'remaining': [], 'first_name': first_name, 'second_name': second_name, 'third_name': third_name, 'remaining_names': []})
+                    return render(request, 'UI/building_leaderboard.html',
+                                  {'first': first, 'second': second,
+                                   'third': third, 'remaining': [],
+                                   'first_name': first_name, 'second_name': second_name,
+                                   'third_name': third_name, 'remaining_names': []})
                 except UnboundLocalError:
                     try:
                         second = {
                             'norm_co2': 0
                         }
                         second_name = "No buildings"
-                        return render(request, 'UI/building_leaderboard.html', {'first': first, 'second': second, 'third': third, 'remaining': [], 'first_name': first_name, 'second_name': second_name, 'third_name': third_name, 'remaining_names': []})
+                        return render(request, 'UI/building_leaderboard.html',
+                                      {'first': first, 'second': second,
+                                       'third': third, 'remaining': [],
+                                       'first_name': first_name, 'second_name': second_name,
+                                       'third_name': third_name, 'remaining_names': []})
                     except UnboundLocalError:
                         first = {
                             'norm_co2': 0
                         }
                         first_name = "No buildings"
-                        return render(request, 'UI/building_leaderboard.html', {'first': first, 'second': second, 'third': third, 'remaining': [], 'first_name': first_name, 'second_name': second_name, 'third_name': third_name, 'remaining_names': []})
+                        return render(request, 'UI/building_leaderboard.html',
+                                      {'first': first, 'second': second,
+                                       'third': third, 'remaining': [],
+                                       'first_name': first_name, 'second_name': second_name,
+                                       'third_name': third_name, 'remaining_names': []})
