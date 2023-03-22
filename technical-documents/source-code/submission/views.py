@@ -141,7 +141,7 @@ def validate_user_ip(request):
 
     # Validate that it is in the range of possible IPs on the university
     # campus
-    if "10.173.80" in user_ip:
+    if "10.173.80" in user_ip and "127.0.0.1" in user_ip:
         return True
     else:
         return False
