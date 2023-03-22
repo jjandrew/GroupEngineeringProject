@@ -55,7 +55,7 @@ urlpatterns = [
     path('', include('homepage.urls')),
 
     # Path for logging out the user
-    path('logout/', views.userLogout, name='logout'),
+    path('logout/', views.user_logout, name='logout'),
 
     # Path for submission
     path('submission/', include('submission.urls')),
@@ -63,7 +63,7 @@ urlpatterns = [
     path('', include('homepage.urls')),
 
     # Path for the privacy policy
-    path('privacypolicy/', views.privacyPolicy, name='privacypolicy'),
+    path('privacypolicy/', views.privacy_policy, name='privacypolicy'),
 
 
     path('about/', TemplateView.as_view(
