@@ -35,7 +35,7 @@ def get_co2(sub: ImageSubmission, building_name: str):
         usage += (building_usage['lighting_loss'] * room_usage_6hr)
     if usage != 0:
         building.co2 += usage
-    building.co2 = round_5(building.co2)
+        building.co2 = round_5(building.co2)
 
     building.number_submissions += 1
     building.save()
