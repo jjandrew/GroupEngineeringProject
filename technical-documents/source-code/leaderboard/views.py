@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from accounts.models import CustomUser
 from .models import BuildingModel
 from submission.models import building_choices
+from leaderboard.co2_calcs import round_5
 
 
 def get_building_name(const):
@@ -63,9 +64,11 @@ def leaderboard(request):
                         return render(request, 'UI/player_leaderboard.html', {'first': first, 'second': second,
                                                                               'third': third, 'remaining': []})
     else:
+        for building in buildings:
+            building.norm_co2 = round_5(
+                building.co2 / building.number_submissions)
         try:
             first = buildings[0]
-            print("accessed")
             first_name = get_building_name(first.name)
             second = buildings[1]
             second_name = get_building_name(second.name)
@@ -83,20 +86,20 @@ def leaderboard(request):
             except UnboundLocalError:
                 try:
                     third = {
-                        'co2': 0
+                        'norm_co2': 0
                     }
                     third_name = "No buildings"
                     return render(request, 'UI/building_leaderboard.html', {'first': first, 'second': second, 'third': third, 'remaining': [], 'first_name': first_name, 'second_name': second_name, 'third_name': third_name, 'remaining_names': []})
                 except UnboundLocalError:
                     try:
                         second = {
-                            'co2': 0
+                            'norm_co2': 0
                         }
                         second_name = "No buildings"
                         return render(request, 'UI/building_leaderboard.html', {'first': first, 'second': second, 'third': third, 'remaining': [], 'first_name': first_name, 'second_name': second_name, 'third_name': third_name, 'remaining_names': []})
                     except UnboundLocalError:
                         first = {
-                            'co2': 0
+                            'norm_co2': 0
                         }
                         first_name = "No buildings"
                         return render(request, 'UI/building_leaderboard.html', {'first': first, 'second': second, 'third': third, 'remaining': [], 'first_name': first_name, 'second_name': second_name, 'third_name': third_name, 'remaining_names': []})
