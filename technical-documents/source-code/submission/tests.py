@@ -1,7 +1,6 @@
 from django.test import TestCase
 from submission.models import ImageSubmission, RoomModel
 import tempfile
-from accounts.models import CustomUser
 from gkHomepage.crowd_source import input_stats
 from datetime import datetime
 
@@ -102,7 +101,8 @@ class RoomSubmissionTestCase(TestCase):
 
     def test_input_stats_changes_stats_if_on_and_open(self):
         """Tests stats are changed if windows open and lights on"""
-        existing_submission = ImageSubmission(building="Test Building", room="existingroom",
+        existing_submission = ImageSubmission(building="Test Building",
+                                              room="existingroom",
                                               lights_status="ON",
                                               windows_status="OPEN",
                                               litter_items=1,
