@@ -41,18 +41,18 @@ urlpatterns = [
     # The leaderboard url
     path('leaderboard/', include('leaderboard.urls')),
 
-# The building leaderboard url
+    # The building leaderboard url
     path('buildingLeaderboard/', include('buildingLeaderboard.urls')),
 
     # The gamekeepers page url
     path('gkHomepage/', include('gkHomepage.urls')),
 
-    #path('myprofile/', include('myprofile.urls')),
+    # path('myprofile/', include('myprofile.urls')),
 
     # Takes the user to the 'homepage' if they are not logged in
-   # path('', TemplateView.as_view(
+    # path('', TemplateView.as_view(
     #    template_name='UI/index.html'), name='homepage'),
-    path('', include('homepage.urls')),
+    path('', views.userLogout, name='logout'),
 
     # Path for logging out the user
     path('logout/', views.userLogout, name='logout'),
