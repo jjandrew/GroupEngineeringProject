@@ -1,1 +1,1 @@
-from django.contrib import admin
+""" Stores the data for use by the admins. """
