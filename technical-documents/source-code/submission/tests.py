@@ -103,15 +103,14 @@ class RoomSubmissionTestCase(TestCase):
 
     def setUp(self):
         """ Create a room for use. """
-        self.existing_room = RoomModel(building="Test Building", name="existingroom",
+        self.existing_room = RoomModel(building="AMORY", name="existingroom",
                                        number_lights_on=5, number_windows_open=5,
                                        litter_items=5, number_submissions=5)
         self.existing_room.save()
 
     def test_input_stats_changes_stats_if_on_and_open(self):
-        """ Tests stats are changed if windows open and lights on. """
-        existing_submission = ImageSubmission(building="Test Building",
-                                              room="existingroom",
+        """Tests stats are changed if windows open and lights on"""
+        existing_submission = ImageSubmission(building="AMORY", room="existingroom",
                                               lights_status="ON",
                                               windows_status="OPEN",
                                               litter_items=1,
@@ -120,21 +119,21 @@ class RoomSubmissionTestCase(TestCase):
                                               )
         input_stats(existing_submission)
         room = RoomModel.objects.get(
-            name="existingroom", building="Test Building")
-        self.assertEqual(room.number_lights_on, 6)
-        self.assertEqual(room.number_windows_open, 6)
-        self.assertEqual(room.litter_items, 6)
-        self.assertEqual(room.number_submissions, 6)
+            name="existingroom", building="AMORY")
+        self.assertEquals(room.number_lights_on, 6)
+        self.assertEquals(room.number_windows_open, 6)
+        self.assertEquals(room.litter_items, 6)
+        self.assertEquals(room.number_submissions, 6)
 
         # Reset existing room
-        self.existing_room = RoomModel(building="Test Building", name="existingroom",
+        self.existing_room = RoomModel(building="AMORY", name="existingroom",
                                        number_lights_on=5, number_windows_open=5,
                                        litter_items=5, number_submissions=5)
         self.existing_room.save()
 
     def test_input_stats_dont_change_if_closed_and_off(self):
-        """ Tests stats don't change if windows closed and lights off. """
-        existing_submission = ImageSubmission(building="Test Building", room="existingroom",
+        """Tests stats don't change if windows closed and lights off"""
+        existing_submission = ImageSubmission(building="AMORY", room="existingroom",
                                               lights_status="OFF",
                                               windows_status="CLOSE",
                                               litter_items=0,
@@ -143,21 +142,21 @@ class RoomSubmissionTestCase(TestCase):
                                               )
         input_stats(existing_submission)
         room = RoomModel.objects.get(
-            name="existingroom", building="Test Building")
-        self.assertEqual(room.number_lights_on, 5)
-        self.assertEqual(room.number_windows_open, 5)
-        self.assertEqual(room.litter_items, 5)
-        self.assertEqual(room.number_submissions, 6)
+            name="existingroom", building="AMORY")
+        self.assertEquals(room.number_lights_on, 5)
+        self.assertEquals(room.number_windows_open, 5)
+        self.assertEquals(room.litter_items, 5)
+        self.assertEquals(room.number_submissions, 6)
 
         # Reset existing room
-        self.existing_room = RoomModel(building="Test Building", name="existingroom",
+        self.existing_room = RoomModel(building="AMORY", name="existingroom",
                                        number_lights_on=5, number_windows_open=5,
                                        litter_items=5, number_submissions=5)
         self.existing_room.save()
 
     def test_input_stats_dont_change_if_automatic(self):
-        """ Tests stats don't change if windows and lights are automatic. """
-        existing_submission = ImageSubmission(building="Test Building", room="existingroom",
+        """Tests stats don't change if windows and lights are automatic"""
+        existing_submission = ImageSubmission(building="AMORY", room="existingroom",
                                               lights_status="AUTO",
                                               windows_status="AUTO",
                                               litter_items=0,
@@ -166,14 +165,14 @@ class RoomSubmissionTestCase(TestCase):
                                               )
         input_stats(existing_submission)
         room = RoomModel.objects.get(
-            name="existingroom", building="Test Building")
-        self.assertEqual(room.number_lights_on, 5)
-        self.assertEqual(room.number_windows_open, 5)
-        self.assertEqual(room.litter_items, 5)
-        self.assertEqual(room.number_submissions, 6)
+            name="existingroom", building="AMORY")
+        self.assertEquals(room.number_lights_on, 5)
+        self.assertEquals(room.number_windows_open, 5)
+        self.assertEquals(room.litter_items, 5)
+        self.assertEquals(room.number_submissions, 6)
 
         # Reset existing room
-        self.existing_room = RoomModel(building="Test Building", name="existingroom",
+        self.existing_room = RoomModel(building="AMORY", name="existingroom",
                                        number_lights_on=5, number_windows_open=5,
                                        litter_items=5, number_submissions=5)
         self.existing_room.save()

@@ -78,10 +78,6 @@ def working_submission_view(request):
         render(): The webpage to be displayed to the user.
     """
 
-    # if request.method == 'POST':
-    #     # uploadedFile = request.FILES["subFile"]
-    #     return render(request, 'UI/submissionNEW.html')
-
     # Verifies that the user is making a submission from campus
     if validate_user_ip(request) is False:
         messages.error(request, ("Must be on Exeter campus to submit images!"))
@@ -97,7 +93,7 @@ def working_submission_view(request):
 
             # Gets the data from the form
             data = form.cleaned_data
-
+            print(data)
             # Gets username of logged in user
             username = request.user.username
 
@@ -111,7 +107,26 @@ def working_submission_view(request):
                                                user=username,
                                                date=datetime.today().strftime('%Y-%m-%d'))
 
+            # Check if a room has been submitted in the last hour
+            # Get the room
+            room = None
+            skip = False
+            if RoomModel.objects.filter(building=image_submission.building, name=image_submission.room.lower()).exists():
+                room = RoomModel.objects.get(
+                    name=image_submission.room.lower(), building=image_submission.building)
+            else:
+                skip = True
+            if not skip:
+                # Check if done an hour before
+                hour_ago = (datetime.now() - timedelta(hours=1))
+                if room.last_done.replace(tzinfo=None) > hour_ago:
+                    return render(request, 'submission/index.html',
+                                  {'form': form, 'message': "Error: room submitted too recently"})
+
             image_submission.save()
+
+            room.last_done = datetime.now()
+            room.save()
 
             # Calculate statistics for user
             user = CustomUser.objects.get(username=username)
@@ -127,7 +142,7 @@ def working_submission_view(request):
         # If not already submitted will create a new image form
         form = ImageForm()
     # Will return the formatted index.html file with the form entered
-    return render(request, 'submission/index.html', {'form': form})
+    return render(request, 'submission/submissionNEW.html', {'form': form})
 
 
 def validate_user_ip(request):
@@ -150,7 +165,8 @@ def validate_user_ip(request):
 
     # Validate that it is in the range of possible IPs on the university
     # campus or from the local host
-    if '10.173.80' in user_ip or '127.0.0' in user_ip:
+    if '144.173.23' in user_ip or '127.0.0' in user_ip:
+        #10.173.80
         return True
     else:
         return False

@@ -2,6 +2,7 @@
 import random
 from datetime import date
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 
 def get_daily_task(user):
@@ -15,11 +16,12 @@ def get_daily_task(user):
     if user.last_daily_task != date.today():
         # Generate a new daily task and assign it to the user
 
-        user.daily_task = random.randint(0, 43)#44 options
+        user.daily_task = random.randint(0, 43)  # 44 options
         user.last_daily_task = date.today()
         user.save()
 
 
+@login_required
 def index(request):
     """ The base homepage that is displayed to the user.
 
@@ -30,9 +32,8 @@ def index(request):
         fields, to the user.
     """
     user = request.user
-    #get_daily_task(user)
 
-
+    get_daily_task(user)
 
     building_choices = ['Alexander',
                         'Amory',
@@ -83,10 +84,12 @@ def index(request):
 
     print("____", request.user.points)
     # Extracts each of the user's data points
+
     username = request.user.username
     email = request.user.email
     points = request.user.points
     streak = request.user.streak
 
-    args = {'username': username, 'email': email, 'points': points, 'streak': streak, 'task': task}
+    args = {'username': username, 'email': email,
+            'points': points, 'streak': streak, 'task': task}
     return render(request, "homepage/homepage.html", args)

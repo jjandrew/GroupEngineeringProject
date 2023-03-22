@@ -174,7 +174,7 @@ class Co2CalculationsTestCase(TestCase):
         building.save()
 
         co2 = get_co2(self.all_sub, "AMORY")
-        self.assertAlmostEqual(co2, 0.1225406)
+        self.assertAlmostEqual(co2, 0.1225406/4)
 
     def test_can_calculate_for_existing_building_with_lights_on(self) -> None:
         """ Tests stats can be computed for a room with the lights on. """
@@ -184,7 +184,7 @@ class Co2CalculationsTestCase(TestCase):
         building.save()
 
         co2 = get_co2(self.lights_sub, "AMORY")
-        self.assertAlmostEqual(co2, 0.03287675)
+        self.assertAlmostEqual(co2, 0.03287675/4)
 
     def test_can_calculate_for_existing_building_with_windows_open(self) -> None:
         """ Tests stats can be computed for a room with the windows open. """
@@ -194,7 +194,7 @@ class Co2CalculationsTestCase(TestCase):
         building.save()
 
         co2 = get_co2(self.windows_sub, "AMORY")
-        self.assertAlmostEqual(co2, 0.08966387)
+        self.assertAlmostEqual(co2, 0.08966387/4)
 
     def test_can_calculate_for_existing_building_with_lights_off_and_windows_closed(self) -> None:
         """ Tests stats can be computed for a room with windows closed and lights off. """

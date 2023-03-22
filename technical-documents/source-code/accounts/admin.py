@@ -4,6 +4,7 @@ from django.contrib.auth.admin import UserAdmin
 from accounts.models import CustomUser
 
 
+
 class CustomUserAdmin(UserAdmin):
     """ Specifies the the sets of fields stored for every admin user,
     along with a list of which user metrics are displayed for them.
@@ -12,8 +13,8 @@ class CustomUserAdmin(UserAdmin):
         UserAdmin: The UserAdmin object representing the admin user.
     """
     list_display = (
-        'username', 'email', 'first_name', 'last_name', 'points'
-        )
+        'username', 'email', 'first_name', 'last_name', 'points',
+    )
 
     fieldsets = (
         (None, {
@@ -26,13 +27,13 @@ class CustomUserAdmin(UserAdmin):
             'fields': (
                 'is_active', 'is_superuser',
                 'groups', 'user_permissions'
-                )
+            )
         }),
         ('Important dates', {
             'fields': ('last_login', 'date_joined')
         }),
         ('Additional info', {
-            'fields': ('points', None)
+            'fields': ('points',)
         })
     )
 
@@ -47,13 +48,13 @@ class CustomUserAdmin(UserAdmin):
             'fields': (
                 'is_active', 'is_superuser',
                 'groups', 'user_permissions'
-                )
+            )
         }),
         ('Important dates', {
             'fields': ('last_login', 'date_joined')
         }),
         ('Additional info', {
-            'fields': ('points')
+            'fields': ('points',)
         })
     )
 

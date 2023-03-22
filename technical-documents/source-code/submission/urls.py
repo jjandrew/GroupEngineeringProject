@@ -5,5 +5,4 @@ from submission import views
 urlpatterns = [
     # Defines the URL pattern for the submission page
     path('', views.working_submission_view, name='submission'),
-    path('UI', views.submission_view, name='workingSubmission'),
 ]
