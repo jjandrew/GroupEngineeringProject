@@ -48,13 +48,13 @@ def submission_view(request):
             # TODO: Different numbers of points for different rooms.
             # TODO: Add validation.
 
-            return render(request, 'UI/submission.html',
+            return render(request, 'UI/submissionNEW.html',
                           {'form': form})
     else:
         # If not already submitted will create a new image form
         form = ImageForm()
     # Will return the formatted index.html file with the form entered
-    return render(request, 'UI/submission.html', {'form': form})
+    return render(request, 'UI/submissionNEW.html', {'form': form})
 
 
 @login_required
@@ -88,7 +88,7 @@ def working_submission_view(request):
 
             # Gets the data from the form
             data = form.cleaned_data
-
+            print(data)
             # Gets username of logged in user
             username = request.user.username
 
@@ -115,7 +115,7 @@ def working_submission_view(request):
         # If not already submitted will create a new image form
         form = ImageForm()
     # Will return the formatted index.html file with the form entered
-    return render(request, 'submission/index.html', {'form': form})
+    return render(request, 'submission/submissionNEW.html', {'form': form})
 
 
 def validate_user_ip(request):
@@ -138,7 +138,8 @@ def validate_user_ip(request):
 
     # Validate that it is in the range of possible IPs on the university
     # campus or from the local host
-    if '10.173.80' in user_ip or '127.0.0' in user_ip:
+    if '144.173.23' in user_ip or '127.0.0' in user_ip:
+        #10.173.80
         return True
     else:
         return False

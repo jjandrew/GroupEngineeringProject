@@ -23,7 +23,7 @@ def get_daily_task(user):
 
 def index(request):
     user = request.user
-    #get_daily_task(user)
+    get_daily_task(user)
 
 
 
@@ -40,7 +40,7 @@ def index(request):
     taskNumber = user.daily_task
     task = building_choices[taskNumber]
 
-    print("____", request.user.points)
+    #print("____", request.user.points)
     username = request.user.username
     email = request.user.email
     points = request.user.points

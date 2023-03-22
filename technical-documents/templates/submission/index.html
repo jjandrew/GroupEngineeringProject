@@ -1,5 +1,9 @@
 {% if user.is_authenticated %}
   <html>
+    <head>
+    <link rel="stylesheet" href="/../../static/css/resetDone.css">
+    <title>Password Reset Complete</title>
+</head>
     <body>
   <!-- HTML template to enable logged in users to submit an image -->
   {% if messages %}
@@ -9,8 +13,14 @@
             alert("{{ message }}");
           </script>
         </div>
-        <p>Please Try Again When on Campus</p>
-        <a href="{% url 'homepage' %}">Return to homepage</a>
+
+         <div class="main">
+        <p class="sign" align="center">Please Try Again When on Campus</p>
+        <form class="form1" method="POST" id="signup-form">
+            <p class="signUp" align="center"><a href="{% url 'homepage' %}">Back to homepage.</a></p>
+        </form>
+      </div>
+
       {% endfor %}
 
   {% else %}
