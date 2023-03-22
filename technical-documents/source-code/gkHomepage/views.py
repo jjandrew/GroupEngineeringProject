@@ -67,7 +67,7 @@ def get_top_submission():
     return None
 
 
-def get_building_name(top_sub):
+def get_building_name(top_sub: ImageSubmission):
     # Translate Constant building name to formatted string
     building_name = None
     for choice in building_choices:
@@ -118,6 +118,8 @@ def index(request):
 
     # if there is more than 0 images to review
     if ImageSubmission.objects.all().count() > 0:
+        args['name'] = get_building_name(get_top_submission())
+
         # if someone presses the accept button
         if request.method == 'POST' and 'action_btn_accept' in request.POST:
             print("----", "YOU'VE PRESSED ACCEPT")

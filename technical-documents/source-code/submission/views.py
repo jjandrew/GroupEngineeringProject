@@ -23,7 +23,6 @@ def calc_user_streaks(user: CustomUser, today: datetime):
     user.save()
 
 
-
 @login_required
 def submission_view(request):
     """ Displays the form (GET request) and takes the data from the form,
@@ -69,11 +68,9 @@ def working_submission_view(request):
         render(): The webpage to be displayed to the user.
     """
 
-    if request.method == 'POST':
-        uploadedFile = request.FILES["subFile"]
-       # print(uploadedFile.name)
-        return render(request, 'UI/submissionNEW.html')
-
+    # if request.method == 'POST':
+    #     # uploadedFile = request.FILES["subFile"]
+    #     return render(request, 'UI/submissionNEW.html')
 
     # Verifies that the user is making a submission from campus
     if validate_user_ip(request) is False:
@@ -110,7 +107,6 @@ def working_submission_view(request):
 
             message = "Success"
 
-
             # Maybe reset the form?
             return render(request, 'submission/index.html',
                           {'form': form, 'message': message})
@@ -145,4 +141,3 @@ def validate_user_ip(request):
         return True
     else:
         return False
-
