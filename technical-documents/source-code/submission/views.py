@@ -121,6 +121,15 @@ def submission_view(request):
 
 @login_required
 def working_submission_view(request):
+    
+    if request.method == 'POST':
+
+        uploadedFile = request.FILES["subFile"]
+
+        print(uploadedFile.name)
+
+    return render(request, 'UI/submissionNEW.html')
+
     """ The webpage and page validation for image submissions. Note, the user
     must be logged in to see the page.
 
@@ -131,6 +140,7 @@ def working_submission_view(request):
         render(): The webpage to be displayed to the user.
     """
     # Checks if request is after submitting form or before
+    """
     if request.method == 'POST':
         # Recreates the form with the posted data
         form = ImageForm(request.POST, request.FILES)
@@ -216,3 +226,4 @@ def working_submission_view(request):
         form = ImageForm()
     # Will return the formatted index.html file with the form entered
     return render(request, 'submission/index.html', {'form': form})
+"""

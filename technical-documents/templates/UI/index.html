@@ -12,13 +12,104 @@
 
     <title>Green Master : Dashboard </title>
 
-    <link rel="stylesheet" href="../../static/css/style.css">
+    <link rel="stylesheet" href="../../static/css/stylev2.css">
+    <link rel="stylesheet" href="/../../static/css/login.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;500;800&display=swap" rel="stylesheet">
     
 </head>
 
 <body>
+
+
+    <div class="logo2">
+        <img src="../../static/images\Slice 1.png"> 
+    </div>
+        
+
+    
+    <div class="i-mainWrapper">
+
+        <div class="menu-wrap">
+                    
+                <input type="checkbox" class="toggler">
+                    
+                <div class="hamburger">
+                    <div>
+                    </div>
+                </div>
+                    
+                <div class="menu">
+                    <div>
+                        <div>
+                            <ul>
+                                <li><a href="#">about</a></li>
+                                <li><a href="#">dashboard</a></li>
+                                <li><a href="{% url 'leaderboard' %}">leaderboard</a></li>
+                                <li><a href="{% url 'submission' %}">submission</a></li>
+                                <li><a href="#">maps</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+
+        <div class="welcomeBx">
+            <div class="welcomeBx2">
+                <div class="welcomeTxt">
+                    <p>Welcome</p>
+                    <p><wa>Green Champion</wa></p>
+                </div>
+
+                <div class="welcomeSubTxt">
+                    <p>
+                        Are you ready to change the world ? 
+                    </p>
+                    <p>
+                        sign up now
+                    </p>
+                </div>
+            </div>
+
+            <div class="signupBx">
+
+                <div class="main">
+                    <p class="sign" align="center">Sign in</p>
+                
+                    <form class="form1" action=""  method=POST>
+                        {% csrf_token %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-danger" role="alert" align="center">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                
+                        <input class="un " type="text" align="center" name="username" placeholder="Username" aria-describedby="emailHelp">
+                        <input class="pass" type="password" align="center" name="password" placeholder="Password">
+                        <input type="submit" value="submit" class="submit" align="center">
+                        <p class="forgot"  align="center"><a href="http://127.0.0.1:8000/accounts/password_reset/">Forgot Password?</a></p>
+                        <p class="signUp"  align="center">Dont have an account? <a href="{% url 'signup' %}">Sign Up!</a></p>
+                    </form>
+                </div>
+
+            </div>     
+
+                
+        </div>
+
+            
+    </div>
+        
+    
+        
+
+    <script src="main.js"></script>
+
+
+    <!--
 
     <div class="menu-wrap">
         
@@ -33,7 +124,7 @@
             <div>
                 <div>
                     <ul>
-                        <li><a href="{% url 'homepage' %}">HOME</a></li>
+                        <li><a href="{% url 'homepage' %}">HOlol</a></li>
                         <li><a href="{% url 'submission' %}">SUBMISSION</a></li>
                         <li><a href="{% url 'leaderboard' %}">LEADERBOARD</a></li>
                         <li><a href="{% url 'login' %}">LOGIN/SIGNUP</a></li>
@@ -67,6 +158,8 @@
     </div>
 
     <script src="./main.js"></script>
+
+-->
 
 </body>
 

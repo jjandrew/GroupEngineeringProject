@@ -56,7 +56,13 @@ urlpatterns = [
     path('submission/', include('submission.urls')),
 
     # Path for the privacy policy
-    path('privacypolicy/', views.privacy_policy, name='privacypolicy')
+    path('privacypolicy/', views.privacy_policy, name='privacypolicy'),
+
+    path('dashboard/', TemplateView.as_view(
+        template_name='UI/dashboard.html'), name='dashboard'),
+
+    path('about/', TemplateView.as_view(
+        template_name='UI/about.html'), name='about'),
 ]
 
 # If the debug setting is set to true, add the media root and URL to the
