@@ -52,7 +52,7 @@ urlpatterns = [
     # Takes the user to the 'homepage' if they are not logged in
     # path('', TemplateView.as_view(
     #    template_name='UI/index.html'), name='homepage'),
-    path('', views.userLogout, name='logout'),
+    path('', include('homepage.urls')),
 
     # Path for logging out the user
     path('logout/', views.userLogout, name='logout'),
