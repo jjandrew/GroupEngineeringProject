@@ -46,9 +46,14 @@ This section of the project contains the settings.py, urls.py and views.py.
 
 - settings.py
   - The INSTALLED_APPS section of this project contains the current apps that have been added. These include:
-    - location
     - accounts
+    - buildingLeaderboard
+    - gkHomepage
+    - gkSignUp
+    - homepage
+    - leaderboard
     - loginApp
+    - signUp
     - submission
   - The ROOT_URLCONF constant defines where the base urls are searched for.
   - The TEMPLATES constant defines the directory to search for the templates in.
@@ -78,9 +83,9 @@ Tests are carried out on this user model in the tests.py file.
 This is the application that ranks users based on score and buildings based on carbon footprint. \
 The application sends the users returned from the database to the leaderboard UI and handles errors if less than 4 users are entered.
 
-#### location
+#### buildingLeaderboard
 
-Currently does nothing
+The applications that ranks buildings absed on the averagee CO2 per submission. This is calculated in the CO2 calculations.
 
 #### loginApp
 
@@ -95,6 +100,18 @@ A new user will be created in the views.py file. This uses the form found in for
 
 This will be where a user can submit a photo of a room along with data about the room to calculate carbon statistics for a bulding. \
 The form used for submission is located in forms.py and the information of these submissions will be stored in the database.
+
+#### homepage
+
+Displays a user's statistics including: name, streaks, points and daily task to do.
+
+#### gkHomepage
+
+This enables gamekeepers to appprove and deny image submissions and also allows the option for a user to be reported and this will send an email to th university.
+
+#### gkSignUp
+
+Allows gamekeepers to sign up other gamekeepers to allow for scaling of the app.
 
 ### static
 
