@@ -17,13 +17,12 @@ def get_building_name(top_sub) -> str:
     """
     # Translate Constant building name to formatted string
     building_name = None
-    print(top_sub.building)
     for choice in building_choices:
         if choice[0] == top_sub.building:
             building_name = choice[1]
             break
     if building_name == None:
-        print("Collosal error")
+        raise RuntimeError("Building name ", top_sub.buildin, " is undefined.")
     return building_name
 
 

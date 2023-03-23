@@ -23,7 +23,6 @@ def calc_user_streaks(user: CustomUser, today: datetime):
         user.streak += 1
     elif user.last_submission.strftime('%Y-%m-%d') < yesterday.strftime('%Y-%m-%d'):
         user.streak = 1
-    # print(user.last_submission.type())
     user.last_submission = today.strftime('%Y-%m-%d')
 
     user.save()

@@ -133,7 +133,7 @@ class Co2CalculationsTestCase(TestCase):
     lights_sub: ImageSubmission  # A submission with the lights on
     no_sub: ImageSubmission  # An image submission with light off and windows closed
 
-    def set_up(self):
+    def setUp(self):
         """ Sets up the objects and settings to be used to the test methods.
         """
         self.all_sub = ImageSubmission(building="AMORY", room="existingroom",
