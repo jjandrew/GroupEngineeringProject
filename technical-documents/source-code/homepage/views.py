@@ -52,9 +52,9 @@ def index(request):
                         'Harrison',
                         'Hatherly',
                         'Henry Wellcome Building for Biocatalysis',
-                        'Innovation Centre Phase 1 and 2','Institute of Arab and Islamic Studies',
+                        'Innovation Centre Phase 1 and 2', 'Institute of Arab and Islamic Studies',
                         'INTO International Study Centre',
-                        'Kay House Duryard','Knightley',
+                        'Kay House Duryard', 'Knightley',
                         'Lafrowda House',
                         'Laver',
                         'Lazenby',
@@ -82,7 +82,6 @@ def index(request):
     task_number = user.daily_task
     task = building_choices[task_number]
 
-    print("____", request.user.points)
     # Extracts each of the user's data points
 
     username = request.user.username

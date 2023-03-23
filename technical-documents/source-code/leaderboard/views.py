@@ -25,7 +25,7 @@ def get_building_name(const: str) -> str:
             building_name = choice[1]
             break
     if building_name == None:
-        print("Collosal error")
+        raise RuntimeError("No building found with name ", const)
     return building_name
 
 
