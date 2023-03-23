@@ -110,8 +110,10 @@ def leaderboard(request):
         # Goes through the same exception checking but for the building
         # leaderboard
         for building in buildings:
-            building.norm_co2 = round_5(
-                building.co2 / building.number_submissions)
+            building.norm_co2 = round_5((
+                building.co2 / building.number_submissions), 4)
+            print("here")
+            building.save()
         try:
             first = buildings[0]
             first_name = get_building_name(first.name)
