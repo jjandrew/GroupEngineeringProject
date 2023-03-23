@@ -96,7 +96,7 @@ def get_building_name(build_name: str) -> str:
             building_name = choice[1]
             break
     if building_name == None:
-        print("Collosal error")
+        raise RuntimeError("Building name ", build_name, " is undefined")
     return building_name
 
 
@@ -164,7 +164,6 @@ def index(request):
 
         # if someone presses the accept button
         if request.method == 'POST' and 'action_btn_accept' in request.POST:
-            print("----", "YOU'VE PRESSED ACCEPT")
             images = ImageSubmission.objects.exclude(
                 id=ImageSubmission.objects.first().id)
 
@@ -185,11 +184,7 @@ def index(request):
             args['name'] = building_name
 
             user = CustomUser.objects.get(username=username)
-            # calulate the users streak(if any)
 
-            # calc_user_streaks(user, datetime.today()) FIX THIS SOMEONES DELETED THE METHOD
-
-            print("----", get_top_submission().building)
             # calculate the points to give the user
             points = calc_points(get_top_submission().building)
             # add the points to the users account
@@ -209,10 +204,7 @@ def index(request):
         # if the user presses the delete button
         if request.method == 'POST' and 'action_btn_delete' in request.POST:
 
-            print("----", "YOUVE PRESSED DELETE")
             # delete that image object from the database
-
-            print("----", "YOUVE PRESSED DELETE")
 
             ImageSubmission.objects.all().first().delete()
 
@@ -227,7 +219,6 @@ def index(request):
 
         if request.method == 'POST' and 'action_btn_report' in request.POST:
 
-            print("----", "YOUVE PRESSED REPORT")
             # get the date which the image was submitted
             date = get_top_submission().date
             # get the email of the user who submitted the image
@@ -238,7 +229,6 @@ def index(request):
 
             image = str(get_top_submission().image)
 
-            print("----", image)
             # generate an email to send to the univeristy
             email = EmailMessage(
                 'Inapropriate usage of GreenMaster App', 'To whom it may concern, \n'
@@ -258,8 +248,6 @@ def index(request):
             email.send()
             # delete the image object from the database
             ImageSubmission.objects.all().first().delete()
-
-            print("----", "YOUVE PRESSED REPORT")
 
             args = {'images': images}
             # render the template again, checking if theres a new image to upload

@@ -12,7 +12,7 @@ class CustomUserModel(TestCase):
         TestCase: The Django TestCase object used to test parts of the accounts.
     """
 
-    def set_up(self):
+    def setUp(self):
         """ Creates a model user for use in testing. """
         user = CustomUser(username="testUser",
                           email="test@exeter.ac.uk", password="password")
