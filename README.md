@@ -12,7 +12,13 @@ The group members are:
 4. Daniel Glider (710010036)
 5. Oliver Medzinskii (710017600)
 
-This is a submission for Sprint 1. There are three types of document that you will find the following places.
+This is a submission for Sprint 2. There are three types of document that you will find the following places.
+
+## When first running the app:
+
+To create a new gamekeeper go to /admin
+Create two groups: Gamekeeper and user
+Create an account in user's to be the gamekeeper and assign this to the gamekeeper group
 
 ## PROCESS DOCUMENTS
 
@@ -20,7 +26,7 @@ Our process documents are managed in the trello platform. The link to our projec
 
 trello link: [https://trello.com/b/UxJpzu31/group4ecm2434]
 
-We have also taken regular snapshots of the kanban board in trello to archive our progress. These are held in the repository below. Unfortunately we fogot to take these on the specified dates so these have been recreated to correspond with the board status at these dates
+We have also taken regular snapshots of the kanban board in trello to archive our progress. These are held in the repository below. Unfortunately we fogot to take these on some of the specified dates so these have been recreated to correspond with the board status at these dates
 
 [./process-documents/kanban-snapshots/](./process-documents/kanban-snapshots/)
 
