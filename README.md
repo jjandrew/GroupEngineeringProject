@@ -16,9 +16,12 @@ This is a submission for Sprint 2. There are three types of document that you wi
 
 ## When first running the app:
 
-To create a new gamekeeper go to /admin
-Create two groups: Gamekeeper and user
-Create an account in user's to be the gamekeeper and assign this to the gamekeeper group
+Create a superuser with the command
+
+- python technical-documents/source-code/manage.py createsuperuser
+  To create a new gamekeeper go to /admin
+  Create two groups: Gamekeeper and user
+  Create an account in user's to be the gamekeeper and assign this to the gamekeeper group
 
 ## PROCESS DOCUMENTS
 
